@@ -29,7 +29,7 @@ const Experience = ({ selectedEmotion }) => {
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-white text-center mb-4"
+          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -37,7 +37,7 @@ const Experience = ({ selectedEmotion }) => {
         </motion.h2>
 
         <motion.p
-          className="text-white/60 text-center mb-8 max-w-2xl mx-auto"
+          className="text-gray-600 text-center mb-8 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -54,23 +54,23 @@ const Experience = ({ selectedEmotion }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div className="bg-white/10 rounded-full p-1 flex">
+            <div className="glass rounded-full p-1.5 flex border border-gray-200/50">
               <button
                 onClick={() => setViewMode('continents')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   viewMode === 'continents'
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-gray-800 text-white shadow-md'
+                    : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
                 대륙 보기
               </button>
               <button
                 onClick={() => setViewMode('states')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   viewMode === 'states'
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-gray-800 text-white shadow-md'
+                    : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
                 상태 보기
@@ -105,7 +105,7 @@ const Experience = ({ selectedEmotion }) => {
                 {!selectedEmotion && (
                   <button
                     onClick={handleBackToContinents}
-                    className="mb-6 flex items-center text-white/60 hover:text-white transition-colors"
+                    className="mb-6 flex items-center text-gray-500 hover:text-gray-800 transition-colors"
                   >
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -134,7 +134,7 @@ const Experience = ({ selectedEmotion }) => {
           >
             <button
               onClick={() => setSidebarOpen(true)}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+              className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all shadow-lg hover:shadow-xl"
             >
               더 알아보기
             </button>
@@ -151,34 +151,34 @@ const Experience = ({ selectedEmotion }) => {
               exit={{ opacity: 0 }}
             >
               <div
-                className="absolute inset-0 bg-black/60"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
                 onClick={() => setActiveState(null)}
               />
               <motion.div
-                className="relative bg-[#252540] rounded-2xl p-6 max-w-md w-full"
+                className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 style={{
-                  borderLeft: `4px solid ${currentEmotion?.color || '#fff'}`
+                  borderLeft: `4px solid ${currentEmotion?.color || '#888'}`
                 }}
               >
                 <button
                   onClick={() => setActiveState(null)}
-                  className="absolute top-4 right-4 text-white/60 hover:text-white"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {activeState.name_ko}
-                  <span className="text-white/40 text-sm ml-2">({activeState.name_en})</span>
+                  <span className="text-gray-400 text-sm ml-2">({activeState.name_en})</span>
                 </h3>
 
                 <div className="flex items-center mb-4">
-                  <span className="text-white/60 text-sm mr-2">강도:</span>
+                  <span className="text-gray-500 text-sm mr-2">강도:</span>
                   <div className="flex space-x-1">
                     {[...Array(7)].map((_, i) => (
                       <div
@@ -186,7 +186,7 @@ const Experience = ({ selectedEmotion }) => {
                         className={`w-3 h-3 rounded-full ${
                           i < activeState.intensity
                             ? ''
-                            : 'bg-white/20'
+                            : 'bg-gray-200'
                         }`}
                         style={{
                           backgroundColor: i < activeState.intensity ? currentEmotion?.color : undefined
@@ -196,7 +196,7 @@ const Experience = ({ selectedEmotion }) => {
                   </div>
                 </div>
 
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed">
                   {activeState.description_ko}
                 </p>
               </motion.div>

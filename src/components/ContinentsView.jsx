@@ -26,16 +26,21 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
               <radialGradient
                 key={`gradient-${emotionId}`}
                 id={`gradient-${emotionId}`}
-                cx="50%"
-                cy="50%"
-                r="50%"
+                cx="30%"
+                cy="30%"
+                r="70%"
               >
-                <stop offset="0%" stopColor={emotion.color} stopOpacity="0.8" />
-                <stop offset="70%" stopColor={emotion.color} stopOpacity="0.4" />
-                <stop offset="100%" stopColor={emotion.color} stopOpacity="0.1" />
+                <stop offset="0%" stopColor={emotion.colorLight} stopOpacity="0.9" />
+                <stop offset="50%" stopColor={emotion.color} stopOpacity="0.7" />
+                <stop offset="100%" stopColor={emotion.color} stopOpacity="0.3" />
               </radialGradient>
             );
           })}
+
+          {/* Drop shadow filter */}
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="1" stdDeviation="2" floodOpacity="0.2"/>
+          </filter>
         </defs>
 
         {/* Emotion Circles */}
@@ -54,7 +59,8 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
                 r={radius}
                 fill={`url(#gradient-${emotionId})`}
                 stroke={emotion.color}
-                strokeWidth={isHovered ? 0.5 : 0.2}
+                strokeWidth={isHovered ? 0.8 : 0.3}
+                filter={isHovered ? "url(#shadow)" : undefined}
                 className="cursor-pointer"
                 initial={{ r: 0, opacity: 0 }}
                 animate={{
@@ -85,6 +91,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 + index * 0.1 }}
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
               >
                 {emotion.name_ko}
               </motion.text>
@@ -96,7 +103,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
                 dominantBaseline="middle"
                 className="pointer-events-none select-none"
                 fill="white"
-                fillOpacity={0.5}
+                fillOpacity={0.7}
                 fontSize={2}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -112,7 +119,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
       {/* Hover Info Card */}
       {hoveredContinent && (
         <motion.div
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#252540] rounded-xl p-4 max-w-sm w-full mx-4"
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 glass rounded-xl p-4 max-w-sm w-full mx-4 border border-gray-200/50 shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
@@ -120,34 +127,34 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
             borderTop: `3px solid ${emotions[hoveredContinent].color}`
           }}
         >
-          <h3 className="text-white font-semibold mb-2">
+          <h3 className="text-gray-800 font-semibold mb-2">
             {emotions[hoveredContinent].name_ko}
           </h3>
-          <p className="text-white/60 text-sm">
+          <p className="text-gray-600 text-sm">
             {emotions[hoveredContinent].description_ko}
           </p>
-          <p className="text-white/40 text-xs mt-2">
+          <p className="text-gray-400 text-xs mt-2">
             클릭하여 상세 상태 보기
           </p>
         </motion.div>
       )}
 
       {/* Legend */}
-      <div className="absolute top-4 right-4 bg-[#252540]/80 rounded-lg p-3">
-        <p className="text-white/40 text-xs mb-2">감정 대륙</p>
+      <div className="absolute top-4 right-4 glass rounded-lg p-3 border border-gray-200/50">
+        <p className="text-gray-500 text-xs mb-2 font-medium">감정 대륙</p>
         <div className="space-y-1">
           {emotionOrder.map((emotionId) => (
             <div
               key={emotionId}
-              className="flex items-center space-x-2 cursor-pointer hover:bg-white/5 rounded px-1 py-0.5"
+              className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100/50 rounded px-1 py-0.5 transition-colors"
               onMouseEnter={() => setHoveredContinent(emotionId)}
               onMouseLeave={() => setHoveredContinent(null)}
             >
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-3 h-3 rounded-full shadow-sm"
                 style={{ backgroundColor: emotions[emotionId].color }}
               />
-              <span className="text-white/70 text-xs">
+              <span className="text-gray-600 text-xs">
                 {emotions[emotionId].name_ko}
               </span>
             </div>

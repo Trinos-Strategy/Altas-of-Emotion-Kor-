@@ -82,16 +82,16 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
     gradient.append('stop')
       .attr('offset', '0%')
       .attr('stop-color', emotion.colorLight)
-      .attr('stop-opacity', 0.3);
+      .attr('stop-opacity', 0.4);
 
     gradient.append('stop')
       .attr('offset', '50%')
       .attr('stop-color', emotion.color)
-      .attr('stop-opacity', 0.6);
+      .attr('stop-opacity', 0.7);
 
     gradient.append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', emotion.colorDark)
+      .attr('stop-color', emotion.color)
       .attr('stop-opacity', 0.9);
 
     // Create area generator for mountain shape
@@ -167,6 +167,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .attr('fill', emotion.color)
         .attr('stroke', 'white')
         .attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0)
         .transition()
         .delay(500 + i * 100)
@@ -175,11 +176,12 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
 
       // Label background
       const textBg = group.append('rect')
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .attr('fill', '#252540')
+        .attr('rx', 6)
+        .attr('ry', 6)
+        .attr('fill', 'white')
         .attr('stroke', emotion.color)
         .attr('stroke-width', 1)
+        .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0);
 
       // Label text
@@ -189,9 +191,9 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .attr('x', state._x)
         .attr('y', labelY)
         .attr('text-anchor', 'middle')
-        .attr('fill', 'white')
+        .attr('fill', '#374151')
         .attr('font-size', '12px')
-        .attr('font-weight', '500')
+        .attr('font-weight', '600')
         .text(state.name_ko)
         .style('opacity', 0)
         .transition()
@@ -212,7 +214,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
             .transition()
             .delay(700 + i * 100)
             .duration(500)
-            .style('opacity', 0.8);
+            .style('opacity', 0.95);
         }
       }, 100);
 
@@ -247,8 +249,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
     g.append('text')
       .attr('x', 10)
       .attr('y', baseY - 10)
-      .attr('fill', 'white')
-      .attr('fill-opacity', 0.4)
+      .attr('fill', '#9CA3AF')
       .attr('font-size', '10px')
       .text('가장 약함');
 
@@ -256,8 +257,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
       .attr('x', peakX)
       .attr('y', peakY + 5)
       .attr('text-anchor', 'middle')
-      .attr('fill', 'white')
-      .attr('fill-opacity', 0.4)
+      .attr('fill', '#9CA3AF')
       .attr('font-size', '10px')
       .text('가장 강함');
 
@@ -265,8 +265,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
       .attr('x', innerWidth - 10)
       .attr('y', baseY - 10)
       .attr('text-anchor', 'end')
-      .attr('fill', 'white')
-      .attr('fill-opacity', 0.4)
+      .attr('fill', '#9CA3AF')
       .attr('font-size', '10px')
       .text('가장 약함');
 
@@ -281,17 +280,17 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         animate={{ opacity: 1, y: 0 }}
       >
         <div
-          className="w-4 h-4 rounded-full mr-3"
+          className="w-4 h-4 rounded-full mr-3 shadow-sm"
           style={{ backgroundColor: emotion.color }}
         />
-        <h3 className="text-2xl font-bold text-white">
+        <h3 className="text-2xl font-bold text-gray-800">
           {emotion.name_ko}의 상태들
         </h3>
       </motion.div>
 
       {/* Description */}
       <motion.p
-        className="text-white/60 text-center mb-8 max-w-lg mx-auto"
+        className="text-gray-600 text-center mb-8 max-w-lg mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -301,7 +300,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
 
       {/* Mountain Graph */}
       <motion.div
-        className="flex justify-center bg-white/5 rounded-2xl p-4"
+        className="flex justify-center glass rounded-2xl p-4 border border-gray-200/50"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3 }}
@@ -320,20 +319,20 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
           <button
             key={state.name_en}
             onClick={() => setActiveState(state)}
-            className="bg-white/5 rounded-lg p-3 text-left hover:bg-white/10 transition-colors"
+            className="bg-white rounded-lg p-3 text-left hover:bg-gray-50 transition-colors border border-gray-200 shadow-sm"
             style={{
               borderLeft: `3px solid ${emotion.color}`
             }}
           >
-            <div className="text-white text-sm font-medium">{state.name_ko}</div>
-            <div className="text-white/40 text-xs mt-1">강도 {state.intensity}</div>
+            <div className="text-gray-800 text-sm font-medium">{state.name_ko}</div>
+            <div className="text-gray-400 text-xs mt-1">강도 {state.intensity}</div>
           </button>
         ))}
       </motion.div>
 
       {/* Instruction */}
       <motion.p
-        className="text-white/40 text-center text-sm mt-6"
+        className="text-gray-400 text-center text-sm mt-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}

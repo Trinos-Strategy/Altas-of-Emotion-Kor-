@@ -19,7 +19,7 @@ const Response = ({ selectedEmotion }) => {
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-white text-center mb-4"
+          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -27,7 +27,7 @@ const Response = ({ selectedEmotion }) => {
         </motion.h2>
 
         <motion.p
-          className="text-white/60 text-center mb-12 max-w-2xl mx-auto"
+          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -44,12 +44,12 @@ const Response = ({ selectedEmotion }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="bg-white/10 rounded-full px-4 py-2 flex items-center">
+            <div className="glass rounded-full px-4 py-2 flex items-center border border-gray-200/50">
               <div
                 className="w-3 h-3 rounded-full mr-2"
                 style={{ backgroundColor: currentEmotion.color }}
               />
-              <span className="text-white/70 text-sm">
+              <span className="text-gray-600 text-sm">
                 아래 감정 버튼을 선택하여 다른 반응을 확인하세요
               </span>
             </div>
@@ -72,13 +72,13 @@ const Response = ({ selectedEmotion }) => {
         >
           <button
             onClick={() => setShowActionTypes(!showActionTypes)}
-            className="w-full flex items-center justify-between bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors"
+            className="w-full flex items-center justify-between glass rounded-xl p-4 hover:bg-white/80 transition-colors border border-gray-200/50"
           >
-            <span className="text-white font-medium">
+            <span className="text-gray-800 font-medium">
               본능적 행동 vs 의도적 행동
             </span>
             <motion.svg
-              className="w-5 h-5 text-white/60"
+              className="w-5 h-5 text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -99,13 +99,13 @@ const Response = ({ selectedEmotion }) => {
                 <div className="grid md:grid-cols-2 gap-6 mt-4">
                   {/* Intrinsic Actions */}
                   <div
-                    className="bg-white/5 rounded-xl p-6"
+                    className="glass rounded-xl p-6 border border-gray-200/50"
                     style={{ borderTop: `3px solid ${currentEmotion.color}` }}
                   >
-                    <h4 className="text-lg font-semibold text-white mb-3">
+                    <h4 className="text-lg font-bold text-gray-800 mb-3">
                       본능적 행동 (Intrinsic)
                     </h4>
-                    <p className="text-white/60 text-sm mb-4">
+                    <p className="text-gray-500 text-sm mb-4">
                       자동적으로 발생하는 반응으로, 의식적 통제 없이 나타납니다.
                       진화적으로 프로그래밍된 행동입니다.
                     </p>
@@ -123,12 +123,12 @@ const Response = ({ selectedEmotion }) => {
                             style={{ backgroundColor: currentEmotion.color }}
                           />
                           <div>
-                            <span className="text-white">{action.name_ko}</span>
-                            <span className="text-white/40 text-sm ml-2">
+                            <span className="text-gray-800">{action.name_ko}</span>
+                            <span className="text-gray-400 text-sm ml-2">
                               ({action.name_en})
                             </span>
                             {action.description_ko && (
-                              <p className="text-white/50 text-sm mt-1">
+                              <p className="text-gray-500 text-sm mt-1">
                                 {action.description_ko}
                               </p>
                             )}
@@ -140,13 +140,13 @@ const Response = ({ selectedEmotion }) => {
 
                   {/* Intentional Actions */}
                   <div
-                    className="bg-white/5 rounded-xl p-6"
+                    className="glass rounded-xl p-6 border border-gray-200/50"
                     style={{ borderTop: `3px solid ${currentEmotion.colorLight}` }}
                   >
-                    <h4 className="text-lg font-semibold text-white mb-3">
+                    <h4 className="text-lg font-bold text-gray-800 mb-3">
                       의도적 행동 (Intentional)
                     </h4>
-                    <p className="text-white/60 text-sm mb-4">
+                    <p className="text-gray-500 text-sm mb-4">
                       의식적으로 선택하는 반응으로, 감정을 건설적으로 다루는 방법입니다.
                       학습과 연습을 통해 발달시킬 수 있습니다.
                     </p>
@@ -164,12 +164,12 @@ const Response = ({ selectedEmotion }) => {
                             style={{ backgroundColor: currentEmotion.colorLight }}
                           />
                           <div>
-                            <span className="text-white">{action.name_ko}</span>
-                            <span className="text-white/40 text-sm ml-2">
+                            <span className="text-gray-800">{action.name_ko}</span>
+                            <span className="text-gray-400 text-sm ml-2">
                               ({action.name_en})
                             </span>
                             {action.description_ko && (
-                              <p className="text-white/50 text-sm mt-1">
+                              <p className="text-gray-500 text-sm mt-1">
                                 {action.description_ko}
                               </p>
                             )}
@@ -194,11 +194,11 @@ const Response = ({ selectedEmotion }) => {
               exit={{ opacity: 0 }}
             >
               <div
-                className="absolute inset-0 bg-black/60"
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
                 onClick={() => setSelectedAction(null)}
               />
               <motion.div
-                className="relative bg-[#252540] rounded-2xl p-6 max-w-md w-full"
+                className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
@@ -212,7 +212,7 @@ const Response = ({ selectedEmotion }) => {
               >
                 <button
                   onClick={() => setSelectedAction(null)}
-                  className="absolute top-4 right-4 text-white/60 hover:text-white"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -221,30 +221,30 @@ const Response = ({ selectedEmotion }) => {
 
                 <div className="flex items-center mb-4">
                   <span
-                    className={`px-2 py-1 rounded text-xs ${
+                    className={`px-2 py-1 rounded text-xs font-medium ${
                       selectedAction.type === 'intrinsic'
-                        ? 'bg-red-500/20 text-red-300'
-                        : 'bg-green-500/20 text-green-300'
+                        ? 'bg-red-100 text-red-600'
+                        : 'bg-green-100 text-green-600'
                     }`}
                   >
                     {selectedAction.type === 'intrinsic' ? '본능적' : '의도적'}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {selectedAction.name_ko}
-                  <span className="text-white/40 text-sm ml-2">
+                  <span className="text-gray-400 text-sm ml-2">
                     ({selectedAction.name_en})
                   </span>
                 </h3>
 
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed">
                   {selectedAction.description_ko}
                 </p>
 
                 {selectedAction.type === 'intentional' && (
-                  <div className="mt-4 p-3 bg-green-500/10 rounded-lg">
-                    <p className="text-green-300/80 text-sm">
+                  <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-100">
+                    <p className="text-green-700 text-sm">
                       의도적 행동은 연습을 통해 더 자연스럽게 할 수 있습니다.
                       처음에는 의식적 노력이 필요하지만, 점차 자동적으로 됩니다.
                     </p>

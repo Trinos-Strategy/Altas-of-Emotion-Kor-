@@ -30,7 +30,7 @@ const Timeline = ({ selectedEmotion }) => {
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-white text-center mb-4"
+          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -38,7 +38,7 @@ const Timeline = ({ selectedEmotion }) => {
         </motion.h2>
 
         <motion.p
-          className="text-white/60 text-center mb-12 max-w-2xl mx-auto"
+          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -53,20 +53,20 @@ const Timeline = ({ selectedEmotion }) => {
             {/* Trigger Box */}
             <motion.div
               key={`trigger-${activeEmotionId}`}
-              className="bg-white/10 rounded-2xl p-6 w-full md:w-64 text-center"
+              className="glass rounded-2xl p-6 w-full md:w-64 text-center border border-gray-200/50 shadow-sm"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="text-white/50 text-sm mb-2">트리거</div>
-              <div className="text-white text-lg">{trigger.text_ko}</div>
+              <div className="text-gray-500 text-sm font-medium mb-2">트리거</div>
+              <div className="text-gray-800 text-lg font-medium">{trigger.text_ko}</div>
             </motion.div>
           </AnimatePresence>
 
           {/* Arrow */}
           <motion.div
-            className="hidden md:block text-white/40"
+            className="hidden md:block text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -78,7 +78,7 @@ const Timeline = ({ selectedEmotion }) => {
 
           {/* Mobile Arrow */}
           <motion.div
-            className="md:hidden text-white/40"
+            className="md:hidden text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -100,12 +100,14 @@ const Timeline = ({ selectedEmotion }) => {
             >
               <motion.div
                 className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: emotion.color }}
+                style={{
+                  background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
+                }}
                 animate={{
                   boxShadow: [
-                    `0 0 20px ${emotion.color}60`,
-                    `0 0 40px ${emotion.color}80`,
-                    `0 0 20px ${emotion.color}60`
+                    `0 8px 30px ${emotion.color}40`,
+                    `0 12px 40px ${emotion.color}60`,
+                    `0 8px 30px ${emotion.color}40`
                   ]
                 }}
                 transition={{
@@ -115,9 +117,9 @@ const Timeline = ({ selectedEmotion }) => {
                 }}
               >
                 <div className="text-center">
-                  <div className="text-white/70 text-xs mb-1">당신은</div>
+                  <div className="text-white/80 text-xs mb-1">당신은</div>
                   <div className="text-white font-bold text-lg md:text-xl">{emotion.name_ko}</div>
-                  <div className="text-white/70 text-xs mt-1">을(를) 느낀다</div>
+                  <div className="text-white/80 text-xs mt-1">을(를) 느낀다</div>
                 </div>
               </motion.div>
             </motion.div>
@@ -125,7 +127,7 @@ const Timeline = ({ selectedEmotion }) => {
 
           {/* Arrow */}
           <motion.div
-            className="hidden md:block text-white/40"
+            className="hidden md:block text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -137,7 +139,7 @@ const Timeline = ({ selectedEmotion }) => {
 
           {/* Mobile Arrow */}
           <motion.div
-            className="md:hidden text-white/40"
+            className="md:hidden text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -151,14 +153,14 @@ const Timeline = ({ selectedEmotion }) => {
             {/* Response Box */}
             <motion.div
               key={`response-${activeEmotionId}`}
-              className="bg-white/10 rounded-2xl p-6 w-full md:w-64 text-center"
+              className="glass rounded-2xl p-6 w-full md:w-64 text-center border border-gray-200/50 shadow-sm"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <div className="text-white/50 text-sm mb-2">반응</div>
-              <div className="text-white text-lg">{response.text_ko}</div>
+              <div className="text-gray-500 text-sm font-medium mb-2">반응</div>
+              <div className="text-gray-800 text-lg font-medium">{response.text_ko}</div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -175,12 +177,15 @@ const Timeline = ({ selectedEmotion }) => {
               <button
                 key={id}
                 onClick={() => setCurrentEmotionIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
                   index === currentEmotionIndex
-                    ? 'scale-125'
+                    ? 'scale-125 shadow-lg'
                     : 'opacity-50 hover:opacity-75'
                 }`}
-                style={{ backgroundColor: emotions[id].color }}
+                style={{
+                  backgroundColor: emotions[id].color,
+                  boxShadow: index === currentEmotionIndex ? `0 4px 12px ${emotions[id].color}50` : undefined
+                }}
               />
             ))}
           </motion.div>
@@ -195,7 +200,7 @@ const Timeline = ({ selectedEmotion }) => {
         >
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all shadow-lg hover:shadow-xl"
           >
             어떻게 이런 일이 일어나나요?
           </button>
@@ -208,21 +213,21 @@ const Timeline = ({ selectedEmotion }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
         >
-          <div className="bg-white/5 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-white mb-4" style={{ color: emotion.color }}>
+          <div className="glass rounded-2xl p-6 border border-gray-200/50">
+            <h3 className="text-xl font-bold mb-4" style={{ color: emotion.color }}>
               {emotion.name_ko}의 트리거들
             </h3>
             <ul className="space-y-3">
               {emotion.triggers.map((t, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-center text-white/70"
+                  className="flex items-center text-gray-600"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.1 + i * 0.1 }}
                 >
                   <span
-                    className="w-2 h-2 rounded-full mr-3"
+                    className="w-2.5 h-2.5 rounded-full mr-3 flex-shrink-0"
                     style={{ backgroundColor: emotion.color }}
                   />
                   {t.text_ko}
@@ -231,21 +236,21 @@ const Timeline = ({ selectedEmotion }) => {
             </ul>
           </div>
 
-          <div className="bg-white/5 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-white mb-4" style={{ color: emotion.color }}>
+          <div className="glass rounded-2xl p-6 border border-gray-200/50">
+            <h3 className="text-xl font-bold mb-4" style={{ color: emotion.color }}>
               {emotion.name_ko}의 반응들
             </h3>
             <ul className="space-y-3">
               {emotion.responses.map((r, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-center text-white/70"
+                  className="flex items-center text-gray-600"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 1.1 + i * 0.1 }}
                 >
                   <span
-                    className="w-2 h-2 rounded-full mr-3"
+                    className="w-2.5 h-2.5 rounded-full mr-3 flex-shrink-0"
                     style={{ backgroundColor: emotion.color }}
                   />
                   {r.text_ko}
@@ -271,13 +276,13 @@ const Timeline = ({ selectedEmotion }) => {
 const TimelineModalContent = () => {
   return (
     <div className="space-y-6">
-      <p className="text-white/70 mb-8">
+      <p className="text-gray-600 mb-8">
         감정 에피소드는 여러 단계를 거칩니다. 각 단계를 이해하면 감정을 더 잘 관리할 수 있습니다.
       </p>
 
       <div className="relative">
         {/* Timeline line */}
-        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-white/20" />
+        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
 
         {/* Steps */}
         <div className="space-y-6">
@@ -290,25 +295,25 @@ const TimelineModalContent = () => {
               transition={{ delay: index * 0.1 }}
             >
               {/* Step number */}
-              <div className="absolute left-0 w-8 h-8 rounded-full bg-gradient-to-r from-[#E74C3C] to-[#9B59B6] flex items-center justify-center text-white text-sm font-bold">
+              <div className="absolute left-0 w-8 h-8 rounded-full bg-gradient-to-r from-[#E8857B] to-[#A78BCA] flex items-center justify-center text-white text-sm font-bold shadow-md">
                 {step.id}
               </div>
 
               {/* Content */}
-              <div className="bg-white/5 rounded-xl p-4 flex-1">
-                <h4 className="text-white font-semibold mb-1">{step.name_ko}</h4>
-                <p className="text-white/60 text-sm">{step.description_ko}</p>
+              <div className="bg-gray-50 rounded-xl p-4 flex-1 border border-gray-100">
+                <h4 className="text-gray-800 font-semibold mb-1">{step.name_ko}</h4>
+                <p className="text-gray-500 text-sm">{step.description_ko}</p>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      <div className="mt-8 p-4 bg-white/5 rounded-xl">
-        <h4 className="text-white font-semibold mb-2">핵심 인사이트</h4>
-        <p className="text-white/60 text-sm">
-          감정 에피소드에서 가장 중요한 순간은 <strong className="text-white">인식</strong>과{' '}
-          <strong className="text-white">반응 선택</strong> 단계입니다.
+      <div className="mt-8 p-4 bg-gradient-to-r from-[#E8857B]/10 to-[#A78BCA]/10 rounded-xl border border-gray-100">
+        <h4 className="text-gray-800 font-semibold mb-2">핵심 인사이트</h4>
+        <p className="text-gray-600 text-sm">
+          감정 에피소드에서 가장 중요한 순간은 <strong className="text-gray-800">인식</strong>과{' '}
+          <strong className="text-gray-800">반응 선택</strong> 단계입니다.
           이 순간에 우리는 자동적 반응을 멈추고 의식적으로 더 건설적인 반응을 선택할 수 있습니다.
           이것이 감정 지능의 핵심입니다.
         </p>

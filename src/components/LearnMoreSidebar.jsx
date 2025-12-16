@@ -18,8 +18,8 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
                 className="w-2 h-2 rounded-full mr-2"
                 style={{ backgroundColor: emotion.color }}
               />
-              <span className="text-white/70">{signal.name_ko}</span>
-              <span className="text-white/40 text-sm ml-2">({signal.name_en})</span>
+              <span className="text-gray-600">{signal.name_ko}</span>
+              <span className="text-gray-400 text-sm ml-2">({signal.name_en})</span>
             </li>
           ))}
         </ul>
@@ -28,12 +28,12 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
     {
       title: '기분 (Mood)',
       content: (
-        <div className="bg-white/5 rounded-lg p-4">
-          <p className="text-white/70">
-            <span className="font-semibold text-white">{emotion.mood_ko}</span>
-            <span className="text-white/40 ml-2">({emotion.mood_en})</span>
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+          <p className="text-gray-700">
+            <span className="font-semibold text-gray-800">{emotion.mood_ko}</span>
+            <span className="text-gray-400 ml-2">({emotion.mood_en})</span>
           </p>
-          <p className="text-white/50 text-sm mt-2">
+          <p className="text-gray-500 text-sm mt-2">
             기분은 감정보다 오래 지속되며, 특정 트리거 없이도 나타날 수 있습니다.
             {emotion.name_ko}와 관련된 기분이 지속되면 세상을 그 렌즈로 보게 됩니다.
           </p>
@@ -43,12 +43,12 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
     {
       title: '성격 특성',
       content: (
-        <div className="bg-white/5 rounded-lg p-4">
-          <p className="text-white/70">
-            <span className="font-semibold text-white">{emotion.trait_ko}</span>
-            <span className="text-white/40 ml-2">({emotion.trait_en})</span>
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+          <p className="text-gray-700">
+            <span className="font-semibold text-gray-800">{emotion.trait_ko}</span>
+            <span className="text-gray-400 ml-2">({emotion.trait_en})</span>
           </p>
-          <p className="text-white/50 text-sm mt-2">
+          <p className="text-gray-500 text-sm mt-2">
             이 특성이 강한 사람은 {emotion.name_ko}를 더 자주, 더 쉽게 경험하는 경향이 있습니다.
           </p>
         </div>
@@ -57,12 +57,12 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
     {
       title: '정신병리',
       content: (
-        <div className="bg-white/5 rounded-lg p-4 border-l-4 border-yellow-500/50">
-          <p className="text-white/70">{emotion.psychopathology_ko}</p>
-          <p className="text-white/40 text-sm mt-2">
+        <div className="bg-amber-50 rounded-lg p-4 border-l-4 border-amber-400">
+          <p className="text-gray-700">{emotion.psychopathology_ko}</p>
+          <p className="text-gray-400 text-sm mt-2">
             ({emotion.psychopathology_en})
           </p>
-          <p className="text-white/50 text-sm mt-3">
+          <p className="text-gray-500 text-sm mt-3">
             감정이 극단적이거나 지속적으로 통제 불능일 때, 전문가의 도움을 구하는 것이 좋습니다.
           </p>
         </div>
@@ -76,7 +76,7 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/40 z-40"
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -85,7 +85,7 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
 
           {/* Sidebar */}
           <motion.div
-            className="fixed right-0 top-0 bottom-0 w-full sm:w-[450px] bg-[#1a1a2e] z-50 overflow-y-auto"
+            className="fixed right-0 top-0 bottom-0 w-full sm:w-[450px] bg-white z-50 overflow-y-auto shadow-2xl"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -93,27 +93,27 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
           >
             {/* Header */}
             <div
-              className="sticky top-0 p-6 border-b border-white/10"
+              className="sticky top-0 p-6 border-b border-gray-200 bg-white"
               style={{
-                background: `linear-gradient(135deg, ${emotion.color}20, transparent)`
+                background: `linear-gradient(135deg, ${emotion.colorLight}40, white)`
               }}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div
-                    className="w-4 h-4 rounded-full mr-3"
+                    className="w-4 h-4 rounded-full mr-3 shadow-sm"
                     style={{ backgroundColor: emotion.color }}
                   />
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-xl font-bold text-gray-800">
                     {emotion.name_ko} 더 알아보기
                   </h2>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
                   <svg
-                    className="w-6 h-6 text-white/70"
+                    className="w-6 h-6 text-gray-400 hover:text-gray-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -138,11 +138,11 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                 >
-                  <h3 className="text-lg font-semibold text-white mb-3">
+                  <h3 className="text-lg font-bold text-gray-800 mb-3">
                     {section.title}
                   </h3>
                   {typeof section.content === 'string' ? (
-                    <p className="text-white/60 leading-relaxed">{section.content}</p>
+                    <p className="text-gray-600 leading-relaxed">{section.content}</p>
                   ) : (
                     section.content
                   )}
@@ -155,18 +155,18 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <h3 className="text-lg font-semibold text-white mb-3">
+                <h3 className="text-lg font-bold text-gray-800 mb-3">
                   상태 요약
                 </h3>
                 <div className="space-y-2">
                   {emotion.states.map((state, i) => (
                     <div
                       key={state.name_en}
-                      className="flex items-center justify-between bg-white/5 rounded-lg p-3"
+                      className="flex items-center justify-between bg-gray-50 rounded-lg p-3 border border-gray-100"
                     >
                       <div>
-                        <span className="text-white">{state.name_ko}</span>
-                        <span className="text-white/40 text-sm ml-2">
+                        <span className="text-gray-800">{state.name_ko}</span>
+                        <span className="text-gray-400 text-sm ml-2">
                           ({state.name_en})
                         </span>
                       </div>
@@ -175,7 +175,7 @@ const LearnMoreSidebar = ({ isOpen, onClose, emotion }) => {
                           <div
                             key={j}
                             className={`w-2 h-2 rounded-full ${
-                              j < state.intensity ? '' : 'bg-white/20'
+                              j < state.intensity ? '' : 'bg-gray-200'
                             }`}
                             style={{
                               backgroundColor:

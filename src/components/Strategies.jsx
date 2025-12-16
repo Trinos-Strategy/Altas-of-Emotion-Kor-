@@ -15,7 +15,7 @@ const Strategies = ({ selectedEmotion }) => {
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-white text-center mb-4"
+          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -23,7 +23,7 @@ const Strategies = ({ selectedEmotion }) => {
         </motion.h2>
 
         <motion.p
-          className="text-white/60 text-center mb-12 max-w-2xl mx-auto"
+          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -34,22 +34,25 @@ const Strategies = ({ selectedEmotion }) => {
 
         {/* Dalai Lama Quote */}
         <motion.div
-          className="bg-gradient-to-r from-[#9B59B6]/20 to-[#F1C40F]/20 rounded-2xl p-8 mb-12 text-center"
+          className="glass rounded-3xl p-8 mb-12 text-center border border-gray-200/50 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <svg
-            className="w-10 h-10 mx-auto mb-4 text-white/30"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-          </svg>
-          <p className="text-xl text-white/90 italic leading-relaxed mb-4">
-            "{dalaiLamaQuote.ko}"
-          </p>
-          <p className="text-white/50 text-sm">— 달라이 라마</p>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#A78BCA]/10 via-transparent to-[#F5D76E]/10" />
+          <div className="relative">
+            <svg
+              className="w-10 h-10 mx-auto mb-4 text-gray-300"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+            <p className="text-xl text-gray-700 italic leading-relaxed mb-4">
+              "{dalaiLamaQuote.ko}"
+            </p>
+            <p className="text-gray-500 text-sm font-medium">— 달라이 라마</p>
+          </div>
         </motion.div>
 
         {/* Tabs */}
@@ -59,23 +62,23 @@ const Strategies = ({ selectedEmotion }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="bg-white/10 rounded-full p-1 flex">
+          <div className="glass rounded-full p-1.5 flex border border-gray-200/50">
             <button
               onClick={() => setActiveTab('antidotes')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeTab === 'antidotes'
-                  ? 'bg-white/20 text-white'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-gray-800 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800'
               }`}
             >
               방해물과 해독제
             </button>
             <button
               onClick={() => setActiveTab('resources')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeTab === 'resources'
-                  ? 'bg-white/20 text-white'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-gray-800 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800'
               }`}
             >
               리소스
@@ -117,40 +120,40 @@ const Strategies = ({ selectedEmotion }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <div className="bg-white/5 rounded-xl p-6 text-center">
-            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#3498DB]/20 flex items-center justify-center">
-              <svg className="w-6 h-6 text-[#3498DB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="glass rounded-2xl p-6 text-center border border-gray-200/50">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#7BA7D0]/20 flex items-center justify-center">
+              <svg className="w-7 h-7 text-[#7BA7D0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold mb-2">인식하기</h3>
-            <p className="text-white/60 text-sm">
+            <h3 className="text-gray-800 font-bold mb-2">인식하기</h3>
+            <p className="text-gray-600 text-sm">
               감정을 느낄 때 잠시 멈추고 무엇을 느끼는지 이름 붙여보세요.
               인식이 변화의 첫 걸음입니다.
             </p>
           </div>
 
-          <div className="bg-white/5 rounded-xl p-6 text-center">
-            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#27AE60]/20 flex items-center justify-center">
-              <svg className="w-6 h-6 text-[#27AE60]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="glass rounded-2xl p-6 text-center border border-gray-200/50">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#7DC4A5]/20 flex items-center justify-center">
+              <svg className="w-7 h-7 text-[#7DC4A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold mb-2">자기 연민</h3>
-            <p className="text-white/60 text-sm">
+            <h3 className="text-gray-800 font-bold mb-2">자기 연민</h3>
+            <p className="text-gray-600 text-sm">
               모든 감정은 자연스러운 것입니다.
               자신을 판단하지 말고 친절하게 대하세요.
             </p>
           </div>
 
-          <div className="bg-white/5 rounded-xl p-6 text-center">
-            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#F1C40F]/20 flex items-center justify-center">
-              <svg className="w-6 h-6 text-[#F1C40F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="glass rounded-2xl p-6 text-center border border-gray-200/50">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#F5D76E]/20 flex items-center justify-center">
+              <svg className="w-7 h-7 text-[#E8C84A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-white font-semibold mb-2">연습하기</h3>
-            <p className="text-white/60 text-sm">
+            <h3 className="text-gray-800 font-bold mb-2">연습하기</h3>
+            <p className="text-gray-600 text-sm">
               감정 조절은 기술입니다.
               규칙적인 연습으로 점점 더 자연스러워집니다.
             </p>
@@ -164,7 +167,7 @@ const Strategies = ({ selectedEmotion }) => {
 const ResourcesList = () => {
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-white mb-6 text-center">
+      <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
         추천 리소스
       </h3>
 
@@ -175,7 +178,7 @@ const ResourcesList = () => {
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/5 rounded-xl p-5 hover:bg-white/10 transition-colors group block"
+            className="glass rounded-xl p-5 hover:bg-white/90 transition-all border border-gray-200/50 group block shadow-sm hover:shadow-md"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
@@ -184,28 +187,28 @@ const ResourcesList = () => {
               <div className="flex-1">
                 <div className="flex items-center mb-2">
                   <span
-                    className={`px-2 py-0.5 rounded text-xs ${
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       resource.type === 'YouTube'
-                        ? 'bg-red-500/20 text-red-300'
+                        ? 'bg-red-100 text-red-600'
                         : resource.type === 'Meditation'
-                        ? 'bg-purple-500/20 text-purple-300'
+                        ? 'bg-purple-100 text-purple-600'
                         : resource.type === 'App'
-                        ? 'bg-blue-500/20 text-blue-300'
-                        : 'bg-green-500/20 text-green-300'
+                        ? 'bg-blue-100 text-blue-600'
+                        : 'bg-green-100 text-green-600'
                     }`}
                   >
                     {resource.type}
                   </span>
                 </div>
-                <h4 className="text-white font-medium group-hover:text-white/90">
+                <h4 className="text-gray-800 font-medium group-hover:text-gray-900">
                   {resource.title_ko}
                 </h4>
-                <p className="text-white/40 text-sm mt-1">
+                <p className="text-gray-400 text-sm mt-1">
                   {resource.title_en}
                 </p>
               </div>
               <svg
-                className="w-5 h-5 text-white/40 group-hover:text-white/60 flex-shrink-0 ml-4"
+                className="w-5 h-5 text-gray-300 group-hover:text-gray-500 flex-shrink-0 ml-4 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -223,18 +226,18 @@ const ResourcesList = () => {
       </div>
 
       <motion.div
-        className="mt-8 bg-white/5 rounded-xl p-6 text-center"
+        className="mt-8 glass rounded-xl p-6 text-center border border-gray-200/50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <p className="text-white/60">
+        <p className="text-gray-600">
           더 많은 리소스는{' '}
           <a
             href="https://atlasofemotions.org"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#F1C40F] hover:underline"
+            className="text-[#E8857B] hover:underline font-medium"
           >
             Atlas of Emotions 공식 사이트
           </a>

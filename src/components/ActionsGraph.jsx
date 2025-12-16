@@ -44,19 +44,19 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
     const centerGradient = svg.append('defs')
       .append('radialGradient')
       .attr('id', `center-gradient-${emotion.id}`)
-      .attr('cx', '50%')
-      .attr('cy', '50%')
-      .attr('r', '50%');
+      .attr('cx', '30%')
+      .attr('cy', '30%')
+      .attr('r', '70%');
 
     centerGradient.append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', emotion.color)
-      .attr('stop-opacity', 0.8);
+      .attr('stop-color', emotion.colorLight)
+      .attr('stop-opacity', 1);
 
     centerGradient.append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', emotion.colorDark)
-      .attr('stop-opacity', 0.6);
+      .attr('stop-color', emotion.color)
+      .attr('stop-opacity', 1);
 
     // Draw center circle (emotion)
     g.append('circle')
@@ -64,6 +64,7 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
       .attr('fill', `url(#center-gradient-${emotion.id})`)
       .attr('stroke', emotion.color)
       .attr('stroke-width', 2)
+      .style('filter', 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))')
       .style('opacity', 0)
       .transition()
       .duration(500)
@@ -76,6 +77,7 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
       .attr('fill', 'white')
       .attr('font-size', '16px')
       .attr('font-weight', 'bold')
+      .style('text-shadow', '0 1px 2px rgba(0,0,0,0.2)')
       .text(emotion.name_ko)
       .style('opacity', 0)
       .transition()
@@ -107,7 +109,7 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
         .attr('y2', lineEndY)
         .attr('stroke', nodeColor)
         .attr('stroke-width', 2)
-        .attr('stroke-opacity', 0.4)
+        .attr('stroke-opacity', 0.5)
         .attr('stroke-dasharray', isIntrinsic ? 'none' : '4,4');
 
       line.transition()
@@ -132,17 +134,18 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
       // Node background circle
       nodeGroup.append('circle')
         .attr('r', 35)
-        .attr('fill', '#252540')
+        .attr('fill', 'white')
         .attr('stroke', nodeColor)
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 2px 8px rgba(0,0,0,0.1))');
 
       // Node label
       const text = nodeGroup.append('text')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
-        .attr('fill', 'white')
+        .attr('fill', '#374151')
         .attr('font-size', '11px')
-        .attr('font-weight', '500');
+        .attr('font-weight', '600');
 
       // Split long text
       const words = action.name_ko.split('/');
@@ -162,9 +165,10 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
         .attr('cx', 25)
         .attr('cy', -25)
         .attr('r', 8)
-        .attr('fill', isIntrinsic ? '#E74C3C' : '#27AE60')
-        .attr('stroke', '#252540')
-        .attr('stroke-width', 2);
+        .attr('fill', isIntrinsic ? '#EF4444' : '#22C55E')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))');
 
       // Interaction handlers
       nodeGroup
@@ -193,12 +197,12 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
       .attr('fill', 'none')
       .attr('stroke', emotion.color)
       .attr('stroke-width', 1)
-      .attr('stroke-opacity', 0.5);
+      .attr('stroke-opacity', 0.3);
 
     function pulse() {
       pulseCircle
         .attr('r', innerRadius)
-        .attr('stroke-opacity', 0.5)
+        .attr('stroke-opacity', 0.3)
         .transition()
         .duration(2000)
         .attr('r', innerRadius + 20)
@@ -220,12 +224,12 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
         transition={{ delay: 0.3 }}
       >
         <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full bg-[#E74C3C] mr-2" />
-          <span className="text-white/60 text-sm">본능적 행동</span>
+          <div className="w-3 h-3 rounded-full bg-red-500 mr-2" />
+          <span className="text-gray-600 text-sm">본능적 행동</span>
         </div>
         <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full bg-[#27AE60] mr-2" />
-          <span className="text-white/60 text-sm">의도적 행동</span>
+          <div className="w-3 h-3 rounded-full bg-green-500 mr-2" />
+          <span className="text-gray-600 text-sm">의도적 행동</span>
         </div>
       </motion.div>
 
@@ -251,10 +255,10 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
             <button
               key={action.name_en}
               onClick={() => setSelectedAction(action)}
-              className={`p-3 rounded-lg text-left transition-colors ${
+              className={`p-3 rounded-lg text-left transition-colors shadow-sm ${
                 action.type === 'intrinsic'
-                  ? 'bg-red-500/10 border border-red-500/30'
-                  : 'bg-green-500/10 border border-green-500/30'
+                  ? 'bg-red-50 border border-red-200'
+                  : 'bg-green-50 border border-green-200'
               }`}
             >
               <div className="flex items-center mb-1">
@@ -263,11 +267,11 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
                     action.type === 'intrinsic' ? 'bg-red-500' : 'bg-green-500'
                   }`}
                 />
-                <span className="text-white text-sm font-medium">
+                <span className="text-gray-800 text-sm font-medium">
                   {action.name_ko}
                 </span>
               </div>
-              <span className="text-white/40 text-xs">
+              <span className="text-gray-500 text-xs">
                 {action.type === 'intrinsic' ? '본능적' : '의도적'}
               </span>
             </button>
@@ -277,7 +281,7 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
 
       {/* Instruction */}
       <motion.p
-        className="text-white/40 text-center text-sm mt-6"
+        className="text-gray-400 text-center text-sm mt-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
