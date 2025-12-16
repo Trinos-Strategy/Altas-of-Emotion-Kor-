@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, claude/atlas-emotions-korean-g4IHW ]
+    branches: [ main, claude/atlas-emotions-korean-g4IHW, claude/fix-routing-colors-V1rWB ]
   workflow_dispatch:
 
 jobs:
