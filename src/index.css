@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+
+  /* Emotion Colors */
+  --color-anger: #E74C3C;
+  --color-anger-light: #F1948A;
+  --color-anger-dark: #C0392B;
+
+  --color-fear: #9B59B6;
+  --color-fear-light: #C39BD3;
+  --color-fear-dark: #8E44AD;
+
+  --color-disgust: #27AE60;
+  --color-disgust-light: #7DCEA0;
+  --color-disgust-dark: #1E8449;
+
+  --color-sadness: #3498DB;
+  --color-sadness-light: #85C1E9;
+  --color-sadness-dark: #2980B9;
+
+  --color-enjoyment: #F1C40F;
+  --color-enjoyment-light: #F7DC6F;
+  --color-enjoyment-dark: #D4AC0D;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #1a1a2e;
+  color: #eaeaea;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a4a6a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6a6a8a;
+}
