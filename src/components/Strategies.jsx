@@ -1,32 +1,35 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder, dalaiLamaQuote, resources } from '../data/emotions';
 import AntidotesTable from './AntidotesTable';
 
 const Strategies = ({ selectedEmotion }) => {
   const [activeTab, setActiveTab] = useState('antidotes');
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const currentEmotion = selectedEmotion
     ? emotions[selectedEmotion]
     : null;
 
   return (
-    <section className="min-h-screen flex flex-col items-center px-4 py-24">
+    <section ref={sectionRef} className="min-h-screen flex flex-col items-center px-4 py-24">
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
+          className="text-3xl md:text-4xl font-serif font-medium text-[#1a1a1a] text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
           감정 전략
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
+          className="text-[#666] text-center mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.2, duration: 0.6 }}
         >
           감정을 건설적으로 다루는 방법을 배워보세요.
           각 감정에 대한 해독제와 방해물을 이해하면 더 나은 선택을 할 수 있습니다.
@@ -34,10 +37,10 @@ const Strategies = ({ selectedEmotion }) => {
 
         {/* Dalai Lama Quote */}
         <motion.div
-          className="glass rounded-3xl p-8 mb-12 text-center border border-gray-200/50 relative overflow-hidden"
+          className="bg-white rounded-2xl p-8 mb-12 text-center shadow-sm border border-gray-100 relative overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-[#A78BCA]/10 via-transparent to-[#F5D76E]/10" />
           <div className="relative">
@@ -59,8 +62,8 @@ const Strategies = ({ selectedEmotion }) => {
         <motion.div
           className="flex justify-center mb-8"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.4, duration: 0.6 }}
         >
           <div className="glass rounded-full p-1.5 flex border border-gray-200/50">
             <button
@@ -117,8 +120,8 @@ const Strategies = ({ selectedEmotion }) => {
         <motion.div
           className="mt-16 grid md:grid-cols-3 gap-6"
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.6, duration: 0.6 }}
         >
           <div className="glass rounded-2xl p-6 text-center border border-gray-200/50">
             <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#7BA7D0]/20 flex items-center justify-center">

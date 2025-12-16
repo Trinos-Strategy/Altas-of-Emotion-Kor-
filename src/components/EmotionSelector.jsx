@@ -9,23 +9,34 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-center gap-3 overflow-x-auto scrollbar-hide">
+      <div className="bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 overflow-x-auto scrollbar-hide">
             {/* All emotions button */}
-            <button
+            <motion.button
               onClick={() => onEmotionSelect(null)}
-              className={`px-4 py-2 text-sm font-medium transition-all whitespace-nowrap border-2 ${
-                selectedEmotion === null
-                  ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
-                  : 'border-gray-300 text-gray-600 hover:border-gray-400'
-              }`}
+              className="flex flex-col items-center gap-2"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              전체
-            </button>
+              <div
+                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  selectedEmotion === null
+                    ? 'bg-[#1a1a1a] shadow-lg'
+                    : 'bg-gray-200 hover:bg-gray-300'
+                }`}
+              >
+                <span className={`text-xs font-bold ${selectedEmotion === null ? 'text-white' : 'text-[#666]'}`}>
+                  전체
+                </span>
+              </div>
+              <span className={`text-xs font-medium ${selectedEmotion === null ? 'text-[#1a1a1a]' : 'text-[#888]'}`}>
+                ALL
+              </span>
+            </motion.button>
 
             {/* Divider */}
-            <div className="h-6 w-px bg-gray-200" />
+            <div className="h-12 w-px bg-gray-200" />
 
             {/* Individual emotion buttons */}
             {emotionOrder.map((emotionId) => {
@@ -33,28 +44,40 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
               const isSelected = selectedEmotion === emotionId;
 
               return (
-                <button
+                <motion.button
                   key={emotionId}
                   onClick={() => onEmotionSelect(emotionId)}
-                  className={`px-4 py-2 text-sm font-medium transition-all whitespace-nowrap border-2 flex items-center gap-2 ${
-                    isSelected
-                      ? 'text-white'
-                      : 'bg-transparent hover:opacity-80'
-                  }`}
-                  style={{
-                    borderColor: emotion.color,
-                    backgroundColor: isSelected ? emotion.color : 'transparent',
-                    color: isSelected ? 'white' : emotion.color,
-                  }}
+                  className="flex flex-col items-center gap-2"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <span
-                    className="w-2 h-2 rounded-full"
+                  <motion.div
+                    className="rounded-full transition-all duration-300"
                     style={{
-                      backgroundColor: isSelected ? 'white' : emotion.color,
+                      width: isSelected ? '60px' : '48px',
+                      height: isSelected ? '60px' : '48px',
+                      background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
+                      boxShadow: isSelected
+                        ? `0 4px 20px ${emotion.color}60`
+                        : `0 2px 8px ${emotion.color}30`,
+                    }}
+                    animate={{
+                      scale: isSelected ? [1, 1.05, 1] : 1,
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: isSelected ? Infinity : 0,
+                      repeatType: 'reverse',
                     }}
                   />
-                  {emotion.name_ko}
-                </button>
+                  <span
+                    className={`text-xs font-medium transition-colors ${
+                      isSelected ? 'text-[#1a1a1a]' : 'text-[#888]'
+                    }`}
+                  >
+                    {emotion.name_ko}
+                  </span>
+                </motion.button>
               );
             })}
           </div>

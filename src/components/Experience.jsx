@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 import ContinentsView from './ContinentsView';
 import StatesGraph from './StatesGraph';
@@ -10,6 +10,8 @@ const Experience = ({ selectedEmotion }) => {
   const [activeState, setActiveState] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [hoveredContinent, setHoveredContinent] = useState(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const handleContinentClick = (emotionId) => {
     if (emotionId) {
@@ -25,22 +27,23 @@ const Experience = ({ selectedEmotion }) => {
   const currentEmotion = selectedEmotion ? emotions[selectedEmotion] : null;
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-24">
+    <section ref={sectionRef} className="min-h-screen flex flex-col items-center justify-center px-4 py-24">
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
+          className="text-3xl md:text-4xl font-serif font-medium text-[#1a1a1a] text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
           감정 경험
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 text-center mb-8 max-w-2xl mx-auto"
+          className="text-[#666] text-center mb-8 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.2, duration: 0.6 }}
         >
           {viewMode === 'continents'
             ? '5가지 감정 대륙을 탐험하세요. 각 대륙을 클릭하면 다양한 감정 상태를 볼 수 있습니다.'

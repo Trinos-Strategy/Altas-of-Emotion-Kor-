@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder, emotionalEpisodeTimeline } from '../data/emotions';
-import Modal from './common/Modal';
 
 const Timeline = ({ selectedEmotion }) => {
   const [currentEmotionIndex, setCurrentEmotionIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   // Auto-rotate through emotions if none selected
   useEffect(() => {
@@ -21,238 +22,228 @@ const Timeline = ({ selectedEmotion }) => {
   const activeEmotionId = selectedEmotion || emotionOrder[currentEmotionIndex];
   const emotion = emotions[activeEmotionId];
 
-  // Get random trigger and response for display
-  const trigger = emotion.triggers[0];
-  const response = emotion.responses[0];
+  const timelineSteps = [
+    { id: 1, name_ko: '사전 조건', name_en: 'PRECONDITION', color: '#f5f5f5', textColor: '#666' },
+    { id: 2, name_ko: '사건', name_en: 'EVENT', color: '#FFE5D4', textColor: '#1a1a1a' },
+    { id: 3, name_ko: '트리거', name_en: 'TRIGGER', color: emotion.colorLight, textColor: '#1a1a1a' },
+    { id: 4, name_ko: '경험', name_en: 'EXPERIENCE', color: emotion.color, textColor: '#fff' },
+    { id: 5, name_ko: '반응', name_en: 'RESPONSE', color: emotion.colorLight, textColor: '#1a1a1a' },
+  ];
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-24">
-      <div className="max-w-6xl mx-auto w-full">
-        {/* Title */}
-        <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+    <section ref={sectionRef} className="min-h-screen px-4 py-12">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
-          감정 타임라인
-        </motion.h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-medium text-[#1a1a1a] mb-4">
+            감정 에피소드 타임라인
+          </h2>
+          <p className="text-[#666] max-w-2xl mx-auto">
+            감정적 경험은 일련의 단계를 거칩니다. 각 단계를 이해하면
+            감정에 대한 더 큰 통제력을 얻을 수 있습니다.
+          </p>
+        </motion.div>
 
-        <motion.p
-          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
+        {/* Timeline Diagram */}
+        <motion.div
+          className="mb-16 overflow-x-auto pb-4"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          감정은 트리거에서 시작하여 경험을 거쳐 반응으로 이어집니다.
-          각 감정이 어떻게 작동하는지 살펴보세요.
-        </motion.p>
+          <div className="flex items-center justify-center min-w-[800px] px-8">
+            {timelineSteps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                {/* Step Node */}
+                <motion.div
+                  className="relative cursor-pointer"
+                  onMouseEnter={() => setActiveStep(step.id)}
+                  onMouseLeave={() => setActiveStep(null)}
+                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                >
+                  {/* Step Label Top */}
+                  <div className="text-center mb-2">
+                    <span className="text-[10px] font-bold text-[#888] tracking-wider">
+                      STEP {step.id}
+                    </span>
+                  </div>
 
-        {/* Timeline Flow */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-12">
+                  {/* Circle */}
+                  <div
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-300"
+                    style={{
+                      backgroundColor: step.color,
+                      boxShadow: activeStep === step.id ? `0 8px 30px ${step.color === '#f5f5f5' ? 'rgba(0,0,0,0.1)' : `${emotion.color}40`}` : 'none',
+                      border: step.color === '#f5f5f5' ? '2px solid #e0e0e0' : 'none',
+                    }}
+                  >
+                    <div className="text-center px-2">
+                      <div
+                        className="text-xs font-medium mb-1"
+                        style={{ color: step.textColor, opacity: 0.7 }}
+                      >
+                        {step.name_en}
+                      </div>
+                      <div
+                        className="text-sm font-bold"
+                        style={{ color: step.textColor }}
+                      >
+                        {step.name_ko}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tooltip */}
+                  <AnimatePresence>
+                    {activeStep === step.id && (
+                      <motion.div
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 bg-white rounded-lg shadow-xl p-3 z-10 border border-gray-100"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <p className="text-xs text-[#666]">
+                          {getStepDescription(step.id)}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {/* Arrow */}
+                {index < timelineSteps.length - 1 && (
+                  <motion.div
+                    className="mx-2 md:mx-4"
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+                  >
+                    <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </motion.div>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Current Emotion Display */}
+        <motion.div
+          className="flex flex-col items-center mb-16"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           <AnimatePresence mode="wait">
-            {/* Trigger Box */}
             <motion.div
-              key={`trigger-${activeEmotionId}`}
-              className="glass rounded-2xl p-6 w-full md:w-64 text-center border border-gray-200/50 shadow-sm"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="text-gray-500 text-sm font-medium mb-2">트리거</div>
-              <div className="text-gray-800 text-lg font-medium">{trigger.text_ko}</div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Arrow */}
-          <motion.div
-            className="hidden md:block text-gray-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 12h14m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-
-          {/* Mobile Arrow */}
-          <motion.div
-            className="md:hidden text-gray-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <svg className="w-8 h-8 rotate-90" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 12h14m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            {/* Emotion Circle */}
-            <motion.div
-              key={`emotion-${activeEmotionId}`}
-              className="relative"
+              key={activeEmotionId}
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center mb-6"
+              style={{
+                background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
+                boxShadow: `0 10px 40px ${emotion.color}50`,
+              }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.4 }}
             >
-              <motion.div
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center"
-                style={{
-                  background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
-                }}
-                animate={{
-                  boxShadow: [
-                    `0 8px 30px ${emotion.color}40`,
-                    `0 12px 40px ${emotion.color}60`,
-                    `0 8px 30px ${emotion.color}40`
-                  ]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: 'reverse'
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-white/80 text-xs mb-1">당신은</div>
-                  <div className="text-white font-bold text-lg md:text-xl">{emotion.name_ko}</div>
-                  <div className="text-white/80 text-xs mt-1">을(를) 느낀다</div>
-                </div>
-              </motion.div>
+              <div className="text-center">
+                <div className="text-white/80 text-sm mb-1">현재 감정</div>
+                <div className="text-white font-bold text-2xl">{emotion.name_ko}</div>
+              </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Arrow */}
-          <motion.div
-            className="hidden md:block text-gray-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 12h14m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-
-          {/* Mobile Arrow */}
-          <motion.div
-            className="md:hidden text-gray-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <svg className="w-8 h-8 rotate-90" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 12h14m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            {/* Response Box */}
-            <motion.div
-              key={`response-${activeEmotionId}`}
-              className="glass rounded-2xl p-6 w-full md:w-64 text-center border border-gray-200/50 shadow-sm"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <div className="text-gray-500 text-sm font-medium mb-2">반응</div>
-              <div className="text-gray-800 text-lg font-medium">{response.text_ko}</div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Emotion Selector Dots (when no emotion selected) */}
-        {!selectedEmotion && (
-          <motion.div
-            className="flex justify-center space-x-3 mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            {emotionOrder.map((id, index) => (
-              <button
-                key={id}
-                onClick={() => setCurrentEmotionIndex(index)}
-                className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
-                  index === currentEmotionIndex
-                    ? 'scale-125 shadow-lg'
-                    : 'opacity-50 hover:opacity-75'
-                }`}
-                style={{
-                  backgroundColor: emotions[id].color,
-                  boxShadow: index === currentEmotionIndex ? `0 4px 12px ${emotions[id].color}50` : undefined
-                }}
-              />
-            ))}
-          </motion.div>
-        )}
-
-        {/* Learn More Button */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-        >
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all shadow-lg hover:shadow-xl"
-          >
-            어떻게 이런 일이 일어나나요?
-          </button>
+          {/* Emotion dots selector */}
+          {!selectedEmotion && (
+            <div className="flex gap-3">
+              {emotionOrder.map((id, index) => (
+                <button
+                  key={id}
+                  onClick={() => setCurrentEmotionIndex(index)}
+                  className="w-3 h-3 rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor: emotions[id].color,
+                    transform: index === currentEmotionIndex ? 'scale(1.3)' : 'scale(1)',
+                    opacity: index === currentEmotionIndex ? 1 : 0.4,
+                    boxShadow: index === currentEmotionIndex ? `0 2px 10px ${emotions[id].color}` : 'none',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
 
-        {/* Additional Triggers and Responses */}
+        {/* Triggers and Responses Grid */}
         <motion.div
-          className="mt-16 grid md:grid-cols-2 gap-8"
+          className="grid md:grid-cols-2 gap-8"
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
         >
-          <div className="glass rounded-2xl p-6 border border-gray-200/50">
-            <h3 className="text-xl font-bold mb-4" style={{ color: emotion.color }}>
-              {emotion.name_ko}의 트리거들
+          {/* Triggers */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h3
+              className="text-lg font-serif font-medium mb-4 flex items-center gap-2"
+              style={{ color: emotion.color }}
+            >
+              <span
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: emotion.color }}
+              />
+              {emotion.name_ko}의 트리거
             </h3>
             <ul className="space-y-3">
               {emotion.triggers.map((t, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-center text-gray-600"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.1 + i * 0.1 }}
+                  className="flex items-start gap-3 text-[#4a4a4a]"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.8 + i * 0.1 }}
                 >
-                  <span
-                    className="w-2.5 h-2.5 rounded-full mr-3 flex-shrink-0"
-                    style={{ backgroundColor: emotion.color }}
-                  />
+                  <svg className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                   {t.text_ko}
                 </motion.li>
               ))}
             </ul>
           </div>
 
-          <div className="glass rounded-2xl p-6 border border-gray-200/50">
-            <h3 className="text-xl font-bold mb-4" style={{ color: emotion.color }}>
-              {emotion.name_ko}의 반응들
+          {/* Responses */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h3
+              className="text-lg font-serif font-medium mb-4 flex items-center gap-2"
+              style={{ color: emotion.color }}
+            >
+              <span
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: emotion.color }}
+              />
+              {emotion.name_ko}의 반응
             </h3>
             <ul className="space-y-3">
               {emotion.responses.map((r, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-center text-gray-600"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.1 + i * 0.1 }}
+                  className="flex items-start gap-3 text-[#4a4a4a]"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.8 + i * 0.1 }}
                 >
-                  <span
-                    className="w-2.5 h-2.5 rounded-full mr-3 flex-shrink-0"
-                    style={{ backgroundColor: emotion.color }}
-                  />
+                  <svg className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                   {r.text_ko}
                 </motion.li>
               ))}
@@ -260,66 +251,19 @@ const Timeline = ({ selectedEmotion }) => {
           </div>
         </motion.div>
       </div>
-
-      {/* Timeline Modal */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={emotionalEpisodeTimeline.title_ko}
-      >
-        <TimelineModalContent />
-      </Modal>
     </section>
   );
 };
 
-const TimelineModalContent = () => {
-  return (
-    <div className="space-y-6">
-      <p className="text-gray-600 mb-8">
-        감정 에피소드는 여러 단계를 거칩니다. 각 단계를 이해하면 감정을 더 잘 관리할 수 있습니다.
-      </p>
-
-      <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
-
-        {/* Steps */}
-        <div className="space-y-6">
-          {emotionalEpisodeTimeline.steps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              className="relative flex items-start pl-12"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              {/* Step number */}
-              <div className="absolute left-0 w-8 h-8 rounded-full bg-gradient-to-r from-[#E8857B] to-[#A78BCA] flex items-center justify-center text-white text-sm font-bold shadow-md">
-                {step.id}
-              </div>
-
-              {/* Content */}
-              <div className="bg-gray-50 rounded-xl p-4 flex-1 border border-gray-100">
-                <h4 className="text-gray-800 font-semibold mb-1">{step.name_ko}</h4>
-                <p className="text-gray-500 text-sm">{step.description_ko}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-8 p-4 bg-gradient-to-r from-[#E8857B]/10 to-[#A78BCA]/10 rounded-xl border border-gray-100">
-        <h4 className="text-gray-800 font-semibold mb-2">핵심 인사이트</h4>
-        <p className="text-gray-600 text-sm">
-          감정 에피소드에서 가장 중요한 순간은 <strong className="text-gray-800">인식</strong>과{' '}
-          <strong className="text-gray-800">반응 선택</strong> 단계입니다.
-          이 순간에 우리는 자동적 반응을 멈추고 의식적으로 더 건설적인 반응을 선택할 수 있습니다.
-          이것이 감정 지능의 핵심입니다.
-        </p>
-      </div>
-    </div>
-  );
-};
+function getStepDescription(stepId) {
+  const descriptions = {
+    1: '과거 경험, 기분, 성격 특성 등이 감정 반응에 영향을 미칩니다.',
+    2: '감정을 유발할 수 있는 외부 또는 내부 사건이 발생합니다.',
+    3: '사건이 개인적으로 의미 있는 것으로 평가될 때 감정이 촉발됩니다.',
+    4: '감정이 신체적, 심리적으로 경험됩니다.',
+    5: '감정에 대한 행동적, 표현적 반응이 나타납니다.',
+  };
+  return descriptions[stepId] || '';
+}
 
 export default Timeline;

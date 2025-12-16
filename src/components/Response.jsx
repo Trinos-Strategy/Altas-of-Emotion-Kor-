@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 import ActionsGraph from './ActionsGraph';
 
 const Response = ({ selectedEmotion }) => {
   const [selectedAction, setSelectedAction] = useState(null);
   const [showActionTypes, setShowActionTypes] = useState(false);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const currentEmotion = selectedEmotion
     ? emotions[selectedEmotion]
@@ -15,22 +17,23 @@ const Response = ({ selectedEmotion }) => {
   const intentionalActions = currentEmotion.actions.filter(a => a.type === 'intentional');
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-24">
+    <section ref={sectionRef} className="min-h-screen flex flex-col items-center justify-center px-4 py-24">
       <div className="max-w-6xl mx-auto w-full">
         {/* Title */}
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-4"
+          className="text-3xl md:text-4xl font-serif font-medium text-[#1a1a1a] text-center mb-4"
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
           감정 반응
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
+          className="text-[#666] text-center mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.2, duration: 0.6 }}
         >
           감정은 행동으로 이어집니다. {currentEmotion.name_ko}를 느낄 때
           우리는 본능적 또는 의도적으로 반응합니다.
