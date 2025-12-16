@@ -1,33 +1,21 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&display=swap');
 
 @theme {
-  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-serif: 'Noto Serif KR', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Soft Pastel Emotion Colors - matching original Atlas of Emotions */
-  --color-anger: #E8857B;
-  --color-anger-light: #F5B8B2;
-  --color-anger-dark: #D4635A;
-  --color-anger-bg: #FEF0EE;
-
-  --color-fear: #A78BCA;
-  --color-fear-light: #D4C4E8;
-  --color-fear-dark: #8B6BB5;
-  --color-fear-bg: #F5F0FA;
-
-  --color-disgust: #7DC4A5;
-  --color-disgust-light: #B5DEC9;
-  --color-disgust-dark: #5AAD88;
-  --color-disgust-bg: #EEF9F4;
-
-  --color-sadness: #7BA7D0;
-  --color-sadness-light: #B3CFE8;
-  --color-sadness-dark: #5A8BBD;
-  --color-sadness-bg: #EDF4FA;
-
-  --color-enjoyment: #F5D76E;
-  --color-enjoyment-light: #FAE9A8;
-  --color-enjoyment-dark: #E8C84A;
-  --color-enjoyment-bg: #FFFBEB;
+  /* Emotion Colors - Original Atlas style */
+  --color-anger: #E07B6E;
+  --color-anger-light: #F0A89E;
+  --color-fear: #9B7BB8;
+  --color-fear-light: #C4B0D6;
+  --color-disgust: #6BAF8D;
+  --color-disgust-light: #A3D4BA;
+  --color-sadness: #6B9DC4;
+  --color-sadness-light: #A3C4DC;
+  --color-enjoyment: #E8C547;
+  --color-enjoyment-light: #F5DC8A;
 }
 
 * {
@@ -42,131 +30,59 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #FAFBFC;
-  color: #2D3748;
-  min-height: 100vh;
+  background-color: #FAFAFA;
+  color: #1a1a1a;
+  line-height: 1.7;
   overflow-x: hidden;
-  line-height: 1.6;
 }
 
 #root {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Elegant Scrollbar */
+/* Serif headings - like original Atlas */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 5px;
+  background: #ccc;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #999;
 }
 
-/* Typography utilities */
-.text-gradient {
-  background: linear-gradient(135deg, #E8857B 0%, #A78BCA 25%, #7DC4A5 50%, #7BA7D0 75%, #F5D76E 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Glassmorphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.glass-dark {
-  background: rgba(45, 55, 72, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Emotion section backgrounds - dark style like original inner pages */
+.emotion-bg {
+  background: #4a4a4a;
 }
 
-/* Card styles */
-.card {
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 20px 40px -10px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-}
-
-/* Organic blob animations */
-@keyframes blob {
-  0%, 100% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  }
-  25% {
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-  }
-  50% {
-    border-radius: 50% 60% 30% 60% / 30% 50% 70% 50%;
-  }
-  75% {
-    border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
-  }
-}
-
-.blob {
-  animation: blob 20s ease-in-out infinite;
-}
-
-.blob-delay-1 {
-  animation-delay: -5s;
-}
-
-.blob-delay-2 {
-  animation-delay: -10s;
-}
-
-.blob-delay-3 {
-  animation-delay: -15s;
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(2deg);
-  }
-}
-
-.floating {
-  animation: float 8s ease-in-out infinite;
-}
-
-/* Pulse glow */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.02);
-  }
-}
-
-.pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
-}
+.emotion-bg-anger { background: linear-gradient(135deg, #E07B6E 0%, #C4635A 100%); }
+.emotion-bg-fear { background: linear-gradient(135deg, #9B7BB8 0%, #7B5BA0 100%); }
+.emotion-bg-disgust { background: linear-gradient(135deg, #6BAF8D 0%, #4A9070 100%); }
+.emotion-bg-sadness { background: linear-gradient(135deg, #6B9DC4 0%, #4A7DAA 100%); }
+.emotion-bg-enjoyment { background: linear-gradient(135deg, #E8C547 0%, #D4B030 100%); }
