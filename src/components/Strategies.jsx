@@ -15,23 +15,23 @@ const Strategies = ({ selectedEmotion }) => {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex flex-col items-center px-6 py-20 md:py-28"
+      className="min-h-screen flex flex-col items-center px-6 py-24 md:py-32"
       role="region"
       aria-label="감정 전략"
     >
       <div className="max-w-6xl mx-auto w-full">
-        {/* Title */}
+        {/* Premium Section Header */}
         <motion.header
-          className="text-center mb-10 md:mb-16"
+          className="section-header"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-gray-900 mb-4">
+          <h2>
             감정 전략
           </h2>
 
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p>
             감정을 건설적으로 다루는 방법을 배워보세요.
             각 감정에 대한 해독제와 방해물을 이해하면 더 나은 선택을 할 수 있습니다.
           </p>
@@ -63,20 +63,20 @@ const Strategies = ({ selectedEmotion }) => {
           </div>
         </motion.blockquote>
 
-        {/* Tabs */}
+        {/* Premium Tabs */}
         <motion.div
-          className="flex justify-center mb-10"
+          className="flex justify-center mb-12"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <div className="glass rounded-full p-1.5 flex border border-gray-200/60" role="tablist">
+          <div className="glass rounded-2xl p-2 flex gap-2 border border-gray-200/60 shadow-sm" role="tablist">
             <button
               onClick={() => setActiveTab('antidotes')}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+              className={`px-8 py-3.5 rounded-xl text-base font-semibold transition-all duration-300 ${
                 activeTab === 'antidotes'
-                  ? 'bg-gray-900 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100/50'
+                  ? 'bg-gray-900 text-white shadow-lg'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100/80'
               }`}
               role="tab"
               aria-selected={activeTab === 'antidotes'}
@@ -86,10 +86,10 @@ const Strategies = ({ selectedEmotion }) => {
             </button>
             <button
               onClick={() => setActiveTab('resources')}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+              className={`px-8 py-3.5 rounded-xl text-base font-semibold transition-all duration-300 ${
                 activeTab === 'resources'
-                  ? 'bg-gray-900 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100/50'
+                  ? 'bg-gray-900 text-white shadow-lg'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100/80'
               }`}
               role="tab"
               aria-selected={activeTab === 'resources'}
@@ -133,46 +133,52 @@ const Strategies = ({ selectedEmotion }) => {
           )}
         </AnimatePresence>
 
-        {/* Additional Guidance */}
+        {/* Additional Guidance - Premium Cards */}
         <motion.div
-          className="mt-16 md:mt-20 grid md:grid-cols-3 gap-6"
+          className="mt-20 md:mt-28"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          <GuidanceCard
-            icon={
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            }
-            iconBg="bg-blue-50"
-            iconColor="text-blue-500"
-            title="인식하기"
-            description="감정을 느낄 때 잠시 멈추고 무엇을 느끼는지 이름 붙여보세요. 인식이 변화의 첫 걸음입니다."
-          />
-          <GuidanceCard
-            icon={
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            }
-            iconBg="bg-green-50"
-            iconColor="text-green-500"
-            title="자기 연민"
-            description="모든 감정은 자연스러운 것입니다. 자신을 판단하지 말고 친절하게 대하세요."
-          />
-          <GuidanceCard
-            icon={
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            }
-            iconBg="bg-yellow-50"
-            iconColor="text-yellow-600"
-            title="연습하기"
-            description="감정 조절은 기술입니다. 규칙적인 연습으로 점점 더 자연스러워집니다."
-          />
+          <h3 className="text-2xl md:text-3xl font-serif font-medium text-gray-900 text-center mb-12">
+            감정을 다루는 세 가지 원칙
+          </h3>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <GuidanceCard
+              icon={
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              }
+              iconBg="bg-blue-50"
+              iconColor="text-blue-500"
+              title="인식하기"
+              description="감정을 느낄 때 잠시 멈추고 무엇을 느끼는지 이름 붙여보세요. 인식이 변화의 첫 걸음입니다."
+            />
+            <GuidanceCard
+              icon={
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              }
+              iconBg="bg-rose-50"
+              iconColor="text-rose-500"
+              title="자기 연민"
+              description="모든 감정은 자연스러운 것입니다. 자신을 판단하지 말고 친절하게 대하세요."
+            />
+            <GuidanceCard
+              icon={
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              }
+              iconBg="bg-amber-50"
+              iconColor="text-amber-500"
+              title="연습하기"
+              description="감정 조절은 기술입니다. 규칙적인 연습으로 점점 더 자연스러워집니다."
+            />
+          </div>
         </motion.div>
       </div>
     </section>
@@ -180,15 +186,19 @@ const Strategies = ({ selectedEmotion }) => {
 };
 
 const GuidanceCard = ({ icon, iconBg, iconColor, title, description }) => (
-  <div className="card p-6 md:p-8 text-center">
-    <div className={`w-14 h-14 mx-auto mb-5 rounded-full ${iconBg} flex items-center justify-center ${iconColor}`}>
+  <motion.div
+    className="guidance-card"
+    whileHover={{ y: -8 }}
+    transition={{ duration: 0.3 }}
+  >
+    <div className={`guidance-card-icon ${iconBg} ${iconColor}`}>
       {icon}
     </div>
-    <h3 className="text-gray-800 font-bold text-lg mb-3">{title}</h3>
-    <p className="text-gray-500 text-sm leading-relaxed">
+    <h3 className="guidance-card-title">{title}</h3>
+    <p className="guidance-card-description">
       {description}
     </p>
-  </div>
+  </motion.div>
 );
 
 const ResourcesList = () => {

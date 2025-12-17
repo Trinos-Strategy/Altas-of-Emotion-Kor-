@@ -214,30 +214,30 @@ const Experience = ({ selectedEmotion }) => {
       role="region"
       aria-label="감정 경험 시각화"
     >
-      {/* 왼쪽 사이드바 */}
+      {/* 왼쪽 사이드바 - Premium */}
       <motion.aside
-        className="lg:w-[360px] bg-gray-50 p-6 md:p-8 lg:p-10 flex flex-col border-r border-gray-200"
+        className="lg:w-[400px] bg-gray-50 p-8 md:p-10 lg:p-12 flex flex-col border-r border-gray-200"
         initial={{ opacity: 0, x: -30 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
       >
         <div className="flex-1">
-          <h2 className="text-2xl lg:text-3xl font-serif font-medium text-gray-900 mb-3 pb-3 border-b-2 border-gray-900">
+          <h2 className="text-3xl lg:text-4xl font-serif font-medium text-gray-900 mb-4 pb-4 border-b-2 border-gray-900">
             우리의 경험
           </h2>
-          <p className="text-gray-500 text-sm lg:text-base mb-8 mt-5 leading-relaxed">
+          <p className="text-gray-500 text-base lg:text-lg mb-10 mt-6 leading-relaxed">
             하나의 감정 안에서 다양한 상태와 강도를 탐험합니다.
           </p>
 
-          <h3 className="text-xs font-bold text-gray-900 tracking-widest mb-4 uppercase">
+          <h3 className="text-sm font-bold text-gray-900 tracking-widest mb-5 uppercase">
             {emotionInfo.name_en}의 상태
           </h3>
 
-          <p className="text-gray-600 text-sm leading-relaxed mb-6">
+          <p className="text-gray-600 text-base leading-relaxed mb-8">
             {emotionInfo.description_ko}
           </p>
 
-          <p className="text-gray-400 text-sm italic">
+          <p className="text-gray-400 text-base italic">
             산봉우리를 클릭하여 각 상태에 대해 알아보세요.
           </p>
 
@@ -257,16 +257,34 @@ const Experience = ({ selectedEmotion }) => {
           </div>
         </div>
 
-        <button
+        {/* 프리미엄 CTA 버튼 - 더 알아보기 */}
+        <motion.button
           onClick={() => setSidebarOpen(true)}
-          className="mt-8 w-full px-6 py-4 border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300 rounded-xl flex items-center justify-center gap-2"
+          className="btn-cta-outline mt-10 w-full group"
           aria-label="더 알아보기 사이드바 열기"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <span>더 알아보기</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg
+            className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-        </button>
+          <span className="text-base">더 알아보기</span>
+          <svg
+            className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </motion.button>
       </motion.aside>
 
       {/* 시각화 영역 */}
