@@ -44,26 +44,30 @@ function App() {
           </motion.div>
         );
       case 'triggers':
+      case 'timeline':  // 원본 사이트와 동일한 해시 지원
         return (
-          <motion.div key="triggers" {...variants}>
+          <motion.div key="timeline" {...variants}>
             <Timeline selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'continents':
+      case 'experience':  // 추가 해시 지원
         return (
-          <motion.div key="continents" {...variants}>
+          <motion.div key="experience" {...variants}>
             <Experience selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'actions':
+      case 'response':  // 추가 해시 지원
         return (
-          <motion.div key="actions" {...variants}>
+          <motion.div key="response" {...variants}>
             <Response selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'links':
+      case 'strategies':  // 추가 해시 지원
         return (
-          <motion.div key="links" {...variants}>
+          <motion.div key="strategies" {...variants}>
             <Strategies selectedEmotion={selectedEmotion} />
           </motion.div>
         );
