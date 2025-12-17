@@ -1,7 +1,34 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions } from '../data/emotions';
-import ActionsGraph from './ActionsGraph';
+
+// 강도별 크기 (확대됨)
+const INTENSITY_SIZES = {
+  high: { size: 70, label: '높은 강도' },
+  medium: { size: 55, label: '중간 강도' },
+  low: { size: 40, label: '낮은 강도' }
+};
+
+// 행동 강도 매핑
+const ACTION_INTENSITIES = {
+  // 분노
+  'ATTACK': 'high', 'YELL': 'high', 'ARGUE': 'medium', 'SCOWL': 'low',
+  'WITHDRAW': 'low', 'SUPPRESS': 'medium', 'COOL DOWN': 'medium', 'ASSERTIVE': 'medium',
+  // 두려움
+  'FREEZE': 'high', 'FLEE': 'high', 'FIGHT': 'high', 'SCREAM': 'medium',
+  'WORRY': 'low', 'HIDE': 'medium', 'BREATHE': 'low', 'SEEK SAFETY': 'medium',
+  // 혐오
+  'RECOIL': 'medium', 'AVOID': 'medium', 'VOMIT': 'high', 'GRIMACE': 'low',
+  'REJECT': 'medium', 'DEHUMANIZE': 'high', 'ACCEPT': 'low', 'UNDERSTAND': 'low',
+  // 슬픔
+  'CRY': 'high', 'WITHDRAW FROM OTHERS': 'medium', 'RUMINATE': 'medium', 'SEEK COMFORT': 'low',
+  'MOURN': 'high', 'ISOLATE': 'medium', 'EXPRESS': 'medium', 'CONNECT': 'low',
+  // 즐거움
+  'SMILE': 'medium', 'LAUGH': 'high', 'SAVOR': 'medium', 'GLOW': 'low',
+  'SHARE': 'medium', 'EXCLAIM': 'high', 'EMBRACE': 'medium', 'CELEBRATE': 'high'
+};
+
+const getIntensity = (actionName) => ACTION_INTENSITIES[actionName?.toUpperCase()] || 'medium';
 
 const Response = ({ selectedEmotion }) => {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -9,98 +36,206 @@ const Response = ({ selectedEmotion }) => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const currentEmotion = selectedEmotion
-    ? emotions[selectedEmotion]
-    : emotions.enjoyment;
-
+  const currentEmotion = selectedEmotion ? emotions[selectedEmotion] : emotions.enjoyment;
   const intrinsicActions = currentEmotion.actions.filter(a => a.type === 'intrinsic');
   const intentionalActions = currentEmotion.actions.filter(a => a.type === 'intentional');
 
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-24 md:py-32"
-      role="region"
-      aria-label="감정 반응"
+      style={{ minHeight: '100vh', padding: '80px 32px 120px', backgroundColor: '#fafafa' }}
     >
-      <div className="max-w-6xl mx-auto w-full">
-        {/* Premium Section Header */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* 헤더 */}
         <motion.header
-          className="section-header"
-          initial={{ opacity: 0, y: -20 }}
+          style={{ textAlign: 'center', marginBottom: '64px' }}
+          initial={{ opacity: 0, y: -30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
         >
-          <h2>
+          <h2 style={{
+            fontSize: '48px',
+            fontWeight: '800',
+            color: '#1a1a1a',
+            marginBottom: '20px'
+          }}>
             감정 반응
           </h2>
-
-          <p>
-            감정은 행동으로 이어집니다. <span className="font-semibold" style={{ color: currentEmotion.color }}>{currentEmotion.name_ko}</span>를 느낄 때
+          <p style={{
+            fontSize: '20px',
+            color: '#666',
+            lineHeight: '1.7',
+            maxWidth: '600px',
+            margin: '0 auto'
+          }}>
+            감정은 행동으로 이어집니다.
+            <span style={{ color: currentEmotion.color, fontWeight: '700' }}> {currentEmotion.name_ko}</span>를 느낄 때
             우리는 본능적 또는 의도적으로 반응합니다.
           </p>
         </motion.header>
 
-        {/* Emotion indicator */}
-        {!selectedEmotion && (
-          <motion.div
-            className="flex justify-center mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="glass rounded-full px-5 py-2.5 flex items-center border border-gray-200/60 shadow-sm">
-              <div
-                className="w-4 h-4 rounded-full mr-3"
-                style={{ backgroundColor: currentEmotion.color }}
-                aria-hidden="true"
-              />
-              <span className="text-gray-600 text-sm font-medium">
-                아래 감정 버튼을 선택하여 다른 반응을 확인하세요
+        {/* 강도 범례 - 확대됨 */}
+        <motion.div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '48px',
+            marginBottom: '48px',
+            padding: '24px 40px',
+            backgroundColor: '#fff',
+            borderRadius: '20px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+        >
+          {Object.entries(INTENSITY_SIZES).map(([key, { size, label }]) => (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                borderRadius: '50%',
+                background: `radial-gradient(circle at 30% 30%, ${currentEmotion.colorLight}, ${currentEmotion.color})`,
+                boxShadow: `0 6px 20px ${currentEmotion.color}40`
+              }} />
+              <span style={{
+                fontSize: '18px',
+                fontWeight: '600',
+                color: '#333'
+              }}>
+                {label}
               </span>
             </div>
-          </motion.div>
-        )}
-
-        {/* Actions Graph */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <ActionsGraph
-            emotion={currentEmotion}
-            selectedAction={selectedAction}
-            setSelectedAction={setSelectedAction}
-          />
+          ))}
         </motion.div>
 
-        {/* Action Types Explanation */}
+        {/* 중앙 감정 원 - 3배 확대 */}
         <motion.div
-          className="mt-12 md:mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '64px'
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ delay: 0.3 }}
+        >
+          <div style={{
+            position: 'relative',
+            width: '450px',
+            height: '450px'
+          }}>
+            {/* 외부 글로우 */}
+            <div style={{
+              position: 'absolute',
+              inset: '-40px',
+              borderRadius: '50%',
+              background: `radial-gradient(circle, ${currentEmotion.color}30 0%, transparent 70%)`,
+              filter: 'blur(30px)'
+            }} />
+
+            {/* 동심원 레이어들 */}
+            {[1, 0.85, 0.70, 0.55, 0.40, 0.25].map((scale, i) => (
+              <motion.div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  top: `${(1 - scale) * 50}%`,
+                  left: `${(1 - scale) * 50}%`,
+                  width: `${scale * 100}%`,
+                  height: `${scale * 100}%`,
+                  borderRadius: '50%',
+                  backgroundColor: currentEmotion.color,
+                  opacity: 0.1 + (i * 0.15)
+                }}
+                initial={{ scale: 0 }}
+                animate={isInView ? { scale: 1 } : {}}
+                transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
+              />
+            ))}
+
+            {/* 중앙 텍스트 */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 10
+            }}>
+              <div style={{
+                fontSize: '40px',
+                fontWeight: '800',
+                color: '#fff',
+                textShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                marginBottom: '8px'
+              }}>
+                {currentEmotion.name_ko}
+              </div>
+              <div style={{
+                fontSize: '16px',
+                fontWeight: '700',
+                color: 'rgba(255,255,255,0.9)',
+                letterSpacing: '3px',
+                textShadow: '0 2px 6px rgba(0,0,0,0.2)'
+              }}>
+                {currentEmotion.name_en?.toUpperCase() || currentEmotion.id?.toUpperCase()}
+              </div>
+            </div>
+
+            {/* 펄스 애니메이션 */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: '50%',
+                border: `3px solid ${currentEmotion.color}`,
+                opacity: 0.3
+              }}
+              animate={{
+                scale: [1, 1.15, 1],
+                opacity: [0.3, 0, 0.3]
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'easeOut'
+              }}
+            />
+          </div>
+        </motion.div>
+
+        {/* 행동 유형 카드들 */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.5 }}
         >
           <button
             onClick={() => setShowActionTypes(!showActionTypes)}
-            className="w-full flex items-center justify-between glass rounded-xl p-5 hover:bg-white/90 transition-all border border-gray-200/60 shadow-sm"
-            aria-expanded={showActionTypes}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '24px 32px',
+              backgroundColor: '#fff',
+              border: 'none',
+              borderRadius: '16px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              cursor: 'pointer',
+              marginBottom: '24px'
+            }}
           >
-            <span className="text-gray-800 font-semibold text-base">
+            <span style={{ fontSize: '22px', fontWeight: '700', color: '#333' }}>
               본능적 행동 vs 의도적 행동
             </span>
-            <motion.svg
-              className="w-5 h-5 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <motion.span
               animate={{ rotate: showActionTypes ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-              aria-hidden="true"
+              style={{ fontSize: '24px', color: '#666' }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </motion.svg>
+              ▼
+            </motion.span>
           </button>
 
           <AnimatePresence>
@@ -109,191 +244,259 @@ const Response = ({ selectedEmotion }) => {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
+                style={{ overflow: 'hidden' }}
               >
-                <div className="grid md:grid-cols-2 gap-8 mt-8">
-                  {/* Intrinsic Actions */}
-                  <div
-                    className="card p-8 md:p-10"
-                    style={{ borderTop: `4px solid ${currentEmotion.color}` }}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '32px',
+                  marginTop: '16px'
+                }}>
+                  {/* 본능적 행동 카드 */}
+                  <motion.div
+                    style={{
+                      backgroundColor: '#fff',
+                      borderRadius: '20px',
+                      padding: '32px',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                      borderTop: `5px solid ${currentEmotion.color}`
+                    }}
+                    whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' }}
                   >
-                    <div className="flex items-center gap-4 mb-5">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-red-50">
-                        <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                      <div style={{
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '16px',
+                        backgroundColor: '#FEE2E2',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '28px'
+                      }}>
+                        ⚡
                       </div>
-                      <h4 className="text-xl font-bold text-gray-800">
-                        본능적 행동
-                      </h4>
+                      <div>
+                        <h4 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                          본능적 행동
+                        </h4>
+                        <p style={{ fontSize: '14px', color: '#888', margin: 0 }}>
+                          Intrinsic Actions
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-gray-500 text-base mb-6 leading-relaxed">
+                    <p style={{ fontSize: '16px', color: '#666', lineHeight: '1.7', marginBottom: '24px' }}>
                       자동적으로 발생하는 반응으로, 의식적 통제 없이 나타납니다.
                       진화적으로 프로그래밍된 행동입니다.
                     </p>
-                    <ul className="space-y-3" role="list">
-                      {intrinsicActions.map((action, i) => (
-                        <motion.li
-                          key={action.name_en}
-                          className="flex items-start"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.08 }}
-                        >
-                          <span
-                            className="w-2.5 h-2.5 rounded-full mt-1.5 mr-3 flex-shrink-0"
-                            style={{ backgroundColor: currentEmotion.color }}
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <span className="text-gray-800 font-medium">{action.name_ko}</span>
-                            <span className="text-gray-400 text-sm ml-2">
-                              ({action.name_en})
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                      {intrinsicActions.map((action, i) => {
+                        const intensity = getIntensity(action.name_en);
+                        const size = INTENSITY_SIZES[intensity].size;
+                        return (
+                          <motion.button
+                            key={action.name_en}
+                            onClick={() => setSelectedAction(action)}
+                            style={{
+                              padding: '14px 24px',
+                              backgroundColor: `${currentEmotion.color}15`,
+                              border: `2px solid ${currentEmotion.color}40`,
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '10px'
+                            }}
+                            whileHover={{ scale: 1.05, backgroundColor: `${currentEmotion.color}25` }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <span style={{
+                              width: `${size / 3}px`,
+                              height: `${size / 3}px`,
+                              borderRadius: '50%',
+                              backgroundColor: currentEmotion.color
+                            }} />
+                            <span style={{ fontSize: '16px', fontWeight: '600', color: '#333' }}>
+                              {action.name_ko}
                             </span>
-                            {action.description_ko && (
-                              <p className="text-gray-500 text-sm mt-1 leading-relaxed">
-                                {action.description_ko}
-                              </p>
-                            )}
-                          </div>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Intentional Actions */}
-                  <div
-                    className="card p-8 md:p-10"
-                    style={{ borderTop: `4px solid ${currentEmotion.colorLight}` }}
-                  >
-                    <div className="flex items-center gap-4 mb-5">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-green-50">
-                        <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-xl font-bold text-gray-800">
-                        의도적 행동
-                      </h4>
+                          </motion.button>
+                        );
+                      })}
                     </div>
-                    <p className="text-gray-500 text-base mb-6 leading-relaxed">
+                  </motion.div>
+
+                  {/* 의도적 행동 카드 */}
+                  <motion.div
+                    style={{
+                      backgroundColor: '#fff',
+                      borderRadius: '20px',
+                      padding: '32px',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                      borderTop: `5px solid ${currentEmotion.colorLight}`
+                    }}
+                    whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                      <div style={{
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '16px',
+                        backgroundColor: '#D1FAE5',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '28px'
+                      }}>
+                        🧠
+                      </div>
+                      <div>
+                        <h4 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                          의도적 행동
+                        </h4>
+                        <p style={{ fontSize: '14px', color: '#888', margin: 0 }}>
+                          Intentional Actions
+                        </p>
+                      </div>
+                    </div>
+                    <p style={{ fontSize: '16px', color: '#666', lineHeight: '1.7', marginBottom: '24px' }}>
                       의식적으로 선택하는 반응으로, 감정을 건설적으로 다루는 방법입니다.
                       학습과 연습을 통해 발달시킬 수 있습니다.
                     </p>
-                    <ul className="space-y-3" role="list">
-                      {intentionalActions.map((action, i) => (
-                        <motion.li
-                          key={action.name_en}
-                          className="flex items-start"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.08 }}
-                        >
-                          <span
-                            className="w-2.5 h-2.5 rounded-full mt-1.5 mr-3 flex-shrink-0"
-                            style={{ backgroundColor: currentEmotion.colorLight }}
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <span className="text-gray-800 font-medium">{action.name_ko}</span>
-                            <span className="text-gray-400 text-sm ml-2">
-                              ({action.name_en})
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                      {intentionalActions.map((action, i) => {
+                        const intensity = getIntensity(action.name_en);
+                        const size = INTENSITY_SIZES[intensity].size;
+                        return (
+                          <motion.button
+                            key={action.name_en}
+                            onClick={() => setSelectedAction(action)}
+                            style={{
+                              padding: '14px 24px',
+                              backgroundColor: `${currentEmotion.colorLight}20`,
+                              border: `2px solid ${currentEmotion.colorLight}50`,
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '10px'
+                            }}
+                            whileHover={{ scale: 1.05, backgroundColor: `${currentEmotion.colorLight}35` }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <span style={{
+                              width: `${size / 3}px`,
+                              height: `${size / 3}px`,
+                              borderRadius: '50%',
+                              backgroundColor: currentEmotion.colorLight
+                            }} />
+                            <span style={{ fontSize: '16px', fontWeight: '600', color: '#333' }}>
+                              {action.name_ko}
                             </span>
-                            {action.description_ko && (
-                              <p className="text-gray-500 text-sm mt-1 leading-relaxed">
-                                {action.description_ko}
-                              </p>
-                            )}
-                          </div>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
 
-        {/* Selected Action Detail Modal */}
+        {/* 행동 상세 모달 */}
         <AnimatePresence>
           {selectedAction && (
-            <motion.div
-              className="fixed inset-0 flex items-center justify-center z-50 p-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="action-dialog-title"
-            >
-              <div
-                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  zIndex: 999
+                }}
                 onClick={() => setSelectedAction(null)}
-                aria-hidden="true"
               />
               <motion.div
-                className="relative bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl"
-                initial={{ scale: 0.9, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 style={{
-                  borderLeft: `4px solid ${
-                    selectedAction.type === 'intrinsic'
-                      ? currentEmotion.color
-                      : currentEmotion.colorLight
-                  }`
+                  position: 'fixed',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  backgroundColor: '#fff',
+                  borderRadius: '24px',
+                  padding: '40px',
+                  maxWidth: '480px',
+                  width: '90%',
+                  boxShadow: '0 24px 80px rgba(0,0,0,0.25)',
+                  borderLeft: `6px solid ${selectedAction.type === 'intrinsic' ? currentEmotion.color : currentEmotion.colorLight}`,
+                  zIndex: 1000
                 }}
               >
                 <button
                   onClick={() => setSelectedAction(null)}
-                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-                  aria-label="닫기"
+                  style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    border: 'none',
+                    backgroundColor: '#f5f5f5',
+                    cursor: 'pointer',
+                    fontSize: '20px',
+                    color: '#666'
+                  }}
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  ✕
                 </button>
 
-                <div className="flex items-center gap-3 mb-5">
-                  <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold ${
-                      selectedAction.type === 'intrinsic'
-                        ? 'bg-red-100 text-red-600'
-                        : 'bg-green-100 text-green-600'
-                    }`}
-                  >
-                    {selectedAction.type === 'intrinsic' ? '본능적' : '의도적'}
-                  </span>
+                <div style={{
+                  display: 'inline-block',
+                  padding: '8px 20px',
+                  borderRadius: '20px',
+                  backgroundColor: selectedAction.type === 'intrinsic' ? '#FEE2E2' : '#D1FAE5',
+                  color: selectedAction.type === 'intrinsic' ? '#DC2626' : '#059669',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  marginBottom: '20px'
+                }}>
+                  {selectedAction.type === 'intrinsic' ? '⚡ 본능적' : '🧠 의도적'}
                 </div>
 
-                <h3 id="action-dialog-title" className="text-xl font-bold text-gray-800 mb-2">
+                <h3 style={{ fontSize: '32px', fontWeight: '800', color: '#1a1a1a', marginBottom: '8px' }}>
                   {selectedAction.name_ko}
-                  <span className="text-gray-400 text-sm font-normal ml-2">
-                    ({selectedAction.name_en})
-                  </span>
                 </h3>
+                <p style={{ fontSize: '14px', color: '#888', marginBottom: '24px', letterSpacing: '1px' }}>
+                  {selectedAction.name_en}
+                </p>
 
-                <p className="text-gray-600 leading-relaxed text-[15px]">
+                <p style={{ fontSize: '18px', color: '#444', lineHeight: '1.8' }}>
                   {selectedAction.description_ko}
                 </p>
 
                 {selectedAction.type === 'intentional' && (
-                  <div className="mt-5 p-4 bg-green-50 rounded-xl border border-green-100">
-                    <div className="flex items-start gap-3">
-                      <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                      <p className="text-green-700 text-sm leading-relaxed">
-                        의도적 행동은 연습을 통해 더 자연스럽게 할 수 있습니다.
-                        처음에는 의식적 노력이 필요하지만, 점차 자동적으로 됩니다.
-                      </p>
-                    </div>
+                  <div style={{
+                    marginTop: '24px',
+                    padding: '20px',
+                    backgroundColor: '#F0FDF4',
+                    borderRadius: '16px',
+                    border: '1px solid #BBF7D0'
+                  }}>
+                    <p style={{ fontSize: '15px', color: '#166534', margin: 0, display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                      <span style={{ fontSize: '20px' }}>💡</span>
+                      <span>의도적 행동은 연습을 통해 더 자연스럽게 할 수 있습니다. 처음에는 의식적 노력이 필요하지만, 점차 자동적으로 됩니다.</span>
+                    </p>
                   </div>
                 )}
               </motion.div>
-            </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
