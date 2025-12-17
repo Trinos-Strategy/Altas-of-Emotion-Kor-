@@ -43,7 +43,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
         aria-label="메인 네비게이션"
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-18">
+          <div className="flex items-center justify-between h-18 lg:h-20">
             {/* Logo */}
             <motion.button
               onClick={() => onSectionChange('introduction')}
@@ -77,7 +77,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                   <motion.button
                     key={section}
                     onClick={() => onSectionChange(section)}
-                    className={`relative px-4 py-2.5 text-sm font-medium transition-colors duration-200 rounded-lg ${
+                    className={`relative px-5 py-3 text-base font-medium transition-colors duration-200 rounded-lg tracking-wide ${
                       isActive
                         ? 'text-gray-900'
                         : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50'
@@ -103,7 +103,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
 
             {/* Language & Mobile Menu */}
             <div className="flex items-center gap-3">
-              <span className="hidden md:block text-gray-400 text-sm font-medium">
+              <span className="hidden md:block text-gray-400 text-base font-medium">
                 한국어
               </span>
 
@@ -146,7 +146,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                         onSectionChange(section);
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all ${
+                      className={`w-full text-left px-5 py-4 rounded-xl text-lg font-medium transition-all ${
                         isActive
                           ? 'bg-gray-900 text-white'
                           : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
