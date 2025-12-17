@@ -800,12 +800,16 @@ const Experience = ({ selectedEmotion }) => {
             borderRight: '1px solid #e5e5e5',
             padding: '48px 36px',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            height: '100vh',
+            position: 'sticky',
+            top: 0,
+            overflowY: 'auto'
           }}
           initial={{ opacity: 0, x: -30 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
         >
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, overflowY: 'auto', paddingBottom: '20px' }}>
             <h2 style={{
               fontSize: '34px',
               fontWeight: '700',
@@ -894,30 +898,40 @@ const Experience = ({ selectedEmotion }) => {
             </div>
           </div>
 
-          {/* Learn More 버튼 */}
-          <motion.button
-            onClick={() => setShowLearnMore(true)}
-            style={{
-              width: '100%',
-              padding: '20px 24px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '14px',
-              fontSize: '18px',
-              fontWeight: '700',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              boxShadow: '0 8px 30px rgba(102, 126, 234, 0.4)'
-            }}
-            whileHover={{ scale: 1.02, boxShadow: '0 12px 40px rgba(102, 126, 234, 0.5)' }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span>📊 연구 통계 더 알아보기</span>
-            <span style={{ fontSize: '20px' }}>→</span>
-          </motion.button>
+            {/* Learn More 버튼 - 항상 하단에 고정 */}
+          <div style={{
+            flexShrink: 0,
+            padding: '20px 0 0',
+            marginTop: 'auto',
+            position: 'relative',
+            zIndex: 100
+          }}>
+            <motion.button
+              onClick={() => setShowLearnMore(true)}
+              style={{
+                width: '100%',
+                padding: '20px 24px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '14px',
+                fontSize: '18px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                boxShadow: '0 8px 30px rgba(102, 126, 234, 0.4)',
+                position: 'relative',
+                zIndex: 100
+              }}
+              whileHover={{ scale: 1.02, boxShadow: '0 12px 40px rgba(102, 126, 234, 0.5)' }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>📊 연구 통계 더 알아보기</span>
+              <span style={{ fontSize: '20px' }}>→</span>
+            </motion.button>
+          </div>
         </motion.aside>
 
         {/* 오른쪽 시각화 영역 */}
