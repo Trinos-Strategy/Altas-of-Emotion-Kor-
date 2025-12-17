@@ -31,67 +31,122 @@ const Navigation = ({ activeSection, onSectionChange }) => {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'glass shadow-md border-b border-gray-200/50'
-            : 'bg-white/80 backdrop-blur-sm border-b border-gray-100'
-        }`}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
+          backdropFilter: 'blur(8px)',
+          borderBottom: '1px solid rgba(0,0,0,0.08)',
+          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.08)' : 'none',
+          transition: 'all 0.3s ease'
+        }}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
         role="navigation"
         aria-label="메인 네비게이션"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 lg:h-20">
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
             {/* Logo */}
             <motion.button
               onClick={() => onSectionChange('introduction')}
-              className="flex items-center gap-3 group"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               aria-label="홈으로 이동"
             >
-              <div className="relative w-11 h-11 bg-gray-900 rounded-full flex items-center justify-center overflow-hidden group-hover:bg-gray-800 transition-colors">
-                <span className="text-white text-[9px] font-bold leading-tight text-center tracking-tight">
+              <div style={{
+                width: '44px',
+                height: '44px',
+                backgroundColor: '#1a1a1a',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <span style={{
+                  color: '#fff',
+                  fontSize: '9px',
+                  fontWeight: '700',
+                  lineHeight: '1.2',
+                  textAlign: 'center'
+                }}>
                   감정<br />지도
                 </span>
-                {/* Subtle gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <div className="hidden sm:block">
-                <span className="text-gray-900 text-xs font-bold uppercase tracking-wider">
+                <span style={{ color: '#1a1a1a', fontSize: '14px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>
                   Atlas
                 </span>
-                <span className="text-gray-400 text-xs font-bold uppercase tracking-wider ml-1">
+                <span style={{ color: '#888', fontSize: '14px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', marginLeft: '4px' }}>
                   of Emotions
                 </span>
               </div>
             </motion.button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {sections.slice(1).map((section, index) => {
                 const isActive = activeSection === section;
                 return (
                   <motion.button
                     key={section}
                     onClick={() => onSectionChange(section)}
-                    className={`relative px-5 py-3 text-base font-medium transition-colors duration-200 rounded-lg tracking-wide ${
-                      isActive
-                        ? 'text-gray-900'
-                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/50'
-                    }`}
+                    style={{
+                      position: 'relative',
+                      padding: '12px 20px',
+                      fontSize: '18px',
+                      fontWeight: isActive ? '700' : '600',
+                      color: isActive ? '#1a1a1a' : '#666',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      letterSpacing: '0.5px',
+                      transition: 'all 0.2s ease'
+                    }}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05, duration: 0.3 }}
                     aria-current={isActive ? 'page' : undefined}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = '#1a1a1a';
+                        e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.05)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = '#666';
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
                   >
                     {sectionNames[section].ko}
                     {/* Active indicator */}
                     {isActive && (
                       <motion.div
-                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-gray-900 rounded-full"
+                        style={{
+                          position: 'absolute',
+                          bottom: '4px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: '24px',
+                          height: '3px',
+                          backgroundColor: '#1a1a1a',
+                          borderRadius: '2px'
+                        }}
                         layoutId="activeIndicator"
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                       />
@@ -102,19 +157,28 @@ const Navigation = ({ activeSection, onSectionChange }) => {
             </div>
 
             {/* Language & Mobile Menu */}
-            <div className="flex items-center gap-3">
-              <span className="hidden md:block text-gray-400 text-base font-medium">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span className="hidden md:block" style={{ color: '#888', fontSize: '16px', fontWeight: '500' }}>
                 한국어
               </span>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                className="md:hidden"
+                style={{
+                  padding: '8px',
+                  marginRight: '-8px',
+                  color: '#333',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer'
+                }}
                 aria-expanded={mobileMenuOpen}
                 aria-label="메뉴 열기"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ width: '28px', height: '28px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {mobileMenuOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   ) : (
@@ -130,13 +194,18 @@ const Navigation = ({ activeSection, onSectionChange }) => {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-lg"
+              className="md:hidden"
+              style={{
+                borderTop: '1px solid rgba(0,0,0,0.08)',
+                backgroundColor: 'rgba(255,255,255,0.98)',
+                backdropFilter: 'blur(8px)'
+              }}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="px-4 py-3 space-y-1">
+              <div style={{ padding: '16px' }}>
                 {sections.slice(1).map((section) => {
                   const isActive = activeSection === section;
                   return (
@@ -146,16 +215,25 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                         onSectionChange(section);
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-5 py-4 rounded-xl text-lg font-medium transition-all ${
-                        isActive
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                      }`}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '16px 20px',
+                        borderRadius: '12px',
+                        fontSize: '18px',
+                        fontWeight: isActive ? '700' : '600',
+                        backgroundColor: isActive ? '#1a1a1a' : 'transparent',
+                        color: isActive ? '#fff' : '#333',
+                        border: 'none',
+                        cursor: 'pointer',
+                        marginBottom: '4px',
+                        transition: 'all 0.2s ease'
+                      }}
                     >
-                      <div className="flex items-center justify-between">
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span>{sectionNames[section].ko}</span>
                         {isActive && (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         )}
@@ -173,7 +251,13 @@ const Navigation = ({ activeSection, onSectionChange }) => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 bg-black/20 z-40 md:hidden"
+            className="md:hidden"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              zIndex: 40
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
