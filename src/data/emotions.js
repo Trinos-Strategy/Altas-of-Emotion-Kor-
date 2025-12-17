@@ -616,6 +616,255 @@ export const timelineSteps = {
   ]
 };
 
+// 감정별 상세 트리거 및 반응 데이터 (원본 사이트 기반)
+export const emotionTriggersResponses = {
+  anger: {
+    triggers: [
+      { text_ko: "친구가 당신에게 화를 낸다", text_en: "A friend gets upset with you" },
+      { text_ko: "누군가가 당신의 목표를 방해한다", text_en: "Someone interferes with your goals" },
+      { text_ko: "부당한 대우를 받는다", text_en: "You are treated unfairly" },
+      { text_ko: "누군가가 당신을 모욕한다", text_en: "Someone insults you" },
+      { text_ko: "기대한 것이 충족되지 않는다", text_en: "Expectations are not met" },
+      { text_ko: "통제력을 잃는다", text_en: "You lose control of a situation" },
+      { text_ko: "거짓말을 당한다", text_en: "You are lied to" },
+      { text_ko: "배신당한다", text_en: "You are betrayed" }
+    ],
+    intrinsicActions: [
+      { text_ko: "말다툼", text_en: "Quarrel", type: "ambiguous" },
+      { text_ko: "공격", text_en: "Attack", type: "destructive" },
+      { text_ko: "위협", text_en: "Threaten", type: "destructive" },
+      { text_ko: "격분/폭발", text_en: "Explode", type: "destructive" },
+      { text_ko: "소리 지르기", text_en: "Yell", type: "destructive" },
+      { text_ko: "침묵하기", text_en: "Go silent", type: "ambiguous" }
+    ],
+    intentionalActions: [
+      { text_ko: "한계 설정하기", text_en: "Set limits", type: "constructive" },
+      { text_ko: "자기주장하기", text_en: "Assert oneself", type: "constructive" },
+      { text_ko: "문제 해결하기", text_en: "Problem solve", type: "constructive" },
+      { text_ko: "협상하기", text_en: "Negotiate", type: "constructive" },
+      { text_ko: "진정하기", text_en: "Calm down", type: "constructive" },
+      { text_ko: "관점 바꾸기", text_en: "Change perspective", type: "constructive" },
+      { text_ko: "용서하기", text_en: "Forgive", type: "constructive" }
+    ],
+    signal: {
+      text_ko: "노려보기, 내려간 눈썹, 좁아진 입술, 긴장된 턱, 붉어진 얼굴",
+      text_en: "Glaring eyes, lowered eyebrows, narrowed lips, tense jaw, flushed face"
+    },
+    message: {
+      text_ko: "내 앞에서 비켜라",
+      text_en: "Get out of my way"
+    }
+  },
+  fear: {
+    triggers: [
+      { text_ko: "어두운 골목을 혼자 걷는다", text_en: "Walking alone through a dark alley" },
+      { text_ko: "높은 곳에 서있다", text_en: "Standing in a high place" },
+      { text_ko: "중요한 발표를 앞두고 있다", text_en: "Facing an important presentation" },
+      { text_ko: "갑작스러운 큰 소리가 난다", text_en: "Sudden loud noise" },
+      { text_ko: "건강에 대한 나쁜 소식을 듣는다", text_en: "Receiving bad health news" },
+      { text_ko: "미래가 불확실하다", text_en: "Uncertain future" },
+      { text_ko: "사랑하는 사람이 위험에 처했다", text_en: "Loved one in danger" },
+      { text_ko: "실패할 것 같은 느낌이 든다", text_en: "Feeling you might fail" }
+    ],
+    intrinsicActions: [
+      { text_ko: "회피", text_en: "Avoid", type: "ambiguous" },
+      { text_ko: "도주", text_en: "Flee", type: "ambiguous" },
+      { text_ko: "경직/얼어붙음", text_en: "Freeze", type: "ambiguous" },
+      { text_ko: "숨기", text_en: "Hide", type: "ambiguous" },
+      { text_ko: "비명 지르기", text_en: "Scream", type: "ambiguous" },
+      { text_ko: "웅크리기", text_en: "Cower", type: "destructive" }
+    ],
+    intentionalActions: [
+      { text_ko: "확인하기", text_en: "Check", type: "constructive" },
+      { text_ko: "대비하기", text_en: "Prepare", type: "constructive" },
+      { text_ko: "도움 구하기", text_en: "Seek help", type: "constructive" },
+      { text_ko: "직면하기", text_en: "Confront", type: "constructive" },
+      { text_ko: "심호흡하기", text_en: "Deep breathing", type: "constructive" },
+      { text_ko: "정보 수집하기", text_en: "Gather information", type: "constructive" },
+      { text_ko: "계획 세우기", text_en: "Make a plan", type: "constructive" }
+    ],
+    signal: {
+      text_ko: "크게 뜬 눈, 올라간 눈썹, 수평으로 늘어난 입술, 창백한 얼굴",
+      text_en: "Wide eyes, raised eyebrows, horizontally stretched lips, pale face"
+    },
+    message: {
+      text_ko: "도와주세요",
+      text_en: "Help me"
+    }
+  },
+  disgust: {
+    triggers: [
+      { text_ko: "썩은 음식 냄새를 맡는다", text_en: "Smelling rotten food" },
+      { text_ko: "비위생적인 환경을 본다", text_en: "Seeing an unsanitary environment" },
+      { text_ko: "비도덕적 행위를 목격한다", text_en: "Witnessing immoral behavior" },
+      { text_ko: "거짓말을 당한다", text_en: "Being lied to" },
+      { text_ko: "역겨운 광경을 본다", text_en: "Seeing something revolting" },
+      { text_ko: "누군가의 위선을 본다", text_en: "Seeing someone's hypocrisy" },
+      { text_ko: "경멸할 만한 행동을 본다", text_en: "Seeing contemptible behavior" },
+      { text_ko: "부패나 타락을 목격한다", text_en: "Witnessing corruption" }
+    ],
+    intrinsicActions: [
+      { text_ko: "밀어내기", text_en: "Push away", type: "ambiguous" },
+      { text_ko: "피하기", text_en: "Avoid", type: "ambiguous" },
+      { text_ko: "구역질", text_en: "Gag", type: "ambiguous" },
+      { text_ko: "경멸하기", text_en: "Scorn", type: "destructive" },
+      { text_ko: "고개 돌리기", text_en: "Turn away", type: "ambiguous" },
+      { text_ko: "비난하기", text_en: "Criticize", type: "destructive" }
+    ],
+    intentionalActions: [
+      { text_ko: "재평가하기", text_en: "Reappraise", type: "constructive" },
+      { text_ko: "정화/청소하기", text_en: "Cleanse", type: "constructive" },
+      { text_ko: "거리두기", text_en: "Distance", type: "constructive" },
+      { text_ko: "이해하려 노력하기", text_en: "Try to understand", type: "constructive" },
+      { text_ko: "연민 가지기", text_en: "Have compassion", type: "constructive" },
+      { text_ko: "상황 개선하기", text_en: "Improve situation", type: "constructive" }
+    ],
+    signal: {
+      text_ko: "찡그린 코, 올라간 윗입술, 좁아진 눈, 고개 돌림",
+      text_en: "Wrinkled nose, raised upper lip, narrowed eyes, head turning away"
+    },
+    message: {
+      text_ko: "저것을 멀리해라",
+      text_en: "Get that away from me"
+    }
+  },
+  sadness: {
+    triggers: [
+      { text_ko: "사랑하는 사람을 잃는다", text_en: "Losing a loved one" },
+      { text_ko: "중요한 목표에 실패한다", text_en: "Failing at an important goal" },
+      { text_ko: "외로움을 느낀다", text_en: "Feeling lonely" },
+      { text_ko: "거절당한다", text_en: "Being rejected" },
+      { text_ko: "소중한 것을 잃는다", text_en: "Losing something precious" },
+      { text_ko: "기대가 무너진다", text_en: "Expectations shattered" },
+      { text_ko: "이별을 겪는다", text_en: "Going through separation" },
+      { text_ko: "무력함을 느낀다", text_en: "Feeling helpless" }
+    ],
+    intrinsicActions: [
+      { text_ko: "울기", text_en: "Cry", type: "ambiguous" },
+      { text_ko: "위축되기", text_en: "Withdraw", type: "ambiguous" },
+      { text_ko: "신음하기", text_en: "Moan", type: "ambiguous" },
+      { text_ko: "포기하기", text_en: "Give up", type: "destructive" },
+      { text_ko: "한숨 쉬기", text_en: "Sigh", type: "ambiguous" },
+      { text_ko: "혼자 있기", text_en: "Isolate", type: "ambiguous" }
+    ],
+    intentionalActions: [
+      { text_ko: "위로 구하기", text_en: "Seek comfort", type: "constructive" },
+      { text_ko: "애도하기", text_en: "Mourn", type: "constructive" },
+      { text_ko: "회복하기", text_en: "Recover", type: "constructive" },
+      { text_ko: "지지 요청하기", text_en: "Ask for support", type: "constructive" },
+      { text_ko: "성찰하기", text_en: "Reflect", type: "constructive" },
+      { text_ko: "감정 표현하기", text_en: "Express feelings", type: "constructive" },
+      { text_ko: "앞으로 나아가기", text_en: "Move forward", type: "constructive" }
+    ],
+    signal: {
+      text_ko: "처진 눈꺼풀, 축 처진 어깨, 느린 움직임, 눈물",
+      text_en: "Drooping eyelids, slumped shoulders, slow movements, tears"
+    },
+    message: {
+      text_ko: "나를 위로해주세요",
+      text_en: "Comfort me"
+    }
+  },
+  enjoyment: {
+    triggers: [
+      { text_ko: "사랑하는 사람을 만난다", text_en: "Meeting a loved one" },
+      { text_ko: "목표를 달성한다", text_en: "Achieving a goal" },
+      { text_ko: "맛있는 음식을 먹는다", text_en: "Eating delicious food" },
+      { text_ko: "아름다운 풍경을 본다", text_en: "Seeing a beautiful view" },
+      { text_ko: "성공을 경험한다", text_en: "Experiencing success" },
+      { text_ko: "감사한 순간을 경험한다", text_en: "Experiencing gratitude" },
+      { text_ko: "사랑받는다고 느낀다", text_en: "Feeling loved" },
+      { text_ko: "도전을 극복한다", text_en: "Overcoming a challenge" }
+    ],
+    intrinsicActions: [
+      { text_ko: "외치다/환호", text_en: "Exclaim", type: "constructive" },
+      { text_ko: "참여/연결하기", text_en: "Engage/Connect", type: "constructive" },
+      { text_ko: "우쭐대기", text_en: "Gloat", type: "ambiguous" },
+      { text_ko: "탐닉하기", text_en: "Indulge", type: "ambiguous" },
+      { text_ko: "웃기", text_en: "Laugh", type: "constructive" },
+      { text_ko: "껴안기", text_en: "Hug", type: "constructive" }
+    ],
+    intentionalActions: [
+      { text_ko: "유지하기", text_en: "Maintain", type: "constructive" },
+      { text_ko: "음미하기", text_en: "Savor", type: "constructive" },
+      { text_ko: "더 추구하기", text_en: "Seek more", type: "ambiguous" },
+      { text_ko: "나누기", text_en: "Share", type: "constructive" },
+      { text_ko: "감사 표현하기", text_en: "Express gratitude", type: "constructive" },
+      { text_ko: "축하하기", text_en: "Celebrate", type: "constructive" },
+      { text_ko: "기억하기", text_en: "Remember", type: "constructive" }
+    ],
+    signal: {
+      text_ko: "진짜 미소 (뒤센 미소), 밝은 눈, 이완된 자세, 웃음",
+      text_en: "Genuine smile (Duchenne), bright eyes, relaxed posture, laughter"
+    },
+    message: {
+      text_ko: "이 순간을 함께 나누고 싶다",
+      text_en: "I want to share this moment"
+    }
+  }
+};
+
+// 감정 에피소드 타임라인 상세 단계 (HOW DOES THIS HAPPEN)
+export const emotionalEpisodeSteps = {
+  steps: [
+    {
+      id: 1,
+      name_ko: "사전 조건",
+      name_en: "PRE-CONDITION",
+      description_ko: "감정에 영향을 미치는 상황이나 맥락입니다. 과거 경험, 현재 기분, 성격 특성, 신체 상태 등이 포함됩니다. 이러한 요소들이 다음에 오는 자극에 대한 우리의 반응 방식을 형성합니다.",
+      description_en: "The situation or context that influences emotions. This includes past experiences, current mood, personality traits, physical state, etc. These factors shape how we respond to stimuli.",
+      color: "#f5f5f5",
+      icon: "conditions"
+    },
+    {
+      id: 2,
+      name_ko: "이벤트",
+      name_en: "EVENT",
+      description_ko: "외부 또는 내부에서 마주치는 사람, 장소, 상황, 이미지, 생각 등입니다. 세상에서 무언가가 일어나거나 우리 마음속에서 생각이 떠오릅니다.",
+      description_en: "A person, place, situation, image, or thought encountered externally or internally. Something happens in the world or a thought arises in our mind.",
+      color: "#FFE5D4",
+      icon: "event"
+    },
+    {
+      id: 3,
+      name_ko: "트리거",
+      name_en: "TRIGGER",
+      description_ko: "자동 평가 시스템이 데이터베이스의 감정 스크립트와 일치하는 조합을 찾을 때 발생합니다. 이 평가는 밀리초 단위로 무의식적으로 일어납니다.",
+      description_en: "Occurs when the automatic appraisal system finds a match with emotional scripts in the database. This evaluation happens unconsciously in milliseconds.",
+      color: "emotion",
+      icon: "trigger"
+    },
+    {
+      id: 4,
+      name_ko: "경험",
+      name_en: "EXPERIENCE",
+      description_ko: "감정 자체를 경험하는 단계입니다. 신체적 변화(얼굴의 열감, 턱이나 어깨의 긴장, 심박수 증가 등)와 심리적 변화(감정의 질적 경험)가 함께 나타납니다.",
+      description_en: "The stage of experiencing the emotion itself. Physical changes (facial warmth, jaw/shoulder tension, increased heart rate) and psychological changes (qualitative experience of emotion) occur together.",
+      color: "emotion",
+      icon: "experience",
+      subComponents: [
+        { name_ko: "신체적 변화", name_en: "Physical Changes", description_ko: "얼굴의 열감, 턱이나 어깨의 긴장, 심박수 증가 등 자율신경계의 반응" },
+        { name_ko: "심리적 변화", name_en: "Psychological Changes", description_ko: "감정의 질적 경험, 특정 감정에 대한 주관적 느낌" },
+        { name_ko: "지각 데이터베이스", name_en: "Perception Database", description_ko: "보편적 감정 기억과 개인적 경험이 저장된 곳" }
+      ]
+    },
+    {
+      id: 5,
+      name_ko: "반응",
+      name_en: "RESPONSE",
+      description_ko: "감정적 반응 단계입니다. 건설적(도움이 되는) 또는 파괴적(해로운) 행동이 나타날 수 있습니다. 이 단계에서 선택적 필터 기간이 시작되어 감정과 일치하는 정보만 받아들이게 됩니다.",
+      description_en: "The emotional response stage. Constructive (helpful) or destructive (harmful) actions may occur. The selective filter period begins, accepting only information consistent with the emotion.",
+      color: "emotion",
+      icon: "response",
+      subComponents: [
+        { name_ko: "행동", name_en: "Action", description_ko: "감정적 반응 - 건설적 또는 파괴적" },
+        { name_ko: "사후 조건", name_en: "Post-Condition", description_ko: "감정 행동의 결과와 영향" },
+        { name_ko: "선택적 필터 기간", name_en: "Selective Filter Period", description_ko: "행동 시작과 함께 개시되는 선택적 필터링" }
+      ]
+    }
+  ]
+};
+
 export const emotionalEpisodeTimeline = {
   title_ko: "감정 에피소드 타임라인",
   title_en: "Emotional Episode Timeline",
