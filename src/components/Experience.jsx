@@ -105,13 +105,22 @@ const EMOTION_DATA = {
   }
 };
 
-// 감정 도형 위치 (겹치지 않도록 배치 - 수정됨)
+// 감정 도형 위치 (원본 atlasofemotions.org와 동일하게 배치)
 const EMOTION_POSITIONS = {
-  enjoyment: { top: '5%', left: '30%' },      // 상단 중앙-좌
-  fear: { top: '8%', right: '8%' },            // 상단 우측 (이동)
-  anger: { top: '45%', left: '5%' },           // 중앙 좌측
-  sadness: { bottom: '5%', right: '25%' },     // 하단 우측 (이동)
-  disgust: { bottom: '8%', left: '15%' }       // 하단 좌측
+  fear: { top: '10%', right: '5%' },           // 오른쪽 상단
+  sadness: { top: '15%', left: '25%' },        // 왼쪽 상단
+  enjoyment: { top: '45%', right: '8%' },      // 오른쪽 중앙
+  anger: { bottom: '20%', left: '35%' },       // 중앙 하단
+  disgust: { bottom: '15%', right: '30%' }     // 오른쪽 하단
+};
+
+// 감정별 동심원 레이어 개수 (원본 사이트 기준)
+const EMOTION_LAYERS = {
+  anger: [1, 0.82, 0.64, 0.46, 0.28],      // 5개 레이어
+  fear: [1, 0.78, 0.56, 0.34],              // 4개 레이어
+  disgust: [1, 0.78, 0.56, 0.34],           // 4개 레이어
+  sadness: [1, 0.70, 0.40],                 // 3개 레이어
+  enjoyment: [1, 0.82, 0.64, 0.46, 0.28]   // 5개 레이어
 };
 
 // 연구 통계 데이터
@@ -130,7 +139,7 @@ const RESEARCH_STATS = [
   { percent: 3, text_en: 'Emotions are both biologically separate and socially constructed', text_ko: '생물학적+사회적으로 구성됨' }
 ];
 
-const ACADEMIC_DESCRIPTION = `The existence of "compelling evidence for universals in any aspect of emotion" was endorsed by 88% of the respondents. The evidence supporting universal signals (face or voice) was endorsed by 80%. There was less agreement about whether there is compelling evidence for universals in the events that trigger an emotion (66%), physiology (51%), or appraisal mechanisms (49%). Thus, Darwin's claim in 1872 and the more recent work of Ekman and Friesen (1969) and Izard (1971) regarding the universality of some facial expressions were supported.`;
+const ACADEMIC_DESCRIPTION = `The existence of "compelling evidence for universals in any aspect of emotion" was endorsed by 88% of the respondents. The evidence supporting universal signals (face or voice) was endorsed by 80%. There was less agreement about whether there is compelling evidence for universals in the events that trigger an emotion (66%), physiology (51%), or appraisal mechanisms (44%). Thus, Darwin's claim in 1872 and the more recent work of Ekman and Friesen (1969) and Izard (1971) regarding the universality of some facial expressions were supported.`;
 
 // SVG 도형 컴포넌트들
 const EmotionShape = ({ shape, size, color, lightColor, opacity = 1 }) => {
@@ -179,7 +188,7 @@ const EmotionShape = ({ shape, size, color, lightColor, opacity = 1 }) => {
 // 다중 레이어 감정 도형 컴포넌트
 const LayeredEmotionShape = ({ emotion, data, isSelected, isHovered, onClick, onHover, position }) => {
   const baseSize = data.size * 1.3;
-  const layers = [1, 0.82, 0.64, 0.46, 0.28];
+  const layers = EMOTION_LAYERS[emotion] || [1, 0.78, 0.56, 0.34]; // 감정별 레이어 개수 적용
 
   return (
     <motion.div
@@ -233,7 +242,7 @@ const LayeredEmotionShape = ({ emotion, data, isSelected, isHovered, onClick, on
             size={baseSize * scale}
             color={data.primary}
             lightColor={data.light}
-            opacity={0.15 + (i * 0.2)}
+            opacity={0.15 + (i * (0.8 / Math.max(layers.length - 1, 1)))}
           />
         </div>
       ))}
