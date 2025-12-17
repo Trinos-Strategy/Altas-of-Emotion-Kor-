@@ -165,8 +165,8 @@ function App() {
         onSectionChange={handleSectionChange}
       />
 
-      {/* Main Content - 네비게이션 높이(80px) 고려한 padding-top */}
-      <main className={isIntroduction ? 'pt-0' : 'pt-20 lg:pt-24 pb-24'}>
+      {/* Main Content - 네비게이션 높이(72px) 고려한 padding-top */}
+      <main style={{ paddingTop: isIntroduction ? '0' : '72px', paddingBottom: '96px' }}>
         <AnimatePresence mode="wait">
           {renderSection()}
         </AnimatePresence>

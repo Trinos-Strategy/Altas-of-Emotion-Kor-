@@ -82,9 +82,17 @@ const Timeline = ({ selectedEmotion }) => {
                   role="button"
                   aria-label={`${step.name_ko}: ${stepDescriptions[step.id]}`}
                 >
-                  {/* Step Label Top - 확대됨 */}
+                  {/* Step Label Top - 확대됨 & 진한 색상 */}
                   <div className="text-center mb-4">
-                    <span className="text-sm font-bold text-gray-500 tracking-widest uppercase">
+                    <span
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: '#1a1a1a',
+                        letterSpacing: '2px',
+                        textTransform: 'uppercase'
+                      }}
+                    >
                       Step {step.id}
                     </span>
                   </div>
@@ -101,14 +109,23 @@ const Timeline = ({ selectedEmotion }) => {
                   >
                     <div className="text-center px-3">
                       <div
-                        className="text-xs md:text-sm font-bold mb-2 tracking-wider uppercase"
-                        style={{ color: step.textColor, opacity: 0.8 }}
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: '700',
+                          color: step.textColor,
+                          letterSpacing: '1.5px',
+                          marginBottom: '8px',
+                          textTransform: 'uppercase'
+                        }}
                       >
                         {step.name_en}
                       </div>
                       <div
-                        className="text-base md:text-lg font-bold"
-                        style={{ color: step.textColor }}
+                        style={{
+                          fontSize: '18px',
+                          fontWeight: '700',
+                          color: step.textColor
+                        }}
                       >
                         {step.name_ko}
                       </div>
