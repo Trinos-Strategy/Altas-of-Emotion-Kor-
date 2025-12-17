@@ -19,7 +19,6 @@ const mountainData = {
       { id: 6, name_en: 'VENGEFULNESS', name_ko: '복수심', intensity: 6, description: '앙갚음하고 싶은 욕구' },
       { id: 7, name_en: 'FURY', name_ko: '격노', intensity: 7, description: '통제할 수 없는 격렬한 분노' }
     ],
-    // 뾰족한 삼각형 산들 - 왼쪽에서 오른쪽으로 점점 높아짐
     generatePath: (width, height) => {
       const baseY = height - 50;
       const peaks = [
@@ -94,7 +93,6 @@ const mountainData = {
       { id: 6, name_en: 'ABHORRENCE', name_ko: '증오', intensity: 6, description: '극도의 혐오' },
       { id: 7, name_en: 'LOATHING', name_ko: '혐오감', intensity: 7, description: '깊은 혐오와 경멸' }
     ],
-    // 왼쪽 작은 산들 + 오른쪽 거대한 봉우리
     generatePath: (width, height) => {
       const baseY = height - 50;
       const peaks = [
@@ -128,7 +126,6 @@ const mountainData = {
       { id: 6, name_en: 'MISERY', name_ko: '비참함', intensity: 6, description: '극심한 불행' },
       { id: 7, name_en: 'DESPAIR', name_ko: '절망', intensity: 7, description: '희망의 완전한 상실' }
     ],
-    // 부드러운 곡선 산
     generatePath: (width, height) => {
       const baseY = height - 50;
       const peaks = [
@@ -142,7 +139,6 @@ const mountainData = {
       ];
       return peaks.map((peak, i) => {
         const spread = 55 + i * 5;
-        // 곡선형 산 (quadratic bezier)
         return {
           path: `M ${peak.x - spread},${baseY} Q ${peak.x - spread/2},${peak.peakY + 30} ${peak.x},${peak.peakY} Q ${peak.x + spread/2},${peak.peakY + 30} ${peak.x + spread},${baseY} Z`,
           labelX: peak.x,
@@ -169,7 +165,6 @@ const mountainData = {
       { id: 9, name_en: 'FIERO', name_ko: '환희', intensity: 9, description: '어려운 과제 달성의 기쁨' },
       { id: 10, name_en: 'ECSTASY', name_ko: '황홀경', intensity: 10, description: '압도적인 기쁨' }
     ],
-    // 둥근 언덕들
     generatePath: (width, height) => {
       const baseY = height - 50;
       const peaks = [
@@ -186,7 +181,6 @@ const mountainData = {
       ];
       return peaks.map((peak, i) => {
         const spread = 40 + i * 3;
-        // 둥근 형태 (cubic bezier)
         return {
           path: `M ${peak.x - spread},${baseY} C ${peak.x - spread},${peak.peakY + 50} ${peak.x - spread/3},${peak.peakY} ${peak.x},${peak.peakY} C ${peak.x + spread/3},${peak.peakY} ${peak.x + spread},${peak.peakY + 50} ${peak.x + spread},${baseY} Z`,
           labelX: peak.x,
@@ -204,73 +198,80 @@ const Experience = ({ selectedEmotion }) => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
 
-  // 기본 감정 또는 선택된 감정
   const emotionKey = selectedEmotion || 'enjoyment';
   const emotionInfo = mountainData[emotionKey] || mountainData.enjoyment;
   const currentEmotion = emotions[emotionKey] || emotions.enjoyment;
 
-  // SVG 크기
   const svgWidth = 900;
   const svgHeight = 650;
 
-  // 산봉우리 경로 생성
   const mountainPaths = emotionInfo.generatePath(svgWidth, svgHeight);
 
   return (
-    <section ref={sectionRef} className="min-h-screen flex flex-col lg:flex-row">
+    <section
+      ref={sectionRef}
+      className="min-h-screen flex flex-col lg:flex-row"
+      role="region"
+      aria-label="감정 경험 시각화"
+    >
       {/* 왼쪽 사이드바 */}
-      <motion.div
-        className="lg:w-[320px] bg-[#FAFAFA] p-6 lg:p-10 flex flex-col border-r border-gray-200"
+      <motion.aside
+        className="lg:w-[360px] bg-gray-50 p-6 md:p-8 lg:p-10 flex flex-col border-r border-gray-200"
         initial={{ opacity: 0, x: -30 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
       >
         <div className="flex-1">
-          <h2 className="text-2xl lg:text-3xl font-serif font-medium text-[#1a1a1a] mb-2 pb-3 border-b-2 border-[#1a1a1a]">
+          <h2 className="text-2xl lg:text-3xl font-serif font-medium text-gray-900 mb-3 pb-3 border-b-2 border-gray-900">
             우리의 경험
           </h2>
-          <p className="text-[#555] text-sm lg:text-base mb-6 mt-4 leading-relaxed">
+          <p className="text-gray-500 text-sm lg:text-base mb-8 mt-5 leading-relaxed">
             하나의 감정 안에서 다양한 상태와 강도를 탐험합니다.
           </p>
 
-          <h3 className="text-sm lg:text-base font-bold text-[#1a1a1a] tracking-wider mb-3 uppercase">
+          <h3 className="text-xs font-bold text-gray-900 tracking-widest mb-4 uppercase">
             {emotionInfo.name_en}의 상태
           </h3>
 
-          <p className="text-[#666] text-sm leading-relaxed mb-6">
+          <p className="text-gray-600 text-sm leading-relaxed mb-6">
             {emotionInfo.description_ko}
           </p>
 
-          <p className="text-[#888] text-sm italic">
+          <p className="text-gray-400 text-sm italic">
             산봉우리를 클릭하여 각 상태에 대해 알아보세요.
           </p>
 
           {/* 현재 감정 표시 */}
-          <div className="mt-8 flex items-center gap-3">
+          <div className="mt-8 flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
             <div
-              className="w-10 h-10 rounded-full"
+              className="w-12 h-12 rounded-full shadow-md"
               style={{
                 background: `radial-gradient(circle at 30% 30%, ${emotionInfo.colorLight}, ${emotionInfo.color})`
               }}
+              aria-hidden="true"
             />
             <div>
-              <p className="font-medium text-[#1a1a1a]">{emotionInfo.name_ko}</p>
-              <p className="text-xs text-[#888] uppercase">{emotionInfo.name_en}</p>
+              <p className="font-semibold text-gray-900">{emotionInfo.name_ko}</p>
+              <p className="text-xs text-gray-400 uppercase tracking-wide">{emotionInfo.name_en}</p>
             </div>
           </div>
         </div>
 
         <button
           onClick={() => setSidebarOpen(true)}
-          className="mt-6 px-6 py-3 border-2 border-[#1a1a1a] text-[#1a1a1a] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+          className="mt-8 w-full px-6 py-4 border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300 rounded-xl flex items-center justify-center gap-2"
+          aria-label="더 알아보기 사이드바 열기"
         >
-          더 알아보기 →
+          <span>더 알아보기</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
         </button>
-      </motion.div>
+      </motion.aside>
 
       {/* 시각화 영역 */}
       <motion.div
-        className="flex-1 flex items-center justify-center p-4 lg:p-8 bg-[#F5F5F5] overflow-hidden"
+        className="flex-1 flex items-center justify-center p-4 lg:p-8 bg-gray-100/50 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -279,6 +280,8 @@ const Experience = ({ selectedEmotion }) => {
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           className="w-full h-auto max-h-[70vh]"
           style={{ maxWidth: '900px' }}
+          role="img"
+          aria-label={`${emotionInfo.name_ko} 감정의 강도별 상태를 보여주는 산 시각화`}
         >
           {/* 그라데이션 정의 */}
           <defs>
@@ -289,12 +292,16 @@ const Experience = ({ selectedEmotion }) => {
               <stop offset="100%" stopColor={emotionInfo.colorLight} stopOpacity="0.95" />
             </linearGradient>
 
-            {/* 호버 시 밝은 그라데이션 */}
             <linearGradient id={`mountain-gradient-hover-${emotionKey}`} x1="0%" y1="100%" x2="0%" y2="0%">
               <stop offset="0%" stopColor={emotionInfo.color} stopOpacity="0.5" />
               <stop offset="50%" stopColor={emotionInfo.color} stopOpacity="0.8" />
               <stop offset="100%" stopColor={emotionInfo.colorLight} stopOpacity="1" />
             </linearGradient>
+
+            {/* 그림자 필터 */}
+            <filter id="mountainShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="8" floodOpacity="0.15"/>
+            </filter>
           </defs>
 
           {/* X축 */}
@@ -303,15 +310,15 @@ const Experience = ({ selectedEmotion }) => {
             y1={svgHeight - 40}
             x2={svgWidth - 50}
             y2={svgHeight - 40}
-            stroke="#ccc"
+            stroke="#d4d4d4"
             strokeWidth="2"
           />
 
           {/* 축 레이블 */}
-          <text x="50" y={svgHeight - 15} fill="#888" fontSize="12" fontWeight="500">
+          <text x="50" y={svgHeight - 15} fill="#737373" fontSize="12" fontWeight="500" fontFamily="var(--font-display)">
             낮은 강도
           </text>
-          <text x={svgWidth - 120} y={svgHeight - 15} fill="#888" fontSize="12" fontWeight="500">
+          <text x={svgWidth - 120} y={svgHeight - 15} fill="#737373" fontSize="12" fontWeight="500" fontFamily="var(--font-display)">
             높은 강도
           </text>
 
@@ -344,11 +351,19 @@ const Experience = ({ selectedEmotion }) => {
                   style={{
                     transformOrigin: 'bottom',
                     cursor: 'pointer',
-                    filter: isHovered ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))' : 'none'
+                    filter: isHovered ? 'url(#mountainShadow)' : 'none'
                   }}
                   onMouseEnter={() => setHoveredState(index)}
                   onMouseLeave={() => setHoveredState(null)}
                   onClick={() => setSelectedState(isSelected ? null : index)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setSelectedState(isSelected ? null : index);
+                    }
+                  }}
+                  aria-label={state ? `${state.name_ko}: ${state.description}` : ''}
                 />
 
                 {/* 상태 레이블 */}
@@ -368,7 +383,8 @@ const Experience = ({ selectedEmotion }) => {
                     style={{
                       pointerEvents: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
+                      letterSpacing: '0.5px',
+                      fontFamily: 'var(--font-display)'
                     }}
                   >
                     {state.name_en}
@@ -388,10 +404,14 @@ const Experience = ({ selectedEmotion }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="state-dialog-title"
           >
             <div
-              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               onClick={() => setSelectedState(null)}
+              aria-hidden="true"
             />
             <motion.div
               className="relative bg-white rounded-2xl p-6 lg:p-8 max-w-md w-full shadow-2xl"
@@ -402,22 +422,23 @@ const Experience = ({ selectedEmotion }) => {
             >
               <button
                 onClick={() => setSelectedState(null)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
+                aria-label="닫기"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
 
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-4 mb-5">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
+                  className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
                   style={{ backgroundColor: emotionInfo.color }}
                 >
                   {selectedState + 1}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#1a1a1a]">
+                  <h3 id="state-dialog-title" className="text-xl font-bold text-gray-900">
                     {emotionInfo.states[selectedState].name_ko}
                   </h3>
                   <p className="text-sm text-gray-500 uppercase tracking-wide">
@@ -427,13 +448,13 @@ const Experience = ({ selectedEmotion }) => {
               </div>
 
               {/* 강도 표시 */}
-              <div className="mb-4">
+              <div className="mb-5">
                 <p className="text-sm text-gray-500 mb-2">강도</p>
                 <div className="flex gap-1">
                   {[...Array(emotionInfo.states.length)].map((_, i) => (
                     <div
                       key={i}
-                      className="h-2 rounded-full flex-1"
+                      className="h-2.5 rounded-full flex-1 transition-colors"
                       style={{
                         backgroundColor: i <= selectedState ? emotionInfo.color : '#e5e5e5'
                       }}
@@ -442,13 +463,14 @@ const Experience = ({ selectedEmotion }) => {
                 </div>
               </div>
 
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-[15px]">
                 {emotionInfo.states[selectedState].description}
               </p>
 
-              <div className="mt-6 pt-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500">
-                  <span style={{ color: emotionInfo.color }}>●</span> {emotionInfo.name_ko} 감정의 {selectedState + 1}번째 상태
+              <div className="mt-6 pt-5 border-t border-gray-100">
+                <p className="text-sm text-gray-500 flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: emotionInfo.color }} aria-hidden="true" />
+                  {emotionInfo.name_ko} 감정의 {selectedState + 1}번째 상태
                 </p>
               </div>
             </motion.div>
@@ -461,66 +483,74 @@ const Experience = ({ selectedEmotion }) => {
         {sidebarOpen && (
           <>
             <motion.div
-              className="fixed inset-0 bg-black/40 z-40"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSidebarOpen(false)}
+              aria-hidden="true"
             />
-            <motion.div
-              className="fixed left-0 top-0 bottom-0 w-full sm:w-[420px] bg-white z-50 overflow-y-auto"
+            <motion.aside
+              className="fixed left-0 top-0 bottom-0 w-full sm:w-[440px] bg-white z-50 overflow-y-auto shadow-2xl"
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${emotionInfo.name_ko}에 대하여`}
             >
               <div className="p-6 lg:p-8">
                 <button
                   onClick={() => setSidebarOpen(false)}
                   className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="사이드바 닫기"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
-                <h2 className="text-2xl font-serif font-medium mb-6 pb-3 border-b-2 border-[#1a1a1a]">
+                <h2 className="text-2xl font-serif font-medium mb-6 pb-4 border-b-2 border-gray-900">
                   {emotionInfo.name_ko}에 대하여
                 </h2>
 
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="text-gray-600 leading-relaxed mb-8 text-[15px]">
                   {emotionInfo.description_ko}
                 </p>
 
-                <h3 className="font-bold text-[#1a1a1a] mb-4 uppercase tracking-wide text-sm">
+                <h3 className="font-bold text-gray-900 mb-5 uppercase tracking-widest text-xs">
                   {emotionInfo.states.length}가지 상태
                 </h3>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {emotionInfo.states.map((state, index) => (
-                    <div
+                    <button
                       key={state.id}
-                      className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors text-left"
                       onClick={() => {
                         setSelectedState(index);
                         setSidebarOpen(false);
                       }}
                     >
                       <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium flex-shrink-0"
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0"
                         style={{ backgroundColor: emotionInfo.color }}
                       >
                         {index + 1}
                       </div>
                       <div>
-                        <p className="font-medium text-[#1a1a1a]">{state.name_ko}</p>
+                        <p className="font-semibold text-gray-900">{state.name_ko}</p>
                         <p className="text-xs text-gray-500 uppercase">{state.name_en}</p>
                       </div>
-                    </div>
+                      <svg className="w-5 h-5 text-gray-300 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>
