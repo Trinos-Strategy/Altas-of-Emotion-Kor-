@@ -39,19 +39,19 @@ const Timeline = ({ selectedEmotion }) => {
   };
 
   return (
-    <section ref={sectionRef} className="min-h-screen px-6 py-16 md:py-20" role="region" aria-label="감정 에피소드 타임라인">
+    <section ref={sectionRef} className="min-h-screen px-6 py-24 md:py-32" role="region" aria-label="감정 에피소드 타임라인">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Premium Section Header */}
         <motion.header
-          className="text-center mb-12 md:mb-20"
+          className="section-header"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-gray-900 mb-4">
+          <h2>
             감정 에피소드 타임라인
           </h2>
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p>
             감정적 경험은 일련의 단계를 거칩니다. 각 단계를 이해하면
             감정에 대한 더 큰 통제력을 얻을 수 있습니다.
           </p>
@@ -59,12 +59,12 @@ const Timeline = ({ selectedEmotion }) => {
 
         {/* Timeline Diagram */}
         <motion.div
-          className="mb-16 md:mb-20 overflow-x-auto pb-6 scrollbar-hide"
+          className="mb-20 md:mb-28 overflow-x-auto pb-8 scrollbar-hide"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="flex items-center justify-center min-w-[800px] px-4 md:px-8">
+          <div className="flex items-center justify-center min-w-[900px] px-4 md:px-8">
             {timelineSteps.map((step, index) => (
               <div key={step.id} className="flex items-center">
                 {/* Step Node */}
@@ -74,7 +74,7 @@ const Timeline = ({ selectedEmotion }) => {
                   onMouseLeave={() => setActiveStep(null)}
                   onFocus={() => setActiveStep(step.id)}
                   onBlur={() => setActiveStep(null)}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.08 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
@@ -82,32 +82,32 @@ const Timeline = ({ selectedEmotion }) => {
                   role="button"
                   aria-label={`${step.name_ko}: ${stepDescriptions[step.id]}`}
                 >
-                  {/* Step Label Top */}
-                  <div className="text-center mb-3">
-                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">
+                  {/* Step Label Top - 확대됨 */}
+                  <div className="text-center mb-4">
+                    <span className="text-sm font-bold text-gray-500 tracking-widest uppercase">
                       Step {step.id}
                     </span>
                   </div>
 
-                  {/* Circle */}
+                  {/* Circle - 확대됨 */}
                   <div
-                    className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-300"
+                    className="w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center transition-all duration-300"
                     style={{
                       backgroundColor: step.color,
                       boxShadow: activeStep === step.id
-                        ? `0 12px 40px ${step.color === '#f5f5f5' ? 'rgba(0,0,0,0.12)' : `${emotion.color}40`}`
-                        : step.color === '#f5f5f5' ? 'inset 0 0 0 2px #e5e5e5' : '0 4px 16px rgba(0,0,0,0.08)',
+                        ? `0 16px 48px ${step.color === '#f5f5f5' ? 'rgba(0,0,0,0.15)' : `${emotion.color}50`}`
+                        : step.color === '#f5f5f5' ? 'inset 0 0 0 2px #e5e5e5' : '0 6px 20px rgba(0,0,0,0.1)',
                     }}
                   >
-                    <div className="text-center px-2">
+                    <div className="text-center px-3">
                       <div
-                        className="text-[10px] font-bold mb-1.5 tracking-wide uppercase"
-                        style={{ color: step.textColor, opacity: 0.7 }}
+                        className="text-xs md:text-sm font-bold mb-2 tracking-wider uppercase"
+                        style={{ color: step.textColor, opacity: 0.8 }}
                       >
                         {step.name_en}
                       </div>
                       <div
-                        className="text-sm md:text-base font-semibold"
+                        className="text-base md:text-lg font-bold"
                         style={{ color: step.textColor }}
                       >
                         {step.name_ko}
@@ -205,68 +205,68 @@ const Timeline = ({ selectedEmotion }) => {
 
         {/* Triggers and Responses Grid */}
         <motion.div
-          className="grid md:grid-cols-2 gap-6 md:gap-8"
+          className="grid md:grid-cols-2 gap-8 md:gap-10"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.7 }}
         >
           {/* Triggers */}
-          <div className="card p-6 md:p-8">
+          <div className="card p-8 md:p-10">
             <h3
-              className="text-lg md:text-xl font-serif font-medium mb-5 flex items-center gap-3"
+              className="text-xl md:text-2xl font-serif font-semibold mb-6 flex items-center gap-4"
               style={{ color: emotion.color }}
             >
               <span
-                className="w-4 h-4 rounded-full"
+                className="w-5 h-5 rounded-full"
                 style={{ backgroundColor: emotion.color }}
                 aria-hidden="true"
               />
               {emotion.name_ko}의 트리거
             </h3>
-            <ul className="space-y-4" role="list">
+            <ul className="space-y-5" role="list">
               {emotion.triggers.map((t, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-start gap-3 text-gray-600"
+                  className="flex items-start gap-4 text-gray-600"
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.8 + i * 0.1 }}
                 >
-                  <svg className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg className="w-5 h-5 text-gray-300 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="leading-relaxed">{t.text_ko}</span>
+                  <span className="text-base leading-relaxed">{t.text_ko}</span>
                 </motion.li>
               ))}
             </ul>
           </div>
 
           {/* Responses */}
-          <div className="card p-6 md:p-8">
+          <div className="card p-8 md:p-10">
             <h3
-              className="text-lg md:text-xl font-serif font-medium mb-5 flex items-center gap-3"
+              className="text-xl md:text-2xl font-serif font-semibold mb-6 flex items-center gap-4"
               style={{ color: emotion.color }}
             >
               <span
-                className="w-4 h-4 rounded-full"
+                className="w-5 h-5 rounded-full"
                 style={{ backgroundColor: emotion.color }}
                 aria-hidden="true"
               />
               {emotion.name_ko}의 반응
             </h3>
-            <ul className="space-y-4" role="list">
+            <ul className="space-y-5" role="list">
               {emotion.responses.map((r, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-start gap-3 text-gray-600"
+                  className="flex items-start gap-4 text-gray-600"
                   initial={{ opacity: 0, x: -10 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.8 + i * 0.1 }}
                 >
-                  <svg className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg className="w-5 h-5 text-gray-300 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="leading-relaxed">{r.text_ko}</span>
+                  <span className="text-base leading-relaxed">{r.text_ko}</span>
                 </motion.li>
               ))}
             </ul>

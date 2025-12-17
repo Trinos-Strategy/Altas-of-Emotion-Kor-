@@ -167,7 +167,7 @@ body {
 }
 
 /* ============================================
-   Typography System
+   Typography System - Premium Design
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
@@ -178,27 +178,79 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
+/* H1: 메인 헤드라인 (48-56px) */
 h1 {
-  font-size: var(--text-5xl);
+  font-size: clamp(2.75rem, 2rem + 3.75vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
 }
 
+/* H2: 섹션 타이틀 (36-42px) */
 h2 {
-  font-size: var(--text-4xl);
+  font-size: clamp(2.25rem, 1.75rem + 2.5vw, 2.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
+/* H3: 서브 타이틀 (24-28px) */
 h3 {
-  font-size: var(--text-2xl);
+  font-size: clamp(1.5rem, 1.25rem + 1.25vw, 1.75rem);
+  line-height: 1.3;
 }
 
+/* H4: 컴포넌트 타이틀 (20-22px) */
 h4 {
-  font-size: var(--text-xl);
+  font-size: clamp(1.25rem, 1.125rem + 0.625vw, 1.375rem);
   font-family: var(--font-display);
   font-weight: 600;
+  line-height: 1.4;
+}
+
+/* H5: 라벨 타이틀 (18px) */
+h5 {
+  font-size: 1.125rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* H6: 소제목 (16px) */
+h6 {
+  font-size: 1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 p {
-  line-height: var(--leading-relaxed);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.7;
   max-width: 65ch;
+}
+
+/* Caption & Labels */
+.text-caption {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--gray-500);
+}
+
+.text-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.text-body-lg {
+  font-size: clamp(1.0625rem, 1rem + 0.3125vw, 1.1875rem);
+  line-height: 1.7;
+}
+
+.text-body {
+  font-size: clamp(0.9375rem, 0.9rem + 0.1875vw, 1rem);
+  line-height: 1.65;
 }
 
 /* ============================================
@@ -348,21 +400,89 @@ p {
   border-radius: var(--radius-lg);
 }
 
+/* Premium CTA Button */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 2px solid var(--gray-900);
+  background: var(--gray-900);
+  color: white;
+  border-radius: var(--radius-xl);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cta:hover::before {
+  opacity: 1;
+}
+
+.btn-cta:active {
+  transform: translateY(-1px);
+}
+
+.btn-cta-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 2px solid var(--gray-900);
+  background: transparent;
+  color: var(--gray-900);
+  border-radius: var(--radius-xl);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.btn-cta-outline:hover {
+  background: var(--gray-900);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cta-outline:active {
+  transform: translateY(-1px);
+}
+
 /* ============================================
-   Card Styles
+   Card Styles - Premium Design
    ============================================ */
 .card {
   background: white;
   border-radius: var(--radius-xl);
-  padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-100);
-  transition: all var(--duration-normal) var(--ease-out);
+  padding: var(--space-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
 }
 
 .card-flat {
@@ -373,6 +493,115 @@ p {
 .card-flat:hover {
   border-color: var(--gray-300);
   box-shadow: var(--shadow-md);
+}
+
+/* Strategy Card - 3열 그리드용 프리미엄 카드 */
+.strategy-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-xl);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 2px solid transparent;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.strategy-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--card-accent-color, var(--gray-300));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.strategy-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--card-accent-color, var(--gray-200));
+}
+
+.strategy-card:hover::before {
+  transform: scaleX(1);
+}
+
+.strategy-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+  font-size: 28px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.strategy-card:hover .strategy-card-icon {
+  transform: scale(1.1);
+}
+
+.strategy-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--space-sm);
+  line-height: 1.3;
+}
+
+.strategy-card-description {
+  font-size: 0.9375rem;
+  color: var(--gray-500);
+  line-height: 1.7;
+}
+
+/* Guidance Card - 하단 가이드 카드 */
+.guidance-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-xl);
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--gray-100);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.guidance-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+}
+
+.guidance-card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-md);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.guidance-card:hover .guidance-card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.guidance-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--space-sm);
+}
+
+.guidance-card-description {
+  font-size: 0.9375rem;
+  color: var(--gray-500);
+  line-height: 1.7;
 }
 
 /* ============================================
@@ -517,17 +746,51 @@ p {
 }
 
 /* ============================================
-   Section Spacing
+   Section Spacing - Premium
    ============================================ */
 .section {
-  padding-top: var(--space-3xl);
-  padding-bottom: var(--space-3xl);
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-4xl);
+}
+
+.section-lg {
+  padding-top: 160px;
+  padding-bottom: 160px;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .section-lg {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+  }
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-header h2 {
+  margin-bottom: 20px;
+}
+
+.section-header p {
+  font-size: clamp(1.0625rem, 1rem + 0.3125vw, 1.1875rem);
+  color: var(--gray-500);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    margin-bottom: 48px;
   }
 }
 
