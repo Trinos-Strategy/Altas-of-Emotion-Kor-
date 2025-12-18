@@ -125,12 +125,12 @@ const EmotionCard = ({ emotion, index, isExpanded, onToggle }) => {
               >
                 <div className="pt-6 mt-6 pb-2 border-t border-gray-100">
                   {/* 한글 설명 */}
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed tracking-wide">
                     {emotion.description_ko}
                   </p>
 
                   {/* 영문 설명 */}
-                  <p className="text-xs text-gray-400 leading-relaxed mt-4 italic">
+                  <p className="text-xs text-gray-400 leading-relaxed mt-4 italic tracking-wide">
                     {emotion.description_en}
                   </p>
 
@@ -189,7 +189,7 @@ const SectionHeader = ({ showInfo, onToggleInfo }) => {
       </h1>
 
       {/* 서브타이틀 */}
-      <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-6">
+      <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-6 tracking-wide">
         아직 완전히 탐구되지 않았지만, 우리의 감정 경험에서 중요한 역할을 하는 9가지 감정
       </p>
 
@@ -232,7 +232,7 @@ const SectionHeader = ({ showInfo, onToggleInfo }) => {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-semibold text-gray-900 mb-2">과학적 합의 기준</h4>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed tracking-wide">
                     Atlas of Emotions는 <strong>248명의 감정 과학자들</strong>을 대상으로 한 설문조사를 기반으로 합니다.
                     5가지 핵심 감정은 <span className="text-purple-600 font-medium">76% 이상</span>의 과학자들이
                     보편적 감정으로 동의했습니다. 반면, 아래의 감정들은 <span className="text-pink-600 font-medium">50% 이하</span>의 합의를 얻어
@@ -277,7 +277,7 @@ const QuoteSection = () => {
 
         <div className="relative z-10 text-center">
           <p
-            className="text-xl md:text-2xl text-white leading-relaxed mb-6"
+            className="text-xl md:text-2xl text-white leading-relaxed mb-6 tracking-wide"
             style={{ fontFamily: "'Noto Serif KR', Georgia, serif" }}
           >
             감정의 세계는 아직 탐험 중입니다.
