@@ -75,7 +75,7 @@ const Card3D = ({ emotion, index, isSelected, onSelect }) => {
         {/* 메인 카드 */}
         <div
           className={`
-            relative overflow-hidden rounded-3xl p-6 md:p-8
+            relative overflow-hidden rounded-3xl p-8 md:p-10 lg:p-12
             backdrop-blur-xl border transition-all duration-500
             ${isSelected
               ? 'bg-white/95 border-white/80 shadow-2xl'
@@ -127,7 +127,7 @@ const Card3D = ({ emotion, index, isSelected, onSelect }) => {
 
           <div className="relative z-10">
             {/* 헤더 */}
-            <div className="flex items-start gap-4 mb-4">
+            <div className="flex items-start gap-5 mb-6">
               {/* 아이콘 */}
               <motion.div
                 className="relative flex-shrink-0"
@@ -203,20 +203,20 @@ const Card3D = ({ emotion, index, isSelected, onSelect }) => {
                   className="overflow-hidden"
                 >
                   <motion.div
-                    className="pt-4 border-t border-gray-200/50"
+                    className="pt-6 border-t border-gray-200/50"
                     initial={{ y: 20 }}
                     animate={{ y: 0 }}
                     transition={{ delay: 0.1 }}
                   >
-                    <p className="text-gray-700 leading-relaxed text-sm md:text-base mb-4">
+                    <p className="text-gray-700 text-sm md:text-base mb-5" style={{ lineHeight: '1.9' }}>
                       {emotion.description_ko}
                     </p>
-                    <p className="text-gray-400 leading-relaxed text-xs md:text-sm italic">
+                    <p className="text-gray-400 text-xs md:text-sm italic" style={{ lineHeight: '1.8' }}>
                       {emotion.description_en}
                     </p>
 
                     {/* 태그 */}
-                    <div className="flex flex-wrap gap-2 mt-4">
+                    <div className="flex flex-wrap gap-3 mt-6">
                       <span
                         className="px-3 py-1 rounded-full text-xs font-medium"
                         style={{
@@ -588,7 +588,7 @@ const PartiallyChartedEmotions = () => {
           </motion.div>
 
           {/* 그리드 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12">
             {partiallyChartedEmotions.map((emotion, index) => (
               <Card3D
                 key={emotion.id}
