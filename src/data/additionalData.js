@@ -219,20 +219,81 @@ export const psychopathologyDetailed = {
   ]
 };
 
-// 장애물 (Impediments) - 긍정적 감정을 방해하는 요소
+// 장애물 (Impediments) - 감정 조절을 방해하는 요소들 (모든 감정)
 export const impediments = {
+  anger: {
+    title_ko: '분노 조절의 장애물',
+    title_en: 'Impediments to Managing Anger',
+    description_ko: '분노를 건설적으로 다루는 것을 방해하는 요소들입니다.',
+    description_en: 'Factors that block constructive handling of anger.',
+    color: '#E07B6E',
+    items: [
+      { name_ko: '반추', name_en: 'Rumination', description_ko: '화나는 상황을 반복적으로 생각하면 분노가 증폭됩니다.', description_en: 'Repeatedly thinking about angering situations amplifies anger.' },
+      { name_ko: '정당화', name_en: 'Justification', description_ko: '분노가 완전히 정당하다고 믿으면 변화의 동기가 줄어듭니다.', description_en: 'Believing anger is entirely justified reduces motivation to change.' },
+      { name_ko: '흑백 사고', name_en: 'Black-and-White Thinking', description_ko: '상황을 극단적으로 해석하면 분노가 강화됩니다.', description_en: 'Interpreting situations in extremes intensifies anger.' },
+      { name_ko: '비난', name_en: 'Blame', description_ko: '타인에게만 책임을 돌리면 해결책을 찾기 어렵습니다.', description_en: 'Placing all responsibility on others makes finding solutions difficult.' },
+      { name_ko: '과거 상처', name_en: 'Past Wounds', description_ko: '해결되지 않은 과거의 상처가 현재 분노를 증폭시킵니다.', description_en: 'Unresolved past hurts amplify current anger.' },
+      { name_ko: '스트레스', name_en: 'Chronic Stress', description_ko: '만성적 스트레스는 분노의 임계값을 낮춥니다.', description_en: 'Chronic stress lowers the threshold for anger.' }
+    ]
+  },
+  fear: {
+    title_ko: '두려움 극복의 장애물',
+    title_en: 'Impediments to Overcoming Fear',
+    description_ko: '두려움을 건설적으로 다루는 것을 방해하는 요소들입니다.',
+    description_en: 'Factors that block constructive handling of fear.',
+    color: '#9B7BB8',
+    items: [
+      { name_ko: '회피', name_en: 'Avoidance', description_ko: '두려운 상황을 피하면 두려움이 더 강화됩니다.', description_en: 'Avoiding feared situations strengthens the fear.' },
+      { name_ko: '파국적 사고', name_en: 'Catastrophizing', description_ko: '최악의 결과만 상상하면 두려움이 증폭됩니다.', description_en: 'Imagining only worst-case scenarios amplifies fear.' },
+      { name_ko: '과잉경계', name_en: 'Hypervigilance', description_ko: '위협을 지나치게 경계하면 불안이 지속됩니다.', description_en: 'Being overly alert to threats maintains anxiety.' },
+      { name_ko: '안전 행동', name_en: 'Safety Behaviors', description_ko: '과도한 안전 추구가 오히려 두려움을 유지시킵니다.', description_en: 'Excessive safety-seeking behaviors maintain fear.' },
+      { name_ko: '불확실성 불내성', name_en: 'Intolerance of Uncertainty', description_ko: '불확실한 상황을 견디지 못하면 불안이 커집니다.', description_en: 'Inability to tolerate uncertainty increases anxiety.' },
+      { name_ko: '통제 욕구', name_en: 'Need for Control', description_ko: '모든 것을 통제하려는 욕구가 두려움을 강화합니다.', description_en: 'The need to control everything strengthens fear.' }
+    ]
+  },
+  disgust: {
+    title_ko: '혐오 조절의 장애물',
+    title_en: 'Impediments to Managing Disgust',
+    description_ko: '혐오를 건설적으로 다루는 것을 방해하는 요소들입니다.',
+    description_en: 'Factors that block constructive handling of disgust.',
+    color: '#6BAF8D',
+    items: [
+      { name_ko: '경직된 기준', name_en: 'Rigid Standards', description_ko: '엄격한 도덕적/위생적 기준이 혐오를 확대합니다.', description_en: 'Strict moral/hygienic standards amplify disgust.' },
+      { name_ko: '오염 사고', name_en: 'Contamination Thinking', description_ko: '"더러움"이 퍼진다는 생각이 혐오를 강화합니다.', description_en: 'Thinking "dirtiness" spreads strengthens disgust.' },
+      { name_ko: '도덕적 우월감', name_en: 'Moral Superiority', description_ko: '자신이 도덕적으로 우월하다는 믿음이 경멸을 강화합니다.', description_en: 'Belief in moral superiority strengthens contempt.' },
+      { name_ko: '일반화', name_en: 'Overgeneralization', description_ko: '한 부분의 혐오를 전체로 확대합니다.', description_en: 'Extending disgust from one part to the whole.' },
+      { name_ko: '감정적 추론', name_en: 'Emotional Reasoning', description_ko: '"혐오스럽게 느껴지니까 혐오스러운 것이다"라고 생각합니다.', description_en: 'Thinking "it feels disgusting, so it must be disgusting."' },
+      { name_ko: '고정관념', name_en: 'Stereotyping', description_ko: '특정 집단에 대한 편견이 혐오를 유발합니다.', description_en: 'Prejudice against certain groups triggers disgust.' }
+    ]
+  },
+  sadness: {
+    title_ko: '슬픔 회복의 장애물',
+    title_en: 'Impediments to Recovering from Sadness',
+    description_ko: '슬픔에서 회복하는 것을 방해하는 요소들입니다.',
+    description_en: 'Factors that block recovery from sadness.',
+    color: '#6B9DC4',
+    items: [
+      { name_ko: '고립', name_en: 'Isolation', description_ko: '사회적 고립이 슬픔을 악화시킵니다.', description_en: 'Social isolation worsens sadness.' },
+      { name_ko: '억압', name_en: 'Suppression', description_ko: '슬픔을 억누르면 해소되지 않고 지속됩니다.', description_en: 'Suppressing sadness prevents it from resolving.' },
+      { name_ko: '자기 비난', name_en: 'Self-Blame', description_ko: '모든 것이 자신의 잘못이라고 생각합니다.', description_en: 'Thinking everything is your fault.' },
+      { name_ko: '무력감 학습', name_en: 'Learned Helplessness', description_ko: '아무것도 바꿀 수 없다고 믿으면 회복이 어렵습니다.', description_en: 'Believing nothing can be changed makes recovery difficult.' },
+      { name_ko: '반추', name_en: 'Rumination', description_ko: '슬픈 생각을 반복하면 우울이 깊어집니다.', description_en: 'Repeatedly thinking sad thoughts deepens depression.' },
+      { name_ko: '미래 절망', name_en: 'Hopelessness', description_ko: '미래가 나아지지 않을 것이라는 믿음이 회복을 막습니다.', description_en: 'Belief that the future won\'t improve blocks recovery.' }
+    ]
+  },
   enjoyment: {
     title_ko: '즐거움의 장애물',
     title_en: 'Impediments to Enjoyment',
     description_ko: '긍정적 감정을 경험하는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block the experience of positive emotions.',
+    color: '#E8C547',
     items: [
-      { name_ko: '집착', name_en: 'Grasping', description_ko: '즐거움에 지나치게 매달리면 오히려 그것을 밀어냅니다.' },
-      { name_ko: '비관주의', name_en: 'Pessimism', description_ko: '부정적 결과를 예상하여 긍정적 경험을 차단합니다.' },
-      { name_ko: '부정성', name_en: 'Negativity', description_ko: '부정적 측면에 집중하여 긍정적 측면을 놓칩니다.' },
-      { name_ko: '무감각', name_en: 'Numbness', description_ko: '감정적 둔감함으로 즐거움을 느끼지 못합니다.' },
-      { name_ko: '과거 집착', name_en: 'Dwelling on Past', description_ko: '과거의 부정적 경험에 머물러 현재의 즐거움을 놓칩니다.' },
-      { name_ko: '미래 걱정', name_en: 'Worrying about Future', description_ko: '미래에 대한 걱정으로 현재의 즐거움을 경험하지 못합니다.' }
+      { name_ko: '집착', name_en: 'Grasping', description_ko: '즐거움에 지나치게 매달리면 오히려 그것을 밀어냅니다.', description_en: 'Clinging too tightly to pleasure pushes it away.' },
+      { name_ko: '비관주의', name_en: 'Pessimism', description_ko: '부정적 결과를 예상하여 긍정적 경험을 차단합니다.', description_en: 'Expecting negative outcomes blocks positive experiences.' },
+      { name_ko: '부정성', name_en: 'Negativity', description_ko: '부정적 측면에 집중하여 긍정적 측면을 놓칩니다.', description_en: 'Focusing on negatives causes missing positives.' },
+      { name_ko: '무감각', name_en: 'Numbness', description_ko: '감정적 둔감함으로 즐거움을 느끼지 못합니다.', description_en: 'Emotional numbness prevents feeling enjoyment.' },
+      { name_ko: '과거 집착', name_en: 'Dwelling on Past', description_ko: '과거의 부정적 경험에 머물러 현재의 즐거움을 놓칩니다.', description_en: 'Dwelling on negative past experiences misses present enjoyment.' },
+      { name_ko: '미래 걱정', name_en: 'Worrying about Future', description_ko: '미래에 대한 걱정으로 현재의 즐거움을 경험하지 못합니다.', description_en: 'Worrying about the future prevents experiencing present enjoyment.' }
     ]
   }
 };
@@ -276,8 +337,13 @@ export const antidotesDetailed = {
     { state_ko: '절망', state_en: 'Despair', antidote_ko: '희망, 전문적 도움, 위기 지원', antidote_en: 'Hope, professional help, crisis support' }
   ],
   enjoyment: [
-    { state_ko: '자부심', state_en: 'Pride', antidote_ko: '겸손, 감사, 타인 인정', antidote_en: 'Humility, gratitude, acknowledging others' },
-    { state_ko: '샤덴프로이데', state_en: 'Schadenfreude', antidote_ko: '자비, 공감, 인류애', antidote_en: 'Benevolence, empathy, humanity' }
+    { state_ko: '감각적 쾌락', state_en: 'Sensory Pleasure', antidote_ko: '절제, 마음챙김, 감사 - 쾌락에 집착하지 않고 현재 순간을 온전히 즐기기', antidote_en: 'Moderation, mindfulness, gratitude - fully enjoying the present moment without grasping at pleasure' },
+    { state_ko: '샤덴프로이데', state_en: 'Schadenfreude', antidote_ko: '자비, 공감, 인류애, 타인의 고통에 대한 연민 - 모든 존재가 고통받지 않기를 바라기', antidote_en: 'Benevolence, empathy, humanity, compassion for others\' suffering - wishing all beings to be free from suffering' },
+    { state_ko: '자부심', state_en: 'Pride', antidote_ko: '겸손, 감사, 타인의 기여 인정, 자만심 경계 - 성취가 혼자만의 것이 아님을 인식', antidote_en: 'Humility, gratitude, acknowledging others\' contributions, guarding against arrogance' },
+    { state_ko: '피에로', state_en: 'Fiero', antidote_ko: '겸손, 성취를 다른 사람과 나누기, 감사 - 승리의 기쁨을 다른 사람들과 함께 나누기', antidote_en: 'Humility, sharing achievement with others, gratitude - sharing the joy of triumph with others' },
+    { state_ko: '탐닉', state_en: 'Indulgence', antidote_ko: '절제, 자기 인식, 장기적 결과 고려 - 즉각적 쾌락과 장기적 행복 사이의 균형', antidote_en: 'Moderation, self-awareness, considering long-term consequences' },
+    { state_ko: '우쭐대기', state_en: 'Gloating', antidote_ko: '겸손, 연민, 상대방 존중 - 다른 사람의 실패에서 기쁨을 느끼지 않기', antidote_en: 'Humility, compassion, respecting the other party' },
+    { state_ko: '흥분', state_en: 'Excitement', antidote_ko: '균형, 현재 순간에 머물기, 과도한 기대 조절 - 미래에 대한 기대가 현재의 평화를 해치지 않도록', antidote_en: 'Balance, staying in the present moment, moderating excessive expectations' }
   ]
 };
 
