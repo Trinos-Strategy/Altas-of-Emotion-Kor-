@@ -556,7 +556,8 @@ export const sectionNames = {
   triggers: { ko: '타임라인', en: 'Timeline' },
   continents: { ko: '경험', en: 'Experience' },
   actions: { ko: '반응', en: 'Response' },
-  links: { ko: '전략', en: 'Strategies' }
+  links: { ko: '전략', en: 'Strategies' },
+  explore: { ko: '탐험', en: 'Explore' }
 };
 
 export const dalaiLamaQuote = {

@@ -7,6 +7,7 @@ import Timeline from './components/Timeline';
 import Experience from './components/Experience';
 import Response from './components/Response';
 import Strategies from './components/Strategies';
+import PartiallyChartedEmotions from './components/PartiallyChartedEmotions';
 
 function App() {
   const [activeSection, setActiveSection] = useState('introduction');
@@ -44,31 +45,38 @@ function App() {
           </motion.div>
         );
       case 'triggers':
-      case 'timeline':  // 원본 사이트와 동일한 해시 지원
+      case 'timeline':
         return (
           <motion.div key="timeline" {...variants}>
             <Timeline selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'continents':
-      case 'experience':  // 추가 해시 지원
+      case 'experience':
         return (
           <motion.div key="experience" {...variants}>
             <Experience selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'actions':
-      case 'response':  // 추가 해시 지원
+      case 'response':
         return (
           <motion.div key="response" {...variants}>
             <Response selectedEmotion={selectedEmotion} />
           </motion.div>
         );
       case 'links':
-      case 'strategies':  // 추가 해시 지원
+      case 'strategies':
         return (
           <motion.div key="strategies" {...variants}>
             <Strategies selectedEmotion={selectedEmotion} />
+          </motion.div>
+        );
+      case 'explore':
+      case 'partially-charted':
+        return (
+          <motion.div key="explore" {...variants}>
+            <PartiallyChartedEmotions />
           </motion.div>
         );
       default:
@@ -81,6 +89,7 @@ function App() {
   };
 
   const isIntroduction = activeSection === 'introduction';
+  const isExplore = activeSection === 'explore' || activeSection === 'partially-charted';
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] relative overflow-hidden">
@@ -176,8 +185,8 @@ function App() {
         </AnimatePresence>
       </main>
 
-      {/* Emotion Selector - only show on non-intro pages */}
-      {!isIntroduction && (
+      {/* Emotion Selector - only show on non-intro and non-explore pages */}
+      {!isIntroduction && !isExplore && (
         <EmotionSelector
           selectedEmotion={selectedEmotion}
           onEmotionSelect={setSelectedEmotion}

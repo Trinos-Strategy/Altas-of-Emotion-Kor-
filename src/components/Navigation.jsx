@@ -5,7 +5,7 @@ import { sectionNames } from '../data/emotions';
 const Navigation = ({ activeSection, onSectionChange }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const sections = ['introduction', 'triggers', 'continents', 'actions', 'links'];
+  const sections = ['introduction', 'triggers', 'continents', 'actions', 'links', 'explore'];
   const isIntroduction = activeSection === 'introduction';
 
   // Handle scroll effect
@@ -98,7 +98,10 @@ const Navigation = ({ activeSection, onSectionChange }) => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {sections.slice(1).map((section, index) => {
-                const isActive = activeSection === section;
+                const isActive = activeSection === section || 
+                  (section === 'explore' && activeSection === 'partially-charted');
+                const sectionInfo = sectionNames[section];
+                
                 return (
                   <motion.button
                     key={section}
@@ -133,7 +136,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                       }
                     }}
                   >
-                    {sectionNames[section].ko}
+                    {sectionInfo?.ko || section}
                     {/* Active indicator */}
                     {isActive && (
                       <motion.div
@@ -207,7 +210,10 @@ const Navigation = ({ activeSection, onSectionChange }) => {
             >
               <div style={{ padding: '16px' }}>
                 {sections.slice(1).map((section) => {
-                  const isActive = activeSection === section;
+                  const isActive = activeSection === section ||
+                    (section === 'explore' && activeSection === 'partially-charted');
+                  const sectionInfo = sectionNames[section];
+                  
                   return (
                     <button
                       key={section}
@@ -231,7 +237,7 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span>{sectionNames[section].ko}</span>
+                        <span>{sectionInfo?.ko || section}</span>
                         {isActive && (
                           <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

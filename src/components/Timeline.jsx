@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { emotions, emotionOrder, emotionTriggersResponses } from '../data/emotions';
+import { emotions, emotionOrder } from '../data/emotions';
+import { emotionalEpisodeTimelineDetailed } from '../data/additionalData';
 
 // ============================================
-// TIMELINE - PR #13 Premium Dark Mode Cinematic
-// 극도의 미니멀리즘 + 시네마틱 스크롤
+// TIMELINE - 개선된 버전
+// 10단계 상세 설명 포함 + 시네마틱 스크롤
 // ============================================
 
-// 5단계 타임라인 데이터
+// 5단계 메인 타임라인 데이터 (간략 버전)
 const STEPS = [
   { id: 1, ko: '사전 조건', en: 'PRE-CONDITION', short: '과거와 현재가 반응을 형성합니다' },
   { id: 2, ko: '이벤트', en: 'EVENT', short: '세상에서 무언가가 일어납니다' },
@@ -114,22 +115,13 @@ const CinematicStep = ({ step, emotion, index }) => {
   );
 };
 
-// Learn More 다크 모달
+// Learn More 다크 모달 - 10단계 상세 설명 포함
 const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
+  const [selectedStep, setSelectedStep] = useState(null);
+  
   if (!isOpen) return null;
 
-  const fullSteps = [
-    { id: 1, ko: '사전 조건', en: 'PRE-CONDITION' },
-    { id: 2, ko: '이벤트', en: 'EVENT' },
-    { id: 3, ko: '트리거', en: 'TRIGGER' },
-    { id: 4, ko: '지각 데이터베이스', en: 'PERCEPTUAL DATABASE' },
-    { id: 5, ko: '신체적 변화', en: 'PHYSICAL CHANGES' },
-    { id: 6, ko: '상태', en: 'STATE' },
-    { id: 7, ko: '심리적 변화', en: 'PSYCHOLOGICAL CHANGES' },
-    { id: 8, ko: '행동', en: 'ACTION' },
-    { id: 9, ko: '사후 조건', en: 'POST-CONDITION' },
-    { id: 10, ko: '선택적 필터 기간', en: 'REFRACTORY PERIOD' },
-  ];
+  const steps = emotionalEpisodeTimelineDetailed.steps;
 
   return (
     <motion.div
@@ -147,7 +139,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
       {/* 모달 */}
       <motion.div
-        className="relative w-full max-w-3xl max-h-[85vh] overflow-auto"
+        className="relative w-full max-w-4xl max-h-[90vh] overflow-auto"
         style={{
           background: 'linear-gradient(180deg, #1f1f1f 0%, #151515 100%)',
           border: '1px solid rgba(255,255,255,0.1)',
@@ -162,9 +154,9 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         <div className="sticky top-0 z-10 px-8 py-6 border-b border-white/10 flex justify-between items-center"
           style={{ background: 'rgba(21,21,21,0.95)', backdropFilter: 'blur(10px)' }}>
           <div>
-            <p className="text-[10px] tracking-[0.4em] text-white/30 uppercase mb-1">Emotional Episode</p>
+            <p className="text-[10px] tracking-[0.4em] text-white/30 uppercase mb-1">Emotional Episode Timeline</p>
             <h3 className="text-xl text-white/90 font-light" style={{ fontFamily: 'Georgia, serif' }}>
-              타임라인 전체 과정
+              감정 에피소드의 10단계
             </h3>
           </div>
           <button
@@ -179,30 +171,79 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
         {/* 콘텐츠 */}
         <div className="p-8">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            {fullSteps.map((step, i) => (
-              <motion.div
+          {/* 설명 */}
+          <p className="text-white/50 text-sm mb-8 leading-relaxed">
+            {emotionalEpisodeTimelineDetailed.description_ko}
+          </p>
+
+          {/* 10단계 그리드 */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+            {steps.map((step, i) => (
+              <motion.button
                 key={step.id}
-                className="p-4 border border-white/5 hover:border-white/15 transition-all group"
-                style={{ background: 'rgba(255,255,255,0.02)' }}
+                onClick={() => setSelectedStep(selectedStep?.id === step.id ? null : step)}
+                className={`p-4 border transition-all group text-left ${
+                  selectedStep?.id === step.id 
+                    ? 'border-white/30 bg-white/10' 
+                    : 'border-white/5 hover:border-white/15 bg-white/[0.02]'
+                }`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
               >
                 <span
-                  className="text-2xl font-extralight text-white/10 group-hover:text-white/20 transition-colors block mb-2"
+                  className={`text-2xl font-extralight block mb-2 transition-colors ${
+                    selectedStep?.id === step.id ? 'text-white/40' : 'text-white/10 group-hover:text-white/20'
+                  }`}
                   style={{ fontFamily: 'Georgia, serif' }}
                 >
                   {String(step.id).padStart(2, '0')}
                 </span>
-                <p className="text-white/70 text-sm font-medium">{step.ko}</p>
-                <p className="text-[9px] tracking-[0.15em] text-white/30 uppercase mt-1">{step.en}</p>
-              </motion.div>
+                <p className="text-white/70 text-sm font-medium">{step.name_ko}</p>
+                <p className="text-[9px] tracking-[0.15em] text-white/30 uppercase mt-1">{step.name_en}</p>
+              </motion.button>
             ))}
           </div>
 
+          {/* 선택된 단계 상세 설명 */}
+          <AnimatePresence mode="wait">
+            {selectedStep && (
+              <motion.div
+                key={selectedStep.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="p-6 border border-white/10 rounded-lg mb-8"
+                style={{ background: 'rgba(255,255,255,0.03)' }}
+              >
+                <div className="flex items-start gap-4">
+                  <span
+                    className="text-4xl font-extralight"
+                    style={{ fontFamily: 'Georgia, serif', color: emotion?.color || '#888' }}
+                  >
+                    {String(selectedStep.id).padStart(2, '0')}
+                  </span>
+                  <div className="flex-1">
+                    <h4 className="text-lg text-white/90 font-medium mb-1">{selectedStep.name_ko}</h4>
+                    <p className="text-xs tracking-[0.2em] text-white/30 uppercase mb-4">{selectedStep.name_en}</p>
+                    <p className="text-white/60 leading-relaxed">{selectedStep.description_ko}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* 단계 선택 안내 */}
+          {!selectedStep && (
+            <div className="p-6 border border-white/5 text-center mb-8" style={{ background: 'rgba(255,255,255,0.02)' }}>
+              <p className="text-white/40 text-sm">
+                위의 단계를 클릭하여 상세 설명을 확인하세요
+              </p>
+            </div>
+          )}
+
           {/* 인용구 */}
-          <div className="mt-8 p-6 border border-white/5 text-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
+          <div className="p-6 border border-white/5 text-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
             <p className="text-white/50 font-light" style={{ fontFamily: 'Georgia, serif' }}>
               "감정은 선택하지 않지만, <span className="text-white/80">반응은 선택</span>할 수 있습니다."
             </p>
@@ -304,7 +345,7 @@ const Timeline = ({ selectedEmotion }) => {
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span>Learn More</span>
+            <span>10단계 상세 보기</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder, dalaiLamaQuote, resources } from '../data/emotions';
+import { impediments, antidotesDetailed } from '../data/additionalData';
 
 // 전략 원칙 데이터
 const PRINCIPLES = [
@@ -33,17 +34,10 @@ const PRINCIPLES = [
   }
 ];
 
-// 해독제 카테고리
-const ANTIDOTE_CATEGORIES = [
-  { id: 'awareness', icon: '👁️', name_ko: '인식', name_en: 'Awareness' },
-  { id: 'acceptance', icon: '🤝', name_ko: '수용', name_en: 'Acceptance' },
-  { id: 'reframe', icon: '🔄', name_ko: '재구성', name_en: 'Reframe' },
-  { id: 'action', icon: '🎯', name_ko: '행동', name_en: 'Action' }
-];
-
 const Strategies = ({ selectedEmotion }) => {
   const [activeTab, setActiveTab] = useState('principles');
   const [expandedAntidote, setExpandedAntidote] = useState(null);
+  const [selectedEmotionForAntidote, setSelectedEmotionForAntidote] = useState(selectedEmotion || 'anger');
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
@@ -85,11 +79,11 @@ const Strategies = ({ selectedEmotion }) => {
             lineHeight: '1.7'
           }}>
             감정을 건설적으로 다루는 방법을 배워보세요.
-            각 감정에 대한 해독제와 방해물을 이해하면 더 나은 선택을 할 수 있습니다.
+            각 감정에 대한 해독제와 장애물을 이해하면 더 나은 선택을 할 수 있습니다.
           </p>
         </motion.header>
 
-        {/* Quote Card - Large with gradient */}
+        {/* Quote Card */}
         <motion.div
           style={{
             position: 'relative',
@@ -104,7 +98,6 @@ const Strategies = ({ selectedEmotion }) => {
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          {/* Big quotation mark on left */}
           <div style={{
             position: 'absolute',
             left: '40px',
@@ -146,7 +139,8 @@ const Strategies = ({ selectedEmotion }) => {
             display: 'flex',
             justifyContent: 'center',
             marginBottom: '48px',
-            gap: '12px'
+            gap: '12px',
+            flexWrap: 'wrap'
           }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -155,6 +149,7 @@ const Strategies = ({ selectedEmotion }) => {
           {[
             { id: 'principles', label: '세 가지 원칙' },
             { id: 'antidotes', label: '해독제' },
+            { id: 'impediments', label: '장애물' },
             { id: 'resources', label: '리소스' }
           ].map(tab => (
             <button
@@ -190,10 +185,9 @@ const Strategies = ({ selectedEmotion }) => {
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.4 }}
             >
-              {/* Three Principles - Large Cards 300x350px */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '32px',
                 marginBottom: '60px'
               }}>
@@ -212,11 +206,22 @@ const Strategies = ({ selectedEmotion }) => {
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.4 }}
             >
-              <AntidotesSection
-                currentEmotion={currentEmotion}
-                expandedAntidote={expandedAntidote}
-                setExpandedAntidote={setExpandedAntidote}
+              <DetailedAntidotesSection
+                selectedEmotion={selectedEmotionForAntidote}
+                setSelectedEmotion={setSelectedEmotionForAntidote}
               />
+            </motion.div>
+          )}
+
+          {activeTab === 'impediments' && (
+            <motion.div
+              key="impediments"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4 }}
+            >
+              <ImpedimentsSection />
             </motion.div>
           )}
 
@@ -237,7 +242,7 @@ const Strategies = ({ selectedEmotion }) => {
   );
 };
 
-// 원칙 카드 컴포넌트 - 300x350px
+// 원칙 카드 컴포넌트
 const PrincipleCard = ({ principle, index }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -267,7 +272,6 @@ const PrincipleCard = ({ principle, index }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.15, duration: 0.5 }}
     >
-      {/* Icon Circle */}
       <div style={{
         width: '100px',
         height: '100px',
@@ -283,7 +287,6 @@ const PrincipleCard = ({ principle, index }) => {
         <span style={{ fontSize: '48px' }}>{principle.icon}</span>
       </div>
 
-      {/* English Label */}
       <span style={{
         fontSize: '12px',
         fontWeight: '700',
@@ -295,7 +298,6 @@ const PrincipleCard = ({ principle, index }) => {
         {principle.title_en}
       </span>
 
-      {/* Korean Title */}
       <h3 style={{
         fontSize: '28px',
         fontWeight: '700',
@@ -305,7 +307,6 @@ const PrincipleCard = ({ principle, index }) => {
         {principle.title_ko}
       </h3>
 
-      {/* Description */}
       <p style={{
         fontSize: '16px',
         color: '#666',
@@ -315,7 +316,6 @@ const PrincipleCard = ({ principle, index }) => {
         {principle.description}
       </p>
 
-      {/* Bottom indicator */}
       <div style={{
         width: isHovered ? '60px' : '40px',
         height: '4px',
@@ -328,121 +328,153 @@ const PrincipleCard = ({ principle, index }) => {
   );
 };
 
-// 해독제 섹션
-const AntidotesSection = ({ currentEmotion, expandedAntidote, setExpandedAntidote }) => {
-  // 해독제 데이터
-  const antidoteData = {
-    awareness: {
-      title: '감정 인식하기',
-      description: '자신이 어떤 감정을 느끼고 있는지 명확하게 파악하세요.',
-      tips: [
-        '몸의 감각에 주의를 기울이세요',
-        '감정에 이름을 붙여보세요',
-        '판단 없이 관찰하세요',
-        '감정의 강도를 1-10으로 평가해보세요'
-      ]
-    },
-    acceptance: {
-      title: '감정 수용하기',
-      description: '모든 감정은 자연스러운 것입니다. 억누르지 말고 받아들이세요.',
-      tips: [
-        '감정을 좋거나 나쁘다고 판단하지 마세요',
-        '"이런 감정을 느끼는 것은 괜찮아"라고 말하세요',
-        '감정이 지나가도록 허용하세요',
-        '자신에게 친절하게 대하세요'
-      ]
-    },
-    reframe: {
-      title: '관점 재구성',
-      description: '상황을 다른 각도에서 바라보며 새로운 의미를 찾으세요.',
-      tips: [
-        '다른 사람의 입장에서 생각해보세요',
-        '이 상황에서 배울 수 있는 것은?',
-        '최악의 시나리오도 견딜 수 있을까?',
-        '1년 후에도 이것이 중요할까?'
-      ]
-    },
-    action: {
-      title: '건설적 행동',
-      description: '감정에 휩쓸리지 않고 의도적인 행동을 선택하세요.',
-      tips: [
-        '깊은 호흡을 3번 하세요',
-        '잠시 그 상황에서 벗어나세요',
-        '신뢰할 수 있는 사람과 이야기하세요',
-        '운동이나 산책을 하세요'
-      ]
-    }
-  };
+// 상세 해독제 섹션 (감정별 상태별 해독제)
+const DetailedAntidotesSection = ({ selectedEmotion, setSelectedEmotion }) => {
+  const [expandedState, setExpandedState] = useState(null);
+  const antidotes = antidotesDetailed[selectedEmotion] || [];
+  const emotion = emotions[selectedEmotion];
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <h3 style={{
         fontSize: '32px',
         fontWeight: '700',
         color: '#1a1a1a',
         textAlign: 'center',
-        marginBottom: '40px'
+        marginBottom: '16px'
       }}>
-        {currentEmotion ? `${currentEmotion.name_ko}의 해독제` : '감정 해독제'}
+        감정 상태별 해독제
       </h3>
+      <p style={{
+        fontSize: '16px',
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: '40px',
+        maxWidth: '600px',
+        margin: '0 auto 40px'
+      }}>
+        각 감정의 강도별로 적합한 해독제를 찾아보세요.
+        감정의 상태에 따라 다른 접근법이 필요합니다.
+      </p>
 
-      {/* Accordion Cards */}
+      {/* 감정 선택 버튼 */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '12px',
+        marginBottom: '40px',
+        flexWrap: 'wrap'
+      }}>
+        {emotionOrder.map(emotionId => {
+          const em = emotions[emotionId];
+          const isActive = selectedEmotion === emotionId;
+          return (
+            <button
+              key={emotionId}
+              onClick={() => {
+                setSelectedEmotion(emotionId);
+                setExpandedState(null);
+              }}
+              style={{
+                padding: '12px 24px',
+                borderRadius: '30px',
+                border: `2px solid ${isActive ? em.color : '#e0e0e0'}`,
+                backgroundColor: isActive ? em.color : '#fff',
+                color: isActive ? '#fff' : '#666',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <span style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: isActive ? '#fff' : em.color
+              }} />
+              {em.name_ko}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 해독제 리스트 */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {ANTIDOTE_CATEGORIES.map((category, index) => {
-          const isExpanded = expandedAntidote === category.id;
-          const data = antidoteData[category.id];
-
+        {antidotes.map((item, index) => {
+          const isExpanded = expandedState === index;
           return (
             <motion.div
-              key={category.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
             >
               <div
-                onClick={() => setExpandedAntidote(isExpanded ? null : category.id)}
+                onClick={() => setExpandedState(isExpanded ? null : index)}
                 style={{
                   backgroundColor: '#fff',
-                  borderRadius: '20px',
+                  borderRadius: '16px',
                   overflow: 'hidden',
                   boxShadow: isExpanded
-                    ? '0 20px 50px rgba(0,0,0,0.12)'
+                    ? `0 20px 50px ${emotion?.color}20`
                     : '0 4px 20px rgba(0,0,0,0.06)',
-                  transition: 'all 0.3s ease',
                   cursor: 'pointer',
-                  border: isExpanded ? '2px solid #1a1a1a' : '2px solid transparent'
+                  border: isExpanded ? `2px solid ${emotion?.color}` : '2px solid transparent',
+                  transition: 'all 0.3s ease'
                 }}
               >
-                {/* Header */}
                 <div style={{
-                  padding: '24px 32px',
+                  padding: '20px 28px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '20px'
+                  gap: '16px'
                 }}>
-                  <span style={{ fontSize: '40px' }}>{category.icon}</span>
-                  <div style={{ flex: 1 }}>
+                  {/* 강도 표시 */}
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '12px',
+                    backgroundColor: emotion?.color + '20',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
                     <span style={{
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      color: '#888',
-                      letterSpacing: '1px',
-                      textTransform: 'uppercase'
+                      fontSize: '20px',
+                      fontWeight: '700',
+                      color: emotion?.color
                     }}>
-                      {category.name_en}
+                      {index + 1}
                     </span>
+                  </div>
+
+                  <div style={{ flex: 1 }}>
                     <h4 style={{
-                      fontSize: '22px',
+                      fontSize: '20px',
                       fontWeight: '700',
                       color: '#1a1a1a',
-                      marginTop: '4px'
+                      marginBottom: '4px'
                     }}>
-                      {data.title}
+                      {item.state_ko}
                     </h4>
+                    <p style={{
+                      fontSize: '13px',
+                      color: '#888',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>
+                      {item.state_en}
+                    </p>
                   </div>
+
                   <div style={{
-                    width: '40px',
-                    height: '40px',
+                    width: '36px',
+                    height: '36px',
                     borderRadius: '50%',
                     backgroundColor: '#f5f5f5',
                     display: 'flex',
@@ -451,13 +483,12 @@ const AntidotesSection = ({ currentEmotion, expandedAntidote, setExpandedAntidot
                     transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)',
                     transition: 'transform 0.3s ease'
                   }}>
-                    <svg width="20" height="20" fill="none" stroke="#333" strokeWidth="2" viewBox="0 0 24 24">
+                    <svg width="18" height="18" fill="none" stroke="#333" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
                 </div>
 
-                {/* Expandable Content */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
@@ -467,55 +498,33 @@ const AntidotesSection = ({ currentEmotion, expandedAntidote, setExpandedAntidot
                       transition={{ duration: 0.3 }}
                     >
                       <div style={{
-                        padding: '0 32px 32px',
+                        padding: '0 28px 28px',
                         borderTop: '1px solid #f0f0f0'
                       }}>
-                        <p style={{
-                          fontSize: '16px',
-                          color: '#666',
-                          lineHeight: '1.7',
-                          marginTop: '20px',
-                          marginBottom: '24px'
-                        }}>
-                          {data.description}
-                        </p>
                         <div style={{
-                          display: 'grid',
-                          gridTemplateColumns: 'repeat(2, 1fr)',
-                          gap: '12px'
+                          marginTop: '20px',
+                          padding: '20px',
+                          backgroundColor: emotion?.color + '10',
+                          borderRadius: '12px',
+                          borderLeft: `4px solid ${emotion?.color}`
                         }}>
-                          {data.tips.map((tip, i) => (
-                            <div
-                              key={i}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '12px',
-                                padding: '16px',
-                                backgroundColor: '#f9f9f9',
-                                borderRadius: '12px'
-                              }}
-                            >
-                              <span style={{
-                                width: '28px',
-                                height: '28px',
-                                borderRadius: '50%',
-                                backgroundColor: '#1a1a1a',
-                                color: '#fff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                                fontWeight: '700',
-                                flexShrink: 0
-                              }}>
-                                {i + 1}
-                              </span>
-                              <span style={{ fontSize: '15px', color: '#444' }}>
-                                {tip}
-                              </span>
-                            </div>
-                          ))}
+                          <p style={{
+                            fontSize: '11px',
+                            fontWeight: '700',
+                            color: emotion?.color,
+                            letterSpacing: '1px',
+                            textTransform: 'uppercase',
+                            marginBottom: '8px'
+                          }}>
+                            해독제
+                          </p>
+                          <p style={{
+                            fontSize: '17px',
+                            color: '#333',
+                            lineHeight: '1.7'
+                          }}>
+                            {item.antidote_ko}
+                          </p>
                         </div>
                       </div>
                     </motion.div>
@@ -530,13 +539,130 @@ const AntidotesSection = ({ currentEmotion, expandedAntidote, setExpandedAntidot
   );
 };
 
+// 장애물 섹션 (Impediments)
+const ImpedimentsSection = () => {
+  const enjoymentImpediments = impediments.enjoyment;
+
+  return (
+    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <h3 style={{
+        fontSize: '32px',
+        fontWeight: '700',
+        color: '#1a1a1a',
+        textAlign: 'center',
+        marginBottom: '16px'
+      }}>
+        {enjoymentImpediments.title_ko}
+      </h3>
+      <p style={{
+        fontSize: '16px',
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: '40px',
+        maxWidth: '600px',
+        margin: '0 auto 40px'
+      }}>
+        {enjoymentImpediments.description_ko}
+      </p>
+
+      {/* 장애물 카드 그리드 */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '24px'
+      }}>
+        {enjoymentImpediments.items.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '20px',
+              padding: '32px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+              border: '2px solid #f0f0f0',
+              transition: 'all 0.3s ease'
+            }}
+            whileHover={{
+              y: -8,
+              boxShadow: '0 20px 50px rgba(0,0,0,0.12)',
+              borderColor: '#e0e0e0'
+            }}
+          >
+            <div style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '16px',
+              backgroundColor: '#FEF3C7',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '20px'
+            }}>
+              <span style={{ fontSize: '28px' }}>🚧</span>
+            </div>
+
+            <h4 style={{
+              fontSize: '20px',
+              fontWeight: '700',
+              color: '#1a1a1a',
+              marginBottom: '8px'
+            }}>
+              {item.name_ko}
+            </h4>
+            <p style={{
+              fontSize: '13px',
+              color: '#888',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              marginBottom: '16px'
+            }}>
+              {item.name_en}
+            </p>
+            <p style={{
+              fontSize: '15px',
+              color: '#666',
+              lineHeight: '1.7'
+            }}>
+              {item.description_ko}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* 안내 메시지 */}
+      <motion.div
+        style={{
+          marginTop: '48px',
+          padding: '32px',
+          backgroundColor: '#FFF7ED',
+          borderRadius: '20px',
+          textAlign: 'center',
+          border: '2px solid #FFEDD5'
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <p style={{ fontSize: '16px', color: '#9A3412', lineHeight: '1.7' }}>
+          💡 <strong>팁:</strong> 이러한 장애물을 인식하는 것이 첫 번째 단계입니다.
+          장애물을 알아차리면, 그것을 극복하기 위한 의식적인 선택을 할 수 있습니다.
+        </p>
+      </motion.div>
+    </div>
+  );
+};
+
 // 리소스 리스트
 const ResourcesList = () => {
   const resourceTypes = {
     YouTube: { icon: '📺', color: '#FF0000', bg: '#FEE2E2' },
     Meditation: { icon: '🧘', color: '#8B5CF6', bg: '#EDE9FE' },
     App: { icon: '📱', color: '#3B82F6', bg: '#DBEAFE' },
-    Article: { icon: '📖', color: '#10B981', bg: '#D1FAE5' }
+    Article: { icon: '📖', color: '#10B981', bg: '#D1FAE5' },
+    Website: { icon: '🌐', color: '#6366F1', bg: '#E0E7FF' }
   };
 
   return (
@@ -553,7 +679,7 @@ const ResourcesList = () => {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         gap: '24px'
       }}>
         {resources.map((resource, i) => {
