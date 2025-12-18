@@ -8,6 +8,7 @@ import Experience from './components/Experience';
 import Response from './components/Response';
 import Strategies from './components/Strategies';
 import PartiallyChartedEmotions from './components/PartiallyChartedEmotions';
+import KoreanEmotions from './components/KoreanEmotions';
 
 function App() {
   const [activeSection, setActiveSection] = useState('introduction');
@@ -79,6 +80,12 @@ function App() {
             <PartiallyChartedEmotions />
           </motion.div>
         );
+      case 'korean-emotions':
+        return (
+          <motion.div key="korean-emotions" {...variants}>
+            <KoreanEmotions />
+          </motion.div>
+        );
       default:
         return (
           <motion.div key="introduction" {...variants}>
@@ -90,6 +97,7 @@ function App() {
 
   const isIntroduction = activeSection === 'introduction';
   const isExplore = activeSection === 'explore' || activeSection === 'partially-charted';
+  const isKoreanEmotions = activeSection === 'korean-emotions';
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] relative overflow-hidden">
@@ -185,8 +193,8 @@ function App() {
         </AnimatePresence>
       </main>
 
-      {/* Emotion Selector - only show on non-intro and non-explore pages */}
-      {!isIntroduction && !isExplore && (
+      {/* Emotion Selector - only show on non-intro, non-explore, and non-korean-emotions pages */}
+      {!isIntroduction && !isExplore && !isKoreanEmotions && (
         <EmotionSelector
           selectedEmotion={selectedEmotion}
           onEmotionSelect={setSelectedEmotion}
