@@ -173,7 +173,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         {/* 콘텐츠 - 라이트 테마 */}
         <div className="px-12 py-10">
           {/* 설명 */}
-          <p className="text-gray-600 text-base mb-10 tracking-wide" style={{ lineHeight: '1.9' }}>
+          <p className="text-gray-600 text-xl mb-10 tracking-wide" style={{ lineHeight: '1.9' }}>
             {emotionalEpisodeTimelineDetailed.description_ko}
           </p>
 
@@ -193,7 +193,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 transition={{ delay: i * 0.03 }}
               >
                 <span
-                  className={`text-2xl font-extralight block mb-3 transition-colors`}
+                  className={`text-4xl font-extralight block mb-3 transition-colors`}
                   style={{
                     fontFamily: 'Georgia, serif',
                     color: selectedStep?.id === step.id ? (emotion?.color || '#333') : '#ddd'
@@ -201,8 +201,8 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 >
                   {String(step.id).padStart(2, '0')}
                 </span>
-                <p className="text-gray-800 text-sm font-medium tracking-wide" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
-                <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase mt-2">{step.name_en}</p>
+                <p className="text-gray-800 text-base font-medium tracking-wide" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
+                <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mt-2">{step.name_en}</p>
               </motion.button>
             ))}
           </div>
@@ -225,9 +225,9 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                     {String(selectedStep.id).padStart(2, '0')}
                   </span>
                   <div className="flex-1">
-                    <h4 className="text-xl text-gray-900 font-semibold mb-2">{selectedStep.name_ko}</h4>
-                    <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-5">{selectedStep.name_en}</p>
-                    <p className="text-gray-700 text-base" style={{ lineHeight: '1.9' }}>{selectedStep.description_ko}</p>
+                    <h4 className="text-2xl text-gray-900 font-semibold mb-2">{selectedStep.name_ko}</h4>
+                    <p className="text-sm tracking-[0.2em] text-gray-400 uppercase mb-5">{selectedStep.name_en}</p>
+                    <p className="text-gray-700 text-xl" style={{ lineHeight: '1.9' }}>{selectedStep.description_ko}</p>
                   </div>
                 </div>
               </motion.div>
@@ -237,7 +237,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
           {/* 단계 선택 안내 - 라이트 테마 */}
           {!selectedStep && (
             <div className="p-8 border border-gray-100 rounded-2xl text-center mb-10 bg-gray-50">
-              <p className="text-gray-500 text-base tracking-wide" style={{ lineHeight: '1.8' }}>
+              <p className="text-gray-500 text-xl tracking-wide" style={{ lineHeight: '1.8' }}>
                 위의 단계를 클릭하여 상세 설명을 확인하세요
               </p>
             </div>
@@ -245,7 +245,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
           {/* 인용구 - 라이트 테마 */}
           <div className="p-10 border border-gray-100 rounded-2xl text-center bg-gradient-to-r from-gray-50 to-white">
-            <p className="text-gray-600 text-xl md:text-2xl font-light tracking-wide" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
+            <p className="text-gray-600 text-2xl md:text-3xl font-light tracking-wide" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
               "감정은 선택하지 않지만, <span className="text-gray-900 font-medium">반응은 선택</span>할 수 있습니다."
             </p>
           </div>
