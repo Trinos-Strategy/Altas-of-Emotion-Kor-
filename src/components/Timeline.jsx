@@ -1,25 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { emotions, emotionOrder, emotionTriggersResponses } from '../data/emotions';
 
 // ============================================
-// LUXURY TIMELINE - 2025 Premium Design
-// Inspired by: Louis Vuitton, Hermès, Apple, Stripe
+// TIMELINE 2025 - Dark Mode Scroll Storytelling
+// Inspired by: Linear, Stripe, Are.na, Awwwards
 // ============================================
 
-// Premium Color Palette
-const COLORS = {
-  primary: '#000000',
-  secondary: '#F8F9FA',
-  accent: '#C9A227', // Luxury Gold
-  text: '#1A1A1A',
-  textLight: '#6B7280',
-  border: '#E5E7EB',
-  white: '#FFFFFF',
-};
-
 // ============================================
-// HOW DOES THIS HAPPEN Modal - Premium Style
+// Modals (기존 유지)
 // ============================================
 const HowDoesThisHappenModal = ({ isOpen, onClose, emotion }) => {
   const steps = [
@@ -40,310 +29,204 @@ const HowDoesThisHappenModal = ({ isOpen, onClose, emotion }) => {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <motion.div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
       />
-
       <motion.div
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 40 }}
-        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        style={{ borderRadius: '2px' }}
+        className="relative w-full max-w-4xl max-h-[85vh] overflow-y-auto bg-[#111] border border-white/10 rounded-sm"
+        initial={{ opacity: 0, y: 40, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 40, scale: 0.98 }}
+        transition={{ duration: 0.4 }}
       >
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-100">
-          <div className="px-16 py-10 flex items-center justify-between">
-            <div>
-              <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-3">How Does This Happen?</p>
-              <h2 className="text-3xl font-light text-gray-900 tracking-tight" style={{ fontFamily: 'Georgia, serif' }}>
-                어떻게 이런 일이 일어나는가
-              </h2>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors duration-300"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
+        <div className="sticky top-0 z-10 bg-[#111]/95 backdrop-blur-sm border-b border-white/10 px-10 py-8 flex justify-between items-start">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] text-white/40 uppercase mb-2">How Does This Happen?</p>
+            <h2 className="text-2xl text-white/90 font-light">어떻게 이런 일이 일어나는가</h2>
           </div>
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-
-        {/* Content */}
-        <div className="px-16 py-12">
-          <div className="grid md:grid-cols-2 gap-8">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.id}
-                className="group"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05, duration: 0.4 }}
-              >
-                <div className="p-8 border border-gray-100 hover:border-gray-300 transition-all duration-300 hover:shadow-lg"
-                  style={{ borderRadius: '2px' }}>
-                  <div className="flex items-start gap-6">
-                    <span className="text-4xl font-light text-gray-200 group-hover:text-gray-900 transition-colors duration-300"
-                      style={{ fontFamily: 'Georgia, serif' }}>
-                      {String(step.id).padStart(2, '0')}
-                    </span>
-                    <div>
-                      <h4 className="text-lg font-medium text-gray-900 mb-1">{step.name_ko}</h4>
-                      <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">{step.name_en}</p>
-                      <p className="text-gray-500 leading-relaxed text-sm">{step.desc}</p>
-                    </div>
-                  </div>
+        <div className="p-10 grid md:grid-cols-2 gap-4">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.id}
+              className="p-6 border border-white/5 hover:border-white/20 bg-white/[0.02] transition-all duration-300"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.03 }}
+            >
+              <div className="flex items-start gap-4">
+                <span className="text-3xl font-extralight text-white/20">{String(step.id).padStart(2, '0')}</span>
+                <div>
+                  <h4 className="text-white/90 font-medium mb-1">{step.name_ko}</h4>
+                  <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-3">{step.name_en}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Key Insight */}
-          <div className="mt-16 p-12 bg-gray-50 text-center" style={{ borderRadius: '2px' }}>
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-4">Key Insight</p>
-            <p className="text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Georgia, serif' }}>
-              "감정은 선택하지 않지만, <span className="text-gray-900 font-medium">반응은 선택</span>할 수 있습니다."
-            </p>
-          </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="mx-10 mb-10 p-8 bg-white/[0.03] border border-white/5 text-center">
+          <p className="text-white/60 leading-relaxed">
+            "감정은 선택하지 않지만, <span className="text-white/90">반응은 선택</span>할 수 있습니다."
+          </p>
         </div>
       </motion.div>
     </div>
   );
 };
 
-// ============================================
-// Triggers & Responses Modal
-// ============================================
 const TriggersResponsesModal = ({ isOpen, onClose, emotion, emotionData }) => {
   if (!isOpen || !emotionData) return null;
-
-  const getTypeStyle = (type) => {
+  const getStyle = (type) => {
     switch (type) {
-      case 'constructive': return { bg: '#F0FDF4', text: '#166534', border: '#BBF7D0' };
-      case 'destructive': return { bg: '#FEF2F2', text: '#991B1B', border: '#FECACA' };
-      default: return { bg: '#FFFBEB', text: '#92400E', border: '#FDE68A' };
+      case 'constructive': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      case 'destructive': return 'bg-red-500/10 text-red-400 border-red-500/20';
+      default: return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
     }
   };
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <motion.div className="absolute inset-0 bg-black/80 backdrop-blur-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
       <motion.div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      />
-
-      <motion.div
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white"
+        className="relative w-full max-w-3xl max-h-[85vh] overflow-y-auto bg-[#111] border border-white/10 rounded-sm"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 40 }}
-        style={{ borderRadius: '2px' }}
       >
-        <div className="px-16 py-10 border-b border-gray-100 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-[#111]/95 backdrop-blur-sm border-b border-white/10 px-10 py-8 flex justify-between items-start">
           <div>
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-3">Triggers & Responses</p>
-            <h2 className="text-3xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-              트리거와 반응
-            </h2>
-            <p className="text-gray-400 mt-2">{emotion?.name_ko} • {emotion?.name_en}</p>
+            <p className="text-[11px] tracking-[0.3em] text-white/40 uppercase mb-2">Triggers & Responses</p>
+            <h2 className="text-2xl text-white/90 font-light">트리거와 반응</h2>
+            <p className="text-white/30 text-sm mt-1">{emotion?.name_ko}</p>
           </div>
-          <button onClick={onClose} className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         </div>
-
-        <div className="p-16 space-y-16">
-          {/* Triggers */}
+        <div className="p-10 space-y-10">
           <div>
-            <h3 className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-8">Triggers — 트리거</h3>
-            <div className="grid md:grid-cols-2 gap-4">
-              {emotionData.triggers?.map((trigger, i) => (
-                <div key={i} className="p-6 border border-gray-100 hover:border-gray-300 transition-colors" style={{ borderRadius: '2px' }}>
-                  <p className="text-gray-700">{trigger.text_ko}</p>
-                  <p className="text-gray-400 text-sm mt-2">{trigger.text_en}</p>
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-5">Triggers</p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {emotionData.triggers?.map((t, i) => (
+                <div key={i} className="p-4 border border-white/5 bg-white/[0.02]">
+                  <p className="text-white/70 text-sm">{t.text_ko}</p>
+                  <p className="text-white/30 text-xs mt-1">{t.text_en}</p>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Intrinsic Actions */}
           <div>
-            <h3 className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-8">Intrinsic Actions — 본능적 반응</h3>
-            <div className="flex flex-wrap gap-3">
-              {emotionData.intrinsicActions?.map((action, i) => {
-                const style = getTypeStyle(action.type);
-                return (
-                  <span key={i} className="px-5 py-2.5 text-sm font-medium transition-all hover:scale-105"
-                    style={{ backgroundColor: style.bg, color: style.text, border: `1px solid ${style.border}`, borderRadius: '2px' }}>
-                    {action.text_ko}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Intentional Actions */}
-          <div>
-            <h3 className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-8">Intentional Actions — 의도적 반응</h3>
-            <div className="flex flex-wrap gap-3">
-              {emotionData.intentionalActions?.map((action, i) => {
-                const style = getTypeStyle(action.type);
-                return (
-                  <span key={i} className="px-5 py-2.5 text-sm font-medium transition-all hover:scale-105"
-                    style={{ backgroundColor: style.bg, color: style.text, border: `1px solid ${style.border}`, borderRadius: '2px' }}>
-                    {action.text_ko}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div className="flex items-center gap-8 pt-8 border-t border-gray-100">
-            <span className="text-xs text-gray-400 uppercase tracking-wider">Legend</span>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-100 border border-green-200" style={{ borderRadius: '1px' }} />
-              <span className="text-sm text-gray-500">건설적</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-red-100 border border-red-200" style={{ borderRadius: '1px' }} />
-              <span className="text-sm text-gray-500">파괴적</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-amber-100 border border-amber-200" style={{ borderRadius: '1px' }} />
-              <span className="text-sm text-gray-500">상황에 따라</span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
-// ============================================
-// Signal & Message Modal
-// ============================================
-const SignalMessageModal = ({ isOpen, onClose, emotion, emotionData }) => {
-  if (!isOpen || !emotionData) return null;
-
-  return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      <motion.div className="absolute inset-0 bg-black/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
-
-      <motion.div
-        className="relative w-full max-w-2xl bg-white"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 40 }}
-        style={{ borderRadius: '2px' }}
-      >
-        <div className="px-16 py-10 border-b border-gray-100 flex items-center justify-between">
-          <div>
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-3">Signal & Message</p>
-            <h2 className="text-3xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>신호와 메시지</h2>
-          </div>
-          <button onClick={onClose} className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-          </button>
-        </div>
-
-        <div className="p-16 space-y-12">
-          <div>
-            <h3 className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-6">Signal — 신호</h3>
-            <p className="text-lg text-gray-700 leading-relaxed">{emotionData.signal?.text_ko}</p>
-            <p className="text-gray-400 mt-3">{emotionData.signal?.text_en}</p>
-          </div>
-
-          <div className="p-10 bg-gray-50 text-center" style={{ borderRadius: '2px' }}>
-            <h3 className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-6">Message — 메시지</h3>
-            <p className="text-2xl text-gray-900 font-light" style={{ fontFamily: 'Georgia, serif' }}>
-              "{emotionData.message?.text_ko}"
-            </p>
-            <p className="text-gray-400 mt-4">"{emotionData.message?.text_en}"</p>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
-// ============================================
-// Moods Modal
-// ============================================
-const MoodsModal = ({ isOpen, onClose, emotion }) => {
-  if (!isOpen) return null;
-
-  const moodsData = {
-    anger: { mood_ko: "짜증나는", mood_en: "Irritable", trait_ko: "적대적인", trait_en: "Hostile", psycho: ["간헐적 폭발 장애", "만성 적대감"] },
-    fear: { mood_ko: "불안한", mood_en: "Apprehensive", trait_ko: "소심한", trait_en: "Timid", psycho: ["사회불안장애", "PTSD", "공황장애"] },
-    disgust: { mood_ko: "까다로운", mood_en: "Sour", trait_ko: "예민한", trait_en: "Squeamish", psycho: ["신경성 식욕부진증", "강박장애"] },
-    sadness: { mood_ko: "우울한", mood_en: "Dysphoric", trait_ko: "비관적인", trait_en: "Pessimistic", psycho: ["주요우울장애", "지속성우울장애"] },
-    enjoyment: { mood_ko: "들뜬", mood_en: "Elated", trait_ko: "낙관적인", trait_en: "Optimistic", psycho: ["조증 삽화"] }
-  };
-
-  const data = moodsData[emotion?.id] || moodsData.anger;
-
-  return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      <motion.div className="absolute inset-0 bg-black/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
-
-      <motion.div
-        className="relative w-full max-w-2xl bg-white"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 40 }}
-        style={{ borderRadius: '2px' }}
-      >
-        <div className="px-16 py-10 border-b border-gray-100 flex items-center justify-between">
-          <div>
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-3">Moods & Psychopathology</p>
-            <h2 className="text-3xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>기분과 정신병리</h2>
-          </div>
-          <button onClick={onClose} className="w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-          </button>
-        </div>
-
-        <div className="p-16 space-y-10">
-          <div className="grid grid-cols-2 gap-8">
-            <div className="p-8 border border-gray-100" style={{ borderRadius: '2px' }}>
-              <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">Mood — 기분</p>
-              <p className="text-2xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>{data.mood_ko}</p>
-              <p className="text-gray-400 mt-2">{data.mood_en}</p>
-            </div>
-            <div className="p-8 border border-gray-100" style={{ borderRadius: '2px' }}>
-              <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">Trait — 성격</p>
-              <p className="text-2xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>{data.trait_ko}</p>
-              <p className="text-gray-400 mt-2">{data.trait_en}</p>
-            </div>
-          </div>
-
-          <div>
-            <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-6">Psychopathology — 정신병리</p>
-            <div className="flex flex-wrap gap-3">
-              {data.psycho.map((item, i) => (
-                <span key={i} className="px-5 py-2.5 bg-gray-50 text-gray-700 text-sm border border-gray-100" style={{ borderRadius: '2px' }}>
-                  {item}
-                </span>
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-5">Intrinsic Actions</p>
+            <div className="flex flex-wrap gap-2">
+              {emotionData.intrinsicActions?.map((a, i) => (
+                <span key={i} className={`px-4 py-2 text-sm border ${getStyle(a.type)}`}>{a.text_ko}</span>
               ))}
             </div>
           </div>
+          <div>
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-5">Intentional Actions</p>
+            <div className="flex flex-wrap gap-2">
+              {emotionData.intentionalActions?.map((a, i) => (
+                <span key={i} className={`px-4 py-2 text-sm border ${getStyle(a.type)}`}>{a.text_ko}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
-          <div className="p-6 bg-amber-50 border border-amber-100" style={{ borderRadius: '2px' }}>
-            <p className="text-sm text-amber-800">
-              이 정보는 교육 목적으로 제공됩니다. 정신 건강 관련 우려가 있다면 전문가와 상담하세요.
-            </p>
+const SignalMessageModal = ({ isOpen, onClose, emotion, emotionData }) => {
+  if (!isOpen || !emotionData) return null;
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <motion.div className="absolute inset-0 bg-black/80 backdrop-blur-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+      <motion.div
+        className="relative w-full max-w-xl bg-[#111] border border-white/10 rounded-sm"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+      >
+        <div className="px-10 py-8 border-b border-white/10 flex justify-between items-start">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] text-white/40 uppercase mb-2">Signal & Message</p>
+            <h2 className="text-2xl text-white/90 font-light">신호와 메시지</h2>
+          </div>
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div className="p-10 space-y-8">
+          <div>
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-4">Signal</p>
+            <p className="text-white/70 leading-relaxed">{emotionData.signal?.text_ko}</p>
+          </div>
+          <div className="p-8 bg-white/[0.03] border border-white/5 text-center">
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-4">Message</p>
+            <p className="text-xl text-white/90 font-light">"{emotionData.message?.text_ko}"</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const MoodsModal = ({ isOpen, onClose, emotion }) => {
+  if (!isOpen) return null;
+  const data = {
+    anger: { mood: "짜증나는", trait: "적대적인", psycho: ["간헐적 폭발 장애", "만성 적대감"] },
+    fear: { mood: "불안한", trait: "소심한", psycho: ["사회불안장애", "PTSD", "공황장애"] },
+    disgust: { mood: "까다로운", trait: "예민한", psycho: ["신경성 식욕부진증", "강박장애"] },
+    sadness: { mood: "우울한", trait: "비관적인", psycho: ["주요우울장애", "지속성우울장애"] },
+    enjoyment: { mood: "들뜬", trait: "낙관적인", psycho: ["조증 삽화"] }
+  }[emotion?.id] || { mood: "-", trait: "-", psycho: [] };
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <motion.div className="absolute inset-0 bg-black/80 backdrop-blur-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+      <motion.div
+        className="relative w-full max-w-xl bg-[#111] border border-white/10 rounded-sm"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+      >
+        <div className="px-10 py-8 border-b border-white/10 flex justify-between items-start">
+          <div>
+            <p className="text-[11px] tracking-[0.3em] text-white/40 uppercase mb-2">Moods & Psychopathology</p>
+            <h2 className="text-2xl text-white/90 font-light">기분과 정신병리</h2>
+          </div>
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div className="p-10 space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-6 border border-white/5 bg-white/[0.02]">
+              <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Mood</p>
+              <p className="text-xl text-white/80 font-light">{data.mood}</p>
+            </div>
+            <div className="p-6 border border-white/5 bg-white/[0.02]">
+              <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase mb-2">Trait</p>
+              <p className="text-xl text-white/80 font-light">{data.trait}</p>
+            </div>
+          </div>
+          <div>
+            <p className="text-[10px] tracking-[0.3em] text-white/30 uppercase mb-4">Psychopathology</p>
+            <div className="flex flex-wrap gap-2">
+              {data.psycho.map((p, i) => (
+                <span key={i} className="px-4 py-2 text-sm text-white/60 border border-white/10 bg-white/[0.02]">{p}</span>
+              ))}
+            </div>
           </div>
         </div>
       </motion.div>
@@ -352,18 +235,136 @@ const MoodsModal = ({ isOpen, onClose, emotion }) => {
 };
 
 // ============================================
-// Main Timeline Component - Luxury Design
+// Step Section Component
+// ============================================
+const StepSection = ({ step, index, emotion, isActive }) => {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="min-h-screen flex items-center justify-center relative px-8"
+      style={{ paddingTop: index === 0 ? '0' : '20vh', paddingBottom: '20vh' }}
+    >
+      <motion.div
+        className="max-w-4xl w-full"
+        initial={{ opacity: 0, y: 60 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        {/* Giant Step Number */}
+        <div className="relative mb-8">
+          <span
+            className="text-[180px] md:text-[240px] lg:text-[300px] font-extralight leading-none select-none"
+            style={{
+              color: 'transparent',
+              WebkitTextStroke: `1px ${emotion?.color}30`,
+            }}
+          >
+            {String(step.id).padStart(2, '0')}
+          </span>
+
+          {/* Accent Line */}
+          <motion.div
+            className="absolute bottom-8 left-0 h-[1px]"
+            style={{ backgroundColor: emotion?.color }}
+            initial={{ width: 0 }}
+            animate={isVisible ? { width: '120px' } : { width: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="pl-4 md:pl-8">
+          <motion.h2
+            className="text-4xl md:text-5xl lg:text-6xl text-white/90 font-light mb-4 tracking-tight"
+            initial={{ opacity: 0, x: -20 }}
+            animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {step.name_ko}
+          </motion.h2>
+
+          <motion.p
+            className="text-[11px] tracking-[0.3em] text-white/30 uppercase mb-8"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            {step.name_en}
+          </motion.p>
+
+          <motion.p
+            className="text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            {step.desc}
+          </motion.p>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+// ============================================
+// Scroll Progress Indicator
+// ============================================
+const ScrollProgress = ({ steps, activeStep, emotion }) => {
+  return (
+    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center gap-3">
+      {steps.map((step, i) => (
+        <motion.div
+          key={step.id}
+          className="relative group"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.1 }}
+        >
+          <div
+            className="w-2 h-2 rounded-full transition-all duration-300"
+            style={{
+              backgroundColor: activeStep === i ? emotion?.color : 'rgba(255,255,255,0.2)',
+              transform: activeStep === i ? 'scale(1.5)' : 'scale(1)',
+            }}
+          />
+          {/* Tooltip */}
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <div className="bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-sm whitespace-nowrap">
+              <span className="text-xs text-white/70">{step.name_ko}</span>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+// ============================================
+// Main Timeline Component
 // ============================================
 const Timeline = ({ selectedEmotion }) => {
   const [currentEmotionId, setCurrentEmotionId] = useState(selectedEmotion || 'anger');
+  const [activeStep, setActiveStep] = useState(0);
   const [showHowModal, setShowHowModal] = useState(false);
   const [showTriggersModal, setShowTriggersModal] = useState(false);
   const [showSignalModal, setShowSignalModal] = useState(false);
   const [showMoodsModal, setShowMoodsModal] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [pillOpen, setPillOpen] = useState(false);
 
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
 
   useEffect(() => {
     if (selectedEmotion) setCurrentEmotionId(selectedEmotion);
@@ -373,67 +374,70 @@ const Timeline = ({ selectedEmotion }) => {
   const emotionData = emotionTriggersResponses?.[currentEmotionId];
 
   const timelineSteps = [
-    { id: 1, name_ko: '사전 조건', name_en: 'PRE-CONDITION', desc: '과거 경험과 현재 상태' },
-    { id: 2, name_ko: '이벤트', name_en: 'EVENT', desc: '외부 또는 내부 자극' },
-    { id: 3, name_ko: '트리거', name_en: 'TRIGGER', desc: '자동 평가와 매칭' },
-    { id: 4, name_ko: '경험', name_en: 'EXPERIENCE', desc: '신체적·심리적 변화' },
-    { id: 5, name_ko: '반응', name_en: 'RESPONSE', desc: '건설적 또는 파괴적' },
+    { id: 1, name_ko: '사전 조건', name_en: 'PRE-CONDITION', desc: '과거 경험, 현재의 기분 상태, 성격 특성이 다음에 오는 자극에 대한 반응 방식을 형성합니다.' },
+    { id: 2, name_ko: '이벤트', name_en: 'EVENT', desc: '세상에서 무언가가 일어나거나, 마음속에서 생각이 떠오릅니다. 외부 또는 내부 자극이 감지됩니다.' },
+    { id: 3, name_ko: '트리거', name_en: 'TRIGGER', desc: '자동 평가 시스템이 밀리초 단위로 무의식적으로 작동하여 감정 데이터베이스와 매칭합니다.' },
+    { id: 4, name_ko: '경험', name_en: 'EXPERIENCE', desc: '심박수 증가, 호흡 변화, 근육 긴장 등 신체적 변화와 함께 감정의 질적 경험이 나타납니다.' },
+    { id: 5, name_ko: '반응', name_en: 'RESPONSE', desc: '건설적이거나 파괴적인 행동으로 이어집니다. 이 단계에서 우리는 선택할 수 있습니다.' },
   ];
 
   const learnMoreCards = [
-    { id: 'how', title: '어떻게 이런 일이?', subtitle: 'How Does This Happen?', desc: '10단계 감정 프로세스', onClick: () => setShowHowModal(true) },
-    { id: 'triggers', title: '트리거와 반응', subtitle: 'Triggers & Responses', desc: '무엇이 감정을 유발하는가', onClick: () => setShowTriggersModal(true) },
-    { id: 'signal', title: '신호와 메시지', subtitle: 'Signal & Message', desc: '감정이 전달하는 것', onClick: () => setShowSignalModal(true) },
-    { id: 'moods', title: '기분과 정신병리', subtitle: 'Moods & Psychopathology', desc: '감정의 지속 상태', onClick: () => setShowMoodsModal(true) },
+    { id: 'how', title: '어떻게 이런 일이?', sub: 'How Does This Happen?', onClick: () => setShowHowModal(true) },
+    { id: 'triggers', title: '트리거와 반응', sub: 'Triggers & Responses', onClick: () => setShowTriggersModal(true) },
+    { id: 'signal', title: '신호와 메시지', sub: 'Signal & Message', onClick: () => setShowSignalModal(true) },
+    { id: 'moods', title: '기분과 정신병리', sub: 'Moods & Psychopathology', onClick: () => setShowMoodsModal(true) },
   ];
 
-  return (
-    <section ref={sectionRef} className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-8 lg:px-16">
-        {/* Header with Emotion Selector */}
-        <motion.div
-          className="pt-24 pb-8 flex items-center justify-between border-b border-gray-100"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <div>
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase">Emotional Episode</p>
-          </div>
+  // Track active step based on scroll
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (v) => {
+      const stepIndex = Math.min(Math.floor(v * (timelineSteps.length + 1)), timelineSteps.length - 1);
+      setActiveStep(stepIndex);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress, timelineSteps.length]);
 
-          {/* Emotion Dropdown */}
+  return (
+    <div ref={containerRef} className="bg-[#0A0A0A] min-h-screen">
+      {/* Hero Section */}
+      <section className="min-h-screen flex flex-col items-center justify-center relative px-8">
+        {/* Emotion Pill Selector */}
+        <motion.div
+          className="absolute top-8 right-8 z-50"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
           <div className="relative">
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-3 px-6 py-3 border border-gray-200 hover:border-gray-400 transition-colors duration-300"
-              style={{ borderRadius: '2px' }}
+              onClick={() => setPillOpen(!pillOpen)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:border-white/20 transition-all"
+              style={{ borderRadius: '100px' }}
             >
-              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: emotion?.color }} />
-              <span className="text-sm font-medium text-gray-700">{emotion?.name_ko}</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={`transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`}>
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: emotion?.color }} />
+              <span className="text-sm text-white/70">{emotion?.name_ko}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/40 transition-transform ${pillOpen ? 'rotate-180' : ''}`}>
                 <path d="M6 9l6 6 6-6" />
               </svg>
             </button>
 
             <AnimatePresence>
-              {dropdownOpen && (
+              {pillOpen && (
                 <motion.div
-                  className="absolute top-full right-0 mt-2 bg-white border border-gray-200 shadow-xl z-50"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  style={{ borderRadius: '2px', minWidth: '180px' }}
+                  className="absolute top-full right-0 mt-2 bg-[#111] border border-white/10 overflow-hidden"
+                  style={{ borderRadius: '12px', minWidth: '160px' }}
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 >
                   {emotionOrder.map((id) => (
                     <button
                       key={id}
-                      onClick={() => { setCurrentEmotionId(id); setDropdownOpen(false); }}
-                      className={`w-full flex items-center gap-3 px-5 py-3.5 text-left hover:bg-gray-50 transition-colors ${currentEmotionId === id ? 'bg-gray-50' : ''}`}
+                      onClick={() => { setCurrentEmotionId(id); setPillOpen(false); }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/5 transition-colors ${currentEmotionId === id ? 'bg-white/5' : ''}`}
                     >
-                      <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: emotions[id].color }} />
-                      <span className="text-sm text-gray-700">{emotions[id].name_ko}</span>
-                      <span className="text-xs text-gray-400 ml-auto">{emotions[id].name_en}</span>
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: emotions[id].color }} />
+                      <span className="text-sm text-white/70">{emotions[id].name_ko}</span>
                     </button>
                   ))}
                 </motion.div>
@@ -442,168 +446,101 @@ const Timeline = ({ selectedEmotion }) => {
           </div>
         </motion.div>
 
-        {/* Title Section */}
+        {/* Hero Content */}
         <motion.div
-          className="py-24 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          className="text-center max-w-3xl"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl lg:text-7xl font-light text-gray-900 tracking-tight mb-8" style={{ fontFamily: 'Georgia, serif' }}>
-            감정 에피소드 타임라인
+          <motion.p
+            className="text-[11px] tracking-[0.4em] text-white/30 uppercase mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Emotional Episode Timeline
+          </motion.p>
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl text-white/90 font-extralight tracking-tight mb-8 leading-[1.1]">
+            감정 에피소드
+            <br />
+            <span className="text-white/40">타임라인</span>
           </h1>
 
-          {/* Decorative Line */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="w-16 h-px bg-gray-300" />
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.accent }} />
-            <div className="w-16 h-px bg-gray-300" />
-          </div>
-
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-light">
-            감정적 경험은 일련의 단계를 거칩니다.<br />
+          <p className="text-lg md:text-xl text-white/40 font-light leading-relaxed max-w-xl mx-auto">
+            감정적 경험은 일련의 단계를 거치며 전개됩니다.
+            <br />
             각 단계를 이해하면 더 큰 통제력을 얻을 수 있습니다.
           </p>
-
-          {/* Learn More Button */}
-          <motion.button
-            onClick={() => setShowHowModal(true)}
-            className="mt-12 inline-flex items-center gap-3 px-10 py-4 border border-gray-900 text-gray-900 text-sm font-medium tracking-wider uppercase hover:bg-gray-900 hover:text-white transition-all duration-300"
-            style={{ borderRadius: '2px' }}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span>Learn More</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </motion.button>
         </motion.div>
 
-        {/* 5-Step Timeline */}
+        {/* Scroll Indicator */}
         <motion.div
-          className="py-16"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/30"
           initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
         >
-          {/* Desktop Timeline */}
-          <div className="hidden lg:block">
-            <div className="relative flex items-stretch justify-between">
-              {/* Connection Line */}
-              <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2 z-0" />
-
-              {timelineSteps.map((step, index) => (
-                <motion.div
-                  key={step.id}
-                  className="relative z-10 flex-1 px-4"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                >
-                  <div className="group bg-white border border-gray-100 p-8 text-center hover:border-gray-300 hover:shadow-xl transition-all duration-500 cursor-pointer"
-                    style={{ borderRadius: '2px' }}>
-                    {/* Step Number */}
-                    <div className="text-5xl font-light text-gray-100 group-hover:text-gray-200 transition-colors mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-                      {String(step.id).padStart(2, '0')}
-                    </div>
-
-                    {/* Name */}
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">{step.name_ko}</h3>
-                    <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">{step.name_en}</p>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-500">{step.desc}</p>
-
-                    {/* Accent Dot */}
-                    <div className="mt-6 w-2 h-2 rounded-full mx-auto opacity-0 group-hover:opacity-100 transition-opacity"
-                      style={{ backgroundColor: emotion?.color }} />
-                  </div>
-
-                  {/* Arrow */}
-                  {index < timelineSteps.length - 1 && (
-                    <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 text-gray-300 z-20">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                        <path d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Timeline */}
-          <div className="lg:hidden space-y-4">
-            {timelineSteps.map((step, index) => (
-              <motion.div
-                key={step.id}
-                className="flex items-start gap-6 p-6 border border-gray-100"
-                style={{ borderRadius: '2px' }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <div className="text-3xl font-light text-gray-200" style={{ fontFamily: 'Georgia, serif' }}>
-                  {String(step.id).padStart(2, '0')}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium text-gray-900">{step.name_ko}</h3>
-                  <p className="text-xs tracking-[0.15em] text-gray-400 uppercase mt-1">{step.name_en}</p>
-                  <p className="text-sm text-gray-500 mt-3">{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <span className="text-[10px] tracking-[0.3em] uppercase mb-4">Scroll</span>
+          <motion.div
+            className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent"
+            animate={{ scaleY: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
         </motion.div>
+      </section>
 
-        {/* Learn More Section */}
+      {/* Scroll Progress */}
+      <ScrollProgress steps={timelineSteps} activeStep={activeStep} emotion={emotion} />
+
+      {/* Steps */}
+      {timelineSteps.map((step, index) => (
+        <StepSection
+          key={step.id}
+          step={step}
+          index={index}
+          emotion={emotion}
+          isActive={activeStep === index}
+        />
+      ))}
+
+      {/* Learn More Section */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-8 py-32">
         <motion.div
-          className="py-24 border-t border-gray-100"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
         >
-          <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.3em] text-gray-400 uppercase mb-4">Explore Further</p>
-            <h2 className="text-3xl font-light text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>더 알아보기</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {learnMoreCards.map((card, index) => (
-              <motion.button
-                key={card.id}
-                onClick={card.onClick}
-                className="group text-left p-10 border border-gray-100 hover:border-gray-300 hover:shadow-xl transition-all duration-500"
-                style={{ borderRadius: '2px' }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                whileHover={{ y: -4 }}
-              >
-                {/* Icon placeholder */}
-                <div className="w-12 h-12 border border-gray-200 group-hover:border-gray-400 flex items-center justify-center mb-8 transition-colors" style={{ borderRadius: '2px' }}>
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: emotion?.color }} />
-                </div>
-
-                <h4 className="text-lg font-medium text-gray-900 mb-2">{card.title}</h4>
-                <p className="text-xs tracking-[0.15em] text-gray-400 uppercase mb-4">{card.subtitle}</p>
-                <p className="text-sm text-gray-500 mb-8">{card.desc}</p>
-
-                <span className="inline-flex items-center gap-2 text-sm text-gray-400 group-hover:text-gray-900 transition-colors">
-                  <span>더 보기</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="transform group-hover:translate-x-1 transition-transform">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </motion.button>
-            ))}
-          </div>
+          <p className="text-[11px] tracking-[0.3em] text-white/30 uppercase mb-4">Learn More</p>
+          <h2 className="text-3xl md:text-4xl text-white/90 font-light">더 알아보기</h2>
         </motion.div>
 
-        {/* Bottom Spacer */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
+          {learnMoreCards.map((card, i) => (
+            <motion.button
+              key={card.id}
+              onClick={card.onClick}
+              className="group p-8 md:p-10 text-left border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -4 }}
+            >
+              <div className="w-10 h-10 border border-white/10 flex items-center justify-center mb-6 group-hover:border-white/30 transition-colors">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: emotion?.color }} />
+              </div>
+              <h3 className="text-lg text-white/80 mb-2">{card.title}</h3>
+              <p className="text-[11px] tracking-[0.2em] text-white/30 uppercase">{card.sub}</p>
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Bottom spacing */}
         <div className="h-24" />
-      </div>
+      </section>
 
       {/* Modals */}
       <AnimatePresence>
@@ -612,7 +549,7 @@ const Timeline = ({ selectedEmotion }) => {
         {showSignalModal && <SignalMessageModal isOpen={showSignalModal} onClose={() => setShowSignalModal(false)} emotion={emotion} emotionData={emotionData} />}
         {showMoodsModal && <MoodsModal isOpen={showMoodsModal} onClose={() => setShowMoodsModal(false)} emotion={emotion} />}
       </AnimatePresence>
-    </section>
+    </div>
   );
 };
 
