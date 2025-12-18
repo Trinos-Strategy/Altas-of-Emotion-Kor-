@@ -540,11 +540,21 @@ export const emotions = {
       { name_ko: "웃음", name_en: "Laughter" }
     ],
     antidotes: [
-      { state_ko: "자부심", state_en: "Pride", antidote_ko: "겸손, 감사, 타인 인정", antidote_en: "Humility, gratitude, acknowledging others" },
-      { state_ko: "샤덴프로이데", state_en: "Schadenfreude", antidote_ko: "자비, 공감, 인류애", antidote_en: "Benevolence, empathy, humanity" }
+      { state_ko: "감각적 쾌락", state_en: "Sensory Pleasure", antidote_ko: "절제, 마음챙김, 감사", antidote_en: "Moderation, mindfulness, gratitude" },
+      { state_ko: "샤덴프로이데", state_en: "Schadenfreude", antidote_ko: "자비, 공감, 인류애, 타인의 고통에 대한 연민", antidote_en: "Benevolence, empathy, humanity, compassion for others' suffering" },
+      { state_ko: "자부심", state_en: "Pride", antidote_ko: "겸손, 감사, 타인의 기여 인정, 자만심 경계", antidote_en: "Humility, gratitude, acknowledging others' contributions, guarding against arrogance" },
+      { state_ko: "피에로", state_en: "Fiero", antidote_ko: "겸손, 성취를 다른 사람과 나누기, 감사", antidote_en: "Humility, sharing achievement with others, gratitude" },
+      { state_ko: "탐닉", state_en: "Indulgence", antidote_ko: "절제, 자기 인식, 장기적 결과 고려", antidote_en: "Moderation, self-awareness, considering long-term consequences" },
+      { state_ko: "우쭐대기", state_en: "Gloating", antidote_ko: "겸손, 연민, 상대방 존중", antidote_en: "Humility, compassion, respecting the other party" },
+      { state_ko: "흥분", state_en: "Excitement", antidote_ko: "균형, 현재 순간에 머물기, 과도한 기대 조절", antidote_en: "Balance, staying in the present moment, moderating excessive expectations" }
     ],
     obstacles: [
-      { state_ko: "즐거움 전체", state_en: "All Enjoyment", obstacle_ko: "집착, 비관주의, 부정성, 무감각", obstacle_en: "Grasping, pessimism, negativity, numbness" }
+      { state_ko: "즐거움 전체", state_en: "All Enjoyment", obstacle_ko: "집착, 비관주의, 부정성, 무감각", obstacle_en: "Grasping, pessimism, negativity, numbness" },
+      { state_ko: "감각적 쾌락", state_en: "Sensory Pleasure", obstacle_ko: "집착, 탐닉, 중독", obstacle_en: "Grasping, indulgence, addiction" },
+      { state_ko: "환희", state_en: "Rejoicing", obstacle_ko: "시기, 비교, 자기 비하", obstacle_en: "Envy, comparison, self-deprecation" },
+      { state_ko: "평화", state_en: "Peace", obstacle_ko: "불안, 집착, 미래 걱정", obstacle_en: "Anxiety, grasping, worrying about future" },
+      { state_ko: "경이", state_en: "Wonder", obstacle_ko: "무감각, 냉소주의, 닫힌 마음", obstacle_en: "Numbness, cynicism, closed-mindedness" },
+      { state_ko: "황홀감", state_en: "Ecstasy", obstacle_ko: "집착, 재현하려는 욕구, 현재 순간 놓침", obstacle_en: "Grasping, desire to recreate, missing the present moment" }
     ]
   }
 };
