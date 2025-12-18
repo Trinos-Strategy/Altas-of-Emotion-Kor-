@@ -29,7 +29,7 @@ const EmotionCard = ({ emotion, index, isExpanded, onToggle }) => {
         <div
           className={`
             relative overflow-hidden rounded-2xl p-6
-            bg-white border transition-all duration-300 ease-out
+            bg-white border transition-all duration-300 ease-in-out
             ${isExpanded
               ? 'shadow-lg'
               : 'shadow-sm hover:shadow-md'
@@ -110,29 +110,32 @@ const EmotionCard = ({ emotion, index, isExpanded, onToggle }) => {
           </div>
 
           {/* 확장 콘텐츠 */}
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {isExpanded && (
               <motion.div
                 id={`emotion-content-${emotion.id}`}
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                transition={{
+                  height: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                  opacity: { duration: 0.3, ease: 'easeInOut' }
+                }}
                 className="overflow-hidden"
               >
-                <div className="pt-5 mt-5 border-t border-gray-100">
+                <div className="pt-6 mt-6 pb-2 border-t border-gray-100">
                   {/* 한글 설명 */}
                   <p className="text-sm text-gray-600 leading-relaxed">
                     {emotion.description_ko}
                   </p>
 
                   {/* 영문 설명 */}
-                  <p className="text-xs text-gray-400 leading-relaxed mt-3 italic">
+                  <p className="text-xs text-gray-400 leading-relaxed mt-4 italic">
                     {emotion.description_en}
                   </p>
 
                   {/* 태그 */}
-                  <div className="flex flex-wrap gap-2 mt-5">
+                  <div className="flex flex-wrap gap-2 mt-6">
                     <span
                       className="px-3 py-1 rounded-full text-xs font-medium"
                       style={{
