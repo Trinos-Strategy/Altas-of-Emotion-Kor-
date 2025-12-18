@@ -1222,32 +1222,6 @@ const KoreanEmotions = () => {
           </motion.div>
         </div>
 
-        {/* 하단 안내 문구 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          style={{
-            marginTop: '40px',
-            textAlign: 'center',
-            padding: '20px',
-            background: 'rgba(0,0,0,0.02)',
-            borderRadius: '12px'
-          }}
-        >
-          <p style={{
-            margin: '0',
-            fontSize: '13px',
-            color: '#888',
-            lineHeight: '1.6'
-          }}>
-            이 분류는 학술 논문이 아닌, 조정 현장에서 20년 넘게 한국인의 감정을 다룬 실무 경험을 바탕으로 한 시론(試論)입니다.
-            <br />
-            <span style={{ color: '#aaa' }}>
-              This classification is a working theory based on over 20 years of practical experience in mediation with Korean emotions.
-            </span>
-          </p>
-        </motion.div>
       </div>
     </motion.div>
   );
