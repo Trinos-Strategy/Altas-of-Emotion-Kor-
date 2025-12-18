@@ -5,7 +5,7 @@ import { sectionNames } from '../data/emotions';
 const Navigation = ({ activeSection, onSectionChange }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const sections = ['introduction', 'triggers', 'continents', 'actions', 'links', 'explore'];
+  const sections = ['introduction', 'triggers', 'continents', 'actions', 'links', 'explore', 'korean-emotions'];
   const isIntroduction = activeSection === 'introduction';
 
   // Handle scroll effect
