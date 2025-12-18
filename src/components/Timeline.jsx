@@ -173,7 +173,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         {/* 콘텐츠 - 라이트 테마 */}
         <div className="px-12 py-10">
           {/* 설명 */}
-          <p className="text-gray-600 text-base mb-10" style={{ lineHeight: '1.9' }}>
+          <p className="text-gray-600 text-base mb-10 tracking-wide" style={{ lineHeight: '1.9' }}>
             {emotionalEpisodeTimelineDetailed.description_ko}
           </p>
 
@@ -183,7 +183,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
               <motion.button
                 key={step.id}
                 onClick={() => setSelectedStep(selectedStep?.id === step.id ? null : step)}
-                className={`p-5 rounded-xl border transition-all group text-left ${
+                className={`px-6 py-5 rounded-xl border transition-all group text-left ${
                   selectedStep?.id === step.id
                     ? 'border-gray-300 bg-gray-50 shadow-md'
                     : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white'
@@ -201,8 +201,8 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 >
                   {String(step.id).padStart(2, '0')}
                 </span>
-                <p className="text-gray-800 text-sm font-medium" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
-                <p className="text-[10px] tracking-[0.15em] text-gray-400 uppercase mt-2">{step.name_en}</p>
+                <p className="text-gray-800 text-sm font-medium tracking-wide" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
+                <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase mt-2">{step.name_en}</p>
               </motion.button>
             ))}
           </div>
@@ -237,15 +237,15 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
           {/* 단계 선택 안내 - 라이트 테마 */}
           {!selectedStep && (
             <div className="p-8 border border-gray-100 rounded-2xl text-center mb-10 bg-gray-50">
-              <p className="text-gray-500 text-base" style={{ lineHeight: '1.8' }}>
+              <p className="text-gray-500 text-base tracking-wide" style={{ lineHeight: '1.8' }}>
                 위의 단계를 클릭하여 상세 설명을 확인하세요
               </p>
             </div>
           )}
 
           {/* 인용구 - 라이트 테마 */}
-          <div className="p-8 border border-gray-100 rounded-2xl text-center bg-gradient-to-r from-gray-50 to-white">
-            <p className="text-gray-600 text-lg font-light" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
+          <div className="p-10 border border-gray-100 rounded-2xl text-center bg-gradient-to-r from-gray-50 to-white">
+            <p className="text-gray-600 text-xl md:text-2xl font-light tracking-wide" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
               "감정은 선택하지 않지만, <span className="text-gray-900 font-medium">반응은 선택</span>할 수 있습니다."
             </p>
           </div>
@@ -327,7 +327,7 @@ const Timeline = ({ selectedEmotion }) => {
             감정 에피소드
           </h1>
 
-          <p className="text-lg md:text-xl font-light mb-12" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="text-xl md:text-2xl font-light tracking-wider mb-12" style={{ color: 'rgba(255,255,255,0.4)' }}>
             각 단계를 이해하면 더 큰 통제력을 얻습니다
           </p>
 
