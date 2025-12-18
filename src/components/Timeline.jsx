@@ -139,7 +139,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
       {/* 모달 - 흰색 배경으로 변경 */}
       <motion.div
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-auto rounded-2xl shadow-2xl"
+        className="relative w-full max-w-5xl max-h-[92vh] overflow-auto rounded-3xl shadow-2xl"
         style={{
           background: 'linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%)',
           border: '1px solid rgba(0,0,0,0.08)',
@@ -150,13 +150,13 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         transition={{ duration: 0.4 }}
       >
         {/* 헤더 - 라이트 테마 */}
-        <div className="sticky top-0 z-10 px-8 py-6 border-b border-gray-200 flex justify-between items-center"
+        <div className="sticky top-0 z-10 px-12 py-8 border-b border-gray-200 flex justify-between items-center"
           style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(10px)' }}>
           <div>
-            <p className="text-[10px] tracking-[0.4em] uppercase mb-1" style={{ color: emotion?.color || '#666' }}>
+            <p className="text-[11px] tracking-[0.4em] uppercase mb-2" style={{ color: emotion?.color || '#666' }}>
               Emotional Episode Timeline
             </p>
-            <h3 className="text-xl text-gray-900 font-semibold" style={{ fontFamily: 'Georgia, serif' }}>
+            <h3 className="text-2xl text-gray-900 font-semibold" style={{ fontFamily: 'Georgia, serif' }}>
               감정 에피소드의 10단계
             </h3>
           </div>
@@ -171,19 +171,19 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         </div>
 
         {/* 콘텐츠 - 라이트 테마 */}
-        <div className="p-8">
+        <div className="px-12 py-10">
           {/* 설명 */}
-          <p className="text-gray-600 text-sm mb-8 leading-relaxed">
+          <p className="text-gray-600 text-base mb-10" style={{ lineHeight: '1.9' }}>
             {emotionalEpisodeTimelineDetailed.description_ko}
           </p>
 
           {/* 10단계 그리드 - 라이트 테마 */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-5 mb-10">
             {steps.map((step, i) => (
               <motion.button
                 key={step.id}
                 onClick={() => setSelectedStep(selectedStep?.id === step.id ? null : step)}
-                className={`p-4 rounded-xl border transition-all group text-left ${
+                className={`p-5 rounded-xl border transition-all group text-left ${
                   selectedStep?.id === step.id
                     ? 'border-gray-300 bg-gray-50 shadow-md'
                     : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white'
@@ -193,7 +193,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 transition={{ delay: i * 0.03 }}
               >
                 <span
-                  className={`text-2xl font-extralight block mb-2 transition-colors`}
+                  className={`text-2xl font-extralight block mb-3 transition-colors`}
                   style={{
                     fontFamily: 'Georgia, serif',
                     color: selectedStep?.id === step.id ? (emotion?.color || '#333') : '#ddd'
@@ -201,8 +201,8 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 >
                   {String(step.id).padStart(2, '0')}
                 </span>
-                <p className="text-gray-800 text-sm font-medium">{step.name_ko}</p>
-                <p className="text-[9px] tracking-[0.15em] text-gray-400 uppercase mt-1">{step.name_en}</p>
+                <p className="text-gray-800 text-sm font-medium" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
+                <p className="text-[10px] tracking-[0.15em] text-gray-400 uppercase mt-2">{step.name_en}</p>
               </motion.button>
             ))}
           </div>
@@ -215,19 +215,19 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="p-6 border border-gray-200 rounded-xl mb-8 bg-gradient-to-br from-white to-gray-50 shadow-sm"
+                className="p-8 border border-gray-200 rounded-2xl mb-10 bg-gradient-to-br from-white to-gray-50 shadow-sm"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-6">
                   <span
-                    className="text-4xl font-extralight"
+                    className="text-5xl font-extralight"
                     style={{ fontFamily: 'Georgia, serif', color: emotion?.color || '#666' }}
                   >
                     {String(selectedStep.id).padStart(2, '0')}
                   </span>
                   <div className="flex-1">
-                    <h4 className="text-lg text-gray-900 font-semibold mb-1">{selectedStep.name_ko}</h4>
-                    <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">{selectedStep.name_en}</p>
-                    <p className="text-gray-700 leading-relaxed">{selectedStep.description_ko}</p>
+                    <h4 className="text-xl text-gray-900 font-semibold mb-2">{selectedStep.name_ko}</h4>
+                    <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mb-5">{selectedStep.name_en}</p>
+                    <p className="text-gray-700 text-base" style={{ lineHeight: '1.9' }}>{selectedStep.description_ko}</p>
                   </div>
                 </div>
               </motion.div>
@@ -236,16 +236,16 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
           {/* 단계 선택 안내 - 라이트 테마 */}
           {!selectedStep && (
-            <div className="p-6 border border-gray-100 rounded-xl text-center mb-8 bg-gray-50">
-              <p className="text-gray-500 text-sm">
+            <div className="p-8 border border-gray-100 rounded-2xl text-center mb-10 bg-gray-50">
+              <p className="text-gray-500 text-base" style={{ lineHeight: '1.8' }}>
                 위의 단계를 클릭하여 상세 설명을 확인하세요
               </p>
             </div>
           )}
 
           {/* 인용구 - 라이트 테마 */}
-          <div className="p-6 border border-gray-100 rounded-xl text-center bg-gradient-to-r from-gray-50 to-white">
-            <p className="text-gray-600 font-light" style={{ fontFamily: 'Georgia, serif' }}>
+          <div className="p-8 border border-gray-100 rounded-2xl text-center bg-gradient-to-r from-gray-50 to-white">
+            <p className="text-gray-600 text-lg font-light" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
               "감정은 선택하지 않지만, <span className="text-gray-900 font-medium">반응은 선택</span>할 수 있습니다."
             </p>
           </div>
