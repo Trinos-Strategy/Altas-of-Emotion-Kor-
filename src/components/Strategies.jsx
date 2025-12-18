@@ -539,12 +539,13 @@ const DetailedAntidotesSection = ({ selectedEmotion, setSelectedEmotion }) => {
   );
 };
 
-// 장애물 섹션 (Impediments)
+// 장애물 섹션 (Impediments) - 모든 감정 지원
 const ImpedimentsSection = () => {
-  const enjoymentImpediments = impediments.enjoyment;
+  const [selectedEmotion, setSelectedEmotion] = useState('enjoyment');
+  const currentImpediments = impediments[selectedEmotion];
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <h3 style={{
         fontSize: '32px',
         fontWeight: '700',
@@ -552,7 +553,7 @@ const ImpedimentsSection = () => {
         textAlign: 'center',
         marginBottom: '16px'
       }}>
-        {enjoymentImpediments.title_ko}
+        감정 조절의 장애물
       </h3>
       <p style={{
         fontSize: '16px',
@@ -562,8 +563,74 @@ const ImpedimentsSection = () => {
         maxWidth: '600px',
         margin: '0 auto 40px'
       }}>
-        {enjoymentImpediments.description_ko}
+        각 감정을 건설적으로 다루는 것을 방해하는 요소들을 알아보세요.
       </p>
+
+      {/* 감정 선택 버튼 */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '12px',
+        marginBottom: '40px',
+        flexWrap: 'wrap'
+      }}>
+        {emotionOrder.map(emotionId => {
+          const em = emotions[emotionId];
+          const isActive = selectedEmotion === emotionId;
+          return (
+            <button
+              key={emotionId}
+              onClick={() => setSelectedEmotion(emotionId)}
+              style={{
+                padding: '12px 24px',
+                borderRadius: '30px',
+                border: `2px solid ${isActive ? em.color : '#e0e0e0'}`,
+                backgroundColor: isActive ? em.color : '#fff',
+                color: isActive ? '#fff' : '#666',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <span style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: isActive ? '#fff' : em.color
+              }} />
+              {em.name_ko}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 선택된 감정 제목 */}
+      <motion.div
+        key={selectedEmotion}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        style={{ textAlign: 'center', marginBottom: '32px' }}
+      >
+        <h4 style={{
+          fontSize: '24px',
+          fontWeight: '700',
+          color: currentImpediments?.color || '#1a1a1a',
+          marginBottom: '8px'
+        }}>
+          {currentImpediments?.title_ko}
+        </h4>
+        <p style={{
+          fontSize: '14px',
+          color: '#666'
+        }}>
+          {currentImpediments?.description_ko}
+        </p>
+      </motion.div>
 
       {/* 장애물 카드 그리드 */}
       <div style={{
@@ -571,31 +638,31 @@ const ImpedimentsSection = () => {
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: '24px'
       }}>
-        {enjoymentImpediments.items.map((item, index) => (
+        {currentImpediments?.items.map((item, index) => (
           <motion.div
-            key={index}
+            key={`${selectedEmotion}-${index}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.08 }}
             style={{
               backgroundColor: '#fff',
               borderRadius: '20px',
               padding: '32px',
               boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-              border: '2px solid #f0f0f0',
+              border: `2px solid ${currentImpediments?.color}20`,
               transition: 'all 0.3s ease'
             }}
             whileHover={{
               y: -8,
-              boxShadow: '0 20px 50px rgba(0,0,0,0.12)',
-              borderColor: '#e0e0e0'
+              boxShadow: `0 20px 50px ${currentImpediments?.color}20`,
+              borderColor: currentImpediments?.color
             }}
           >
             <div style={{
               width: '60px',
               height: '60px',
               borderRadius: '16px',
-              backgroundColor: '#FEF3C7',
+              backgroundColor: `${currentImpediments?.color}20`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -614,10 +681,11 @@ const ImpedimentsSection = () => {
             </h4>
             <p style={{
               fontSize: '13px',
-              color: '#888',
+              color: currentImpediments?.color,
               textTransform: 'uppercase',
               letterSpacing: '1px',
-              marginBottom: '16px'
+              marginBottom: '16px',
+              fontWeight: '600'
             }}>
               {item.name_en}
             </p>
@@ -637,16 +705,16 @@ const ImpedimentsSection = () => {
         style={{
           marginTop: '48px',
           padding: '32px',
-          backgroundColor: '#FFF7ED',
+          backgroundColor: `${currentImpediments?.color}10`,
           borderRadius: '20px',
           textAlign: 'center',
-          border: '2px solid #FFEDD5'
+          border: `2px solid ${currentImpediments?.color}30`
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <p style={{ fontSize: '16px', color: '#9A3412', lineHeight: '1.7' }}>
+        <p style={{ fontSize: '16px', color: '#333', lineHeight: '1.7' }}>
           💡 <strong>팁:</strong> 이러한 장애물을 인식하는 것이 첫 번째 단계입니다.
           장애물을 알아차리면, 그것을 극복하기 위한 의식적인 선택을 할 수 있습니다.
         </p>

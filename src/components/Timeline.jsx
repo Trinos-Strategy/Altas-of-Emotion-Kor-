@@ -353,7 +353,7 @@ const Timeline = ({ selectedEmotion }) => {
           </motion.button>
         </motion.div>
 
-        {/* 스크롤 힌트 */}
+        {/* 스크롤 힌트 - 더 눈에 띄게 */}
         <motion.div
           className="absolute bottom-16"
           initial={{ opacity: 0 }}
@@ -361,14 +361,43 @@ const Timeline = ({ selectedEmotion }) => {
           transition={{ delay: 1.5 }}
         >
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             className="flex flex-col items-center"
           >
-            <span className="text-[10px] tracking-[0.3em] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            {/* 스크롤 텍스트 - 더 크고 눈에 띄게 */}
+            <span
+              className="text-sm md:text-base font-medium tracking-[0.4em] uppercase mb-4"
+              style={{
+                color: emotion?.color || 'rgba(255,255,255,0.6)',
+                textShadow: '0 0 20px rgba(255,255,255,0.3)'
+              }}
+            >
               Scroll
             </span>
-            <div className="w-px h-10 bg-gradient-to-b from-white/20 to-transparent" />
+            {/* 마우스 아이콘 */}
+            <motion.div
+              className="w-6 h-10 rounded-full border-2 flex justify-center pt-2"
+              style={{ borderColor: emotion?.color || 'rgba(255,255,255,0.4)' }}
+            >
+              <motion.div
+                className="w-1.5 h-3 rounded-full"
+                style={{ background: emotion?.color || 'rgba(255,255,255,0.6)' }}
+                animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            </motion.div>
+            {/* 아래 화살표 */}
+            <motion.svg
+              className="w-6 h-6 mt-3"
+              fill="none"
+              stroke={emotion?.color || 'rgba(255,255,255,0.4)'}
+              viewBox="0 0 24 24"
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </motion.svg>
           </motion.div>
         </motion.div>
       </section>
