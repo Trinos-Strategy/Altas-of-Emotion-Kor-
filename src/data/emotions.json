@@ -1,0 +1,494 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2025-01-01",
+  "emotions": [
+    {
+      "id": "enjoyment",
+      "name_ko": "즐거움",
+      "name_en": "Enjoyment",
+      "type": "universal",
+      "colors": {
+        "primary": "#F59E0B",
+        "light": "#FCD34D",
+        "dark": "#D97706",
+        "gradient": "linear-gradient(135deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%)"
+      },
+      "description_ko": "즐거움은 우리가 원하는 것을 얻거나, 좋아하는 것을 경험할 때 느끼는 긍정적인 감정입니다. 작은 미소부터 벅찬 환희까지, 삶에 의미와 활력을 더해줍니다.",
+      "description_en": "Enjoyment is the positive emotion we feel when we get what we want or experience something we like. From a small smile to overwhelming joy, it adds meaning and vitality to life.",
+      "personality_trait": {
+        "ko": "낙관적, 감사하는, 열정적",
+        "en": "Optimistic, Grateful, Enthusiastic"
+      },
+      "psychopathology": {
+        "ko": "조증(과도한 행복감), 쾌락 중독, 감정 둔화(즐거움을 느끼지 못함)",
+        "en": "Mania (excessive euphoria), Hedonic addiction, Anhedonia (inability to feel pleasure)"
+      },
+      "states": [
+        {
+          "id": "contentment",
+          "name_ko": "만족",
+          "name_en": "Contentment",
+          "intensity_range": [1, 2],
+          "description_ko": "지금 이 순간, 더 바랄 것 없이 편안한 상태. 마음이 고요하고 평화롭습니다.",
+          "description_en": "A peaceful state where you feel complete in this moment, wanting nothing more.",
+          "related_mood": {
+            "ko": "평온함",
+            "en": "Serenity"
+          },
+          "triggers": [
+            {
+              "ko": "따뜻한 햇살 아래 커피 한 잔을 마실 때",
+              "en": "Sipping coffee under warm sunlight"
+            },
+            {
+              "ko": "오랜만에 푹 잔 다음 날 아침",
+              "en": "The morning after a deep, restful sleep"
+            },
+            {
+              "ko": "사랑하는 사람 곁에 조용히 앉아 있을 때",
+              "en": "Sitting quietly beside someone you love"
+            },
+            {
+              "ko": "해야 할 일을 모두 마치고 쉴 때",
+              "en": "Resting after completing all your tasks"
+            }
+          ],
+          "constructive_actions": [
+            {
+              "ko": "감사하기 — 이 순간을 음미하며 고마움을 느끼기",
+              "en": "Gratitude — savoring the moment with thankfulness"
+            },
+            {
+              "ko": "나누기 — 이 평화로운 시간을 소중한 사람과 함께하기",
+              "en": "Sharing — enjoying this peaceful time with loved ones"
+            },
+            {
+              "ko": "기록하기 — 일기나 사진으로 이 순간을 남기기",
+              "en": "Recording — preserving this moment in a journal or photo"
+            }
+          ],
+          "destructive_actions": [
+            {
+              "ko": "집착하기 — 이 상태를 영원히 유지하려고 불안해함",
+              "en": "Clinging — becoming anxious trying to make this state permanent"
+            },
+            {
+              "ko": "무시하기 — 당연하게 여기고 충분히 느끼지 않음",
+              "en": "Ignoring — taking it for granted without fully experiencing it"
+            }
+          ],
+          "impediments": [
+            {
+              "ko": "끊임없이 더 많은 것을 원하는 욕심",
+              "en": "Constant desire for more"
+            },
+            {
+              "ko": "과거나 미래에 대한 걱정으로 현재를 놓침",
+              "en": "Missing the present due to worries about past or future"
+            },
+            {
+              "ko": "비교 — 다른 사람의 삶과 비교하며 불만족",
+              "en": "Comparison — dissatisfaction from comparing with others' lives"
+            }
+          ],
+          "antidotes": [
+            {
+              "ko": "마음챙김 — 지금 이 순간에 온전히 집중하기",
+              "en": "Mindfulness — fully focusing on the present moment"
+            },
+            {
+              "ko": "감사 일기 — 매일 좋았던 일 3가지 적어보기",
+              "en": "Gratitude journal — writing 3 good things each day"
+            },
+            {
+              "ko": "천천히 하기 — 서두르지 않고 여유를 갖기",
+              "en": "Slowing down — taking your time without rushing"
+            }
+          ]
+        },
+        {
+          "id": "amusement",
+          "name_ko": "재미",
+          "name_en": "Amusement",
+          "intensity_range": [2, 4],
+          "description_ko": "웃음이 나오는 유쾌한 순간. 마음이 가벼워지고 스트레스가 풀립니다.",
+          "description_en": "A delightful moment that makes you laugh. Your heart feels light and stress melts away.",
+          "related_mood": {
+            "ko": "유쾌함",
+            "en": "Playfulness"
+          },
+          "triggers": [
+            {
+              "ko": "친구와 농담을 주고받을 때",
+              "en": "Exchanging jokes with friends"
+            },
+            {
+              "ko": "재미있는 영화나 예능을 볼 때",
+              "en": "Watching a funny movie or show"
+            },
+            {
+              "ko": "예상치 못한 유쾌한 상황이 벌어질 때",
+              "en": "When an unexpectedly amusing situation occurs"
+            },
+            {
+              "ko": "아이들의 순수한 행동을 볼 때",
+              "en": "Watching children's innocent behaviors"
+            },
+            {
+              "ko": "반려동물의 귀여운 행동을 볼 때",
+              "en": "Seeing pets do cute things"
+            }
+          ],
+          "constructive_actions": [
+            {
+              "ko": "함께 웃기 — 웃음을 나누며 관계를 깊게 하기",
+              "en": "Laughing together — deepening relationships through shared laughter"
+            },
+            {
+              "ko": "유머 사용 — 긴장된 상황을 부드럽게 만들기",
+              "en": "Using humor — softening tense situations"
+            },
+            {
+              "ko": "놀이하기 — 진지함을 내려놓고 즐기기",
+              "en": "Playing — letting go of seriousness and having fun"
+            }
+          ],
+          "destructive_actions": [
+            {
+              "ko": "비웃음 — 다른 사람을 깎아내리는 방식으로 웃기",
+              "en": "Mockery — laughing in a way that puts others down"
+            },
+            {
+              "ko": "회피 — 심각한 문제를 농담으로 피하기만 함",
+              "en": "Avoidance — only deflecting serious issues with jokes"
+            },
+            {
+              "ko": "부적절한 유머 — 상황에 맞지 않는 농담으로 불쾌감 주기",
+              "en": "Inappropriate humor — offending others with ill-timed jokes"
+            }
+          ],
+          "impediments": [
+            {
+              "ko": "지나친 진지함 — 모든 것을 심각하게만 받아들임",
+              "en": "Excessive seriousness — taking everything too seriously"
+            },
+            {
+              "ko": "자의식 과잉 — 웃는 것이 부끄럽거나 유치하다고 느낌",
+              "en": "Self-consciousness — feeling embarrassed or childish about laughing"
+            },
+            {
+              "ko": "냉소주의 — 재미있는 것에도 반응하지 않으려 함",
+              "en": "Cynicism — refusing to respond even to amusing things"
+            }
+          ],
+          "antidotes": [
+            {
+              "ko": "웃음 허용하기 — 소리 내어 웃어도 괜찮다고 스스로 허락하기",
+              "en": "Allowing laughter — giving yourself permission to laugh out loud"
+            },
+            {
+              "ko": "코미디 노출 — 웃긴 콘텐츠를 정기적으로 즐기기",
+              "en": "Comedy exposure — regularly enjoying funny content"
+            },
+            {
+              "ko": "장난기 있는 친구와 시간 보내기",
+              "en": "Spending time with playful friends"
+            }
+          ]
+        },
+        {
+          "id": "joy",
+          "name_ko": "기쁨",
+          "name_en": "Joy",
+          "intensity_range": [4, 6],
+          "description_ko": "마음 깊은 곳에서 솟아나는 밝은 감정. 좋은 일이 생겼을 때 온몸으로 느끼는 행복입니다.",
+          "description_en": "A bright emotion rising from deep within. It's the happiness you feel throughout your body when something good happens.",
+          "related_mood": {
+            "ko": "행복함",
+            "en": "Happiness"
+          },
+          "triggers": [
+            {
+              "ko": "오랜만에 보고 싶던 사람을 만났을 때",
+              "en": "Meeting someone you've been longing to see"
+            },
+            {
+              "ko": "노력한 일이 좋은 결과로 이어졌을 때",
+              "en": "When your efforts lead to good results"
+            },
+            {
+              "ko": "기대하지 않았던 좋은 소식을 들었을 때",
+              "en": "Receiving unexpected good news"
+            },
+            {
+              "ko": "소중한 사람의 행복한 순간을 함께할 때",
+              "en": "Sharing a happy moment with someone dear"
+            },
+            {
+              "ko": "오래 바랐던 꿈이 이루어졌을 때",
+              "en": "When a long-held dream comes true"
+            }
+          ],
+          "constructive_actions": [
+            {
+              "ko": "표현하기 — 기쁨을 말과 행동으로 드러내기",
+              "en": "Expressing — showing joy through words and actions"
+            },
+            {
+              "ko": "축하하기 — 이 순간을 기념하고 의미 부여하기",
+              "en": "Celebrating — commemorating and giving meaning to this moment"
+            },
+            {
+              "ko": "나누기 — 기쁨을 주변 사람들과 함께하기",
+              "en": "Sharing — spreading joy with people around you"
+            }
+          ],
+          "destructive_actions": [
+            {
+              "ko": "과시하기 — 자신의 기쁨을 자랑하며 다른 사람을 불편하게 함",
+              "en": "Showing off — making others uncomfortable by boasting about your joy"
+            },
+            {
+              "ko": "집착하기 — 이 감정이 사라질까 두려워함",
+              "en": "Clinging — fearing this feeling will disappear"
+            },
+            {
+              "ko": "무시하기 — 기뻐해도 된다는 것을 스스로 허락하지 않음",
+              "en": "Dismissing — not allowing yourself to be happy"
+            }
+          ],
+          "impediments": [
+            {
+              "ko": "죄책감 — '나만 행복해도 되나' 하는 마음",
+              "en": "Guilt — feeling 'Is it okay for just me to be happy?'"
+            },
+            {
+              "ko": "불안 — 좋은 일 뒤에는 나쁜 일이 올 것 같은 걱정",
+              "en": "Anxiety — worrying that bad things will follow good things"
+            },
+            {
+              "ko": "무감각 — 우울감이나 번아웃으로 기쁨을 느끼기 어려움",
+              "en": "Numbness — difficulty feeling joy due to depression or burnout"
+            }
+          ],
+          "antidotes": [
+            {
+              "ko": "허용하기 — '기뻐해도 괜찮아'라고 스스로에게 말하기",
+              "en": "Allowing — telling yourself 'It's okay to be happy'"
+            },
+            {
+              "ko": "음미하기 — 기쁜 순간을 천천히 느끼고 기억하기",
+              "en": "Savoring — slowly feeling and remembering joyful moments"
+            },
+            {
+              "ko": "감사하기 — 이 기쁨을 가능하게 한 것들에 고마워하기",
+              "en": "Gratitude — being thankful for what made this joy possible"
+            }
+          ]
+        },
+        {
+          "id": "excitement",
+          "name_ko": "흥분",
+          "name_en": "Excitement",
+          "intensity_range": [6, 8],
+          "description_ko": "기대와 에너지가 넘치는 고조된 상태. 무언가 좋은 일이 일어날 것 같은 설렘입니다.",
+          "description_en": "An elevated state full of anticipation and energy. The thrill of feeling something good is about to happen.",
+          "related_mood": {
+            "ko": "들뜸",
+            "en": "Exhilaration"
+          },
+          "triggers": [
+            {
+              "ko": "여행을 앞두고 짐을 쌀 때",
+              "en": "Packing for an upcoming trip"
+            },
+            {
+              "ko": "기다리던 공연이나 경기가 시작될 때",
+              "en": "When a long-awaited show or game is about to start"
+            },
+            {
+              "ko": "새로운 도전을 시작할 때",
+              "en": "Starting a new challenge"
+            },
+            {
+              "ko": "좋아하는 사람에게서 연락이 왔을 때",
+              "en": "Getting a message from someone you like"
+            },
+            {
+              "ko": "새로운 기회가 눈앞에 펼쳐졌을 때",
+              "en": "When a new opportunity unfolds before you"
+            }
+          ],
+          "constructive_actions": [
+            {
+              "ko": "에너지 활용 — 흥분된 에너지를 생산적인 행동으로 전환",
+              "en": "Channeling energy — converting excited energy into productive action"
+            },
+            {
+              "ko": "준비하기 — 기대하는 일을 위해 잘 준비하기",
+              "en": "Preparing — getting ready for what you're anticipating"
+            },
+            {
+              "ko": "공유하기 — 설레는 마음을 가까운 사람에게 이야기하기",
+              "en": "Sharing — telling close people about your excitement"
+            }
+          ],
+          "destructive_actions": [
+            {
+              "ko": "충동적 행동 — 흥분한 상태에서 후회할 결정을 내림",
+              "en": "Impulsive behavior — making decisions you'll regret while excited"
+            },
+            {
+              "ko": "과도한 기대 — 현실보다 너무 높은 기대를 가져 실망함",
+              "en": "Excessive expectations — setting expectations too high and getting disappointed"
+            },
+            {
+              "ko": "안전 무시 — 들뜬 마음에 위험을 간과함",
+              "en": "Ignoring safety — overlooking risks due to excitement"
+            }
+          ],
+          "impediments": [
+            {
+              "ko": "과거의 실망 — 전에 기대했다가 무너진 경험 때문에 조심함",
+              "en": "Past disappointments — being cautious due to previous letdowns"
+            },
+            {
+              "ko": "불안과 혼동 — 흥분과 불안이 신체적으로 비슷해서 구분 어려움",
+              "en": "Confusion with anxiety — difficulty distinguishing excitement from anxiety"
+            },
+            {
+              "ko": "억제된 감정 표현 — 들뜬 모습을 보이는 것이 부끄러움",
+              "en": "Suppressed expression — embarrassment about showing excitement"
+            }
+          ],
+          "antidotes": [
+            {
+              "ko": "현실 점검 — 기대를 현실적인 수준으로 조절하기",
+              "en": "Reality check — adjusting expectations to realistic levels"
+            },
+            {
+              "ko": "호흡 — 깊은 숨으로 과도한 에너지 조절하기",
+              "en": "Breathing — regulating excess energy with deep breaths"
+            },
+            {
+              "ko": "계획 세우기 — 흥분 상태에서 결정하지 않고 계획 먼저 세우기",
+              "en": "Planning first — making a plan instead of deciding while excited"
+            }
+          ]
+        },
+        {
+          "id": "ecstasy",
+          "name_ko": "황홀경",
+          "name_en": "Ecstasy",
+          "intensity_range": [8, 10],
+          "description_ko": "자아를 초월하는 듯한 최고조의 행복. 온몸이 전율하고, 세상과 하나가 된 느낌입니다.",
+          "description_en": "Peak happiness that seems to transcend the self. Your whole body tingles and you feel one with the world.",
+          "related_mood": {
+            "ko": "환희",
+            "en": "Elation"
+          },
+          "triggers": [
+            {
+              "ko": "인생의 꿈을 이루는 순간",
+              "en": "The moment of achieving a lifelong dream"
+            },
+            {
+              "ko": "깊은 명상이나 영적 체험을 할 때",
+              "en": "During deep meditation or spiritual experience"
+            },
+            {
+              "ko": "아이의 탄생을 목격할 때",
+              "en": "Witnessing the birth of a child"
+            },
+            {
+              "ko": "자연의 압도적인 아름다움 앞에 섰을 때",
+              "en": "Standing before nature's overwhelming beauty"
+            },
+            {
+              "ko": "진정한 사랑을 확인하는 순간",
+              "en": "The moment of confirming true love"
+            }
+          ],
+          "constructive_actions": [
+            {
+              "ko": "온전히 경험하기 — 이 순간에 완전히 몰입하기",
+              "en": "Fully experiencing — immersing completely in this moment"
+            },
+            {
+              "ko": "기억하기 — 이 순간을 마음에 새기기",
+              "en": "Remembering — engraving this moment in your heart"
+            },
+            {
+              "ko": "겸손 유지 — 이 순간이 선물임을 인식하기",
+              "en": "Staying humble — recognizing this moment as a gift"
+            }
+          ],
+          "destructive_actions": [
+            {
+              "ko": "중독적 추구 — 이 감정을 다시 느끼려고 위험한 행동을 함",
+              "en": "Addictive pursuit — engaging in risky behavior to feel this again"
+            },
+            {
+              "ko": "현실 거부 — 일상으로 돌아가기를 거부함",
+              "en": "Reality denial — refusing to return to everyday life"
+            },
+            {
+              "ko": "비교 — 다른 모든 경험이 시시해 보임",
+              "en": "Comparison — all other experiences seem dull in comparison"
+            }
+          ],
+          "impediments": [
+            {
+              "ko": "통제 욕구 — 모든 것을 통제하려 해서 놓아버리지 못함",
+              "en": "Need for control — unable to let go due to wanting to control everything"
+            },
+            {
+              "ko": "두려움 — 자아가 사라지는 것 같은 느낌에 대한 두려움",
+              "en": "Fear — fear of the feeling that the self is dissolving"
+            },
+            {
+              "ko": "닫힌 마음 — 비합리적이라며 강렬한 경험을 거부함",
+              "en": "Closed mind — rejecting intense experiences as irrational"
+            }
+          ],
+          "antidotes": [
+            {
+              "ko": "무상함 인식 — 이 순간도 지나갈 것임을 받아들이기",
+              "en": "Recognizing impermanence — accepting that this moment too shall pass"
+            },
+            {
+              "ko": "일상 감사 — 평범한 순간에도 작은 기쁨을 찾기",
+              "en": "Everyday gratitude — finding small joys in ordinary moments"
+            },
+            {
+              "ko": "균형 — 극적인 경험에 의존하지 않고 안정된 행복 추구하기",
+              "en": "Balance — pursuing stable happiness without depending on dramatic experiences"
+            }
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "ko": "진짜 미소 (뒤센 미소) — 눈가 주름과 함께 나타나는 진심 어린 미소",
+          "en": "Duchenne smile — genuine smile with crinkling around the eyes"
+        },
+        {
+          "ko": "밝은 눈 — 반짝이고 생기 있는 눈빛",
+          "en": "Bright eyes — sparkling and lively gaze"
+        },
+        {
+          "ko": "이완된 자세 — 어깨가 편안하고 몸이 열린 상태",
+          "en": "Relaxed posture — comfortable shoulders and open body"
+        },
+        {
+          "ko": "웃음소리 — 자연스럽게 터져 나오는 웃음",
+          "en": "Laughter — natural, spontaneous laughing"
+        },
+        {
+          "ko": "활기찬 목소리 — 톤이 높아지고 리듬이 생기는 말투",
+          "en": "Animated voice — higher pitch and rhythmic speaking"
+        }
+      ]
+    }
+  ]
+}
