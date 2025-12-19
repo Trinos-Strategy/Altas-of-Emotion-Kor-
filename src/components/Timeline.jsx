@@ -115,6 +115,7 @@ const CinematicStep = ({ step, emotion, index }) => {
   );
 };
 
+/* 타임라인 모달 - 텍스트 크기 2배 증가 및 가독성 개선 (2025-12-19) */
 // Learn More 라이트 모달 - 10단계 상세 설명 포함 (가독성 개선)
 const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
   const [selectedStep, setSelectedStep] = useState(null);
