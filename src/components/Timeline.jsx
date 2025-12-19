@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 import { emotionalEpisodeTimelineDetailed } from '../data/additionalData';
 
+// 강제 재빌드 트리거 - 2025-12-19
+
 // ============================================
 // TIMELINE - 개선된 버전
 // 10단계 상세 설명 포함 + 시네마틱 스크롤
