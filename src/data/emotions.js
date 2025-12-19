@@ -324,43 +324,71 @@ export const emotions = {
         name_ko: "낙담",
         name_en: "Discouragement",
         intensity: 2,
-        description_ko: "노력이 성과를 내지 못할 때 느끼는 의기소침입니다.",
-        description_en: "Feeling dejected when efforts don't yield results."
+        description_ko: "노력이 성과를 내지 못할 때 느끼는 의기소침입니다. 대처할 방법이 없다는 느낌.",
+        description_en: "Feeling dejected when efforts don't yield results. A feeling that there is no way to cope."
+      },
+      {
+        name_ko: "혼란",
+        name_en: "Distraughtness",
+        intensity: 3,
+        description_ko: "동요된 슬픔입니다. 감정적으로 혼란스럽고 당혹스러운 상태.",
+        description_en: "Agitated sadness. Emotionally confused and bewildered state."
+      },
+      {
+        name_ko: "체념",
+        name_en: "Resignation",
+        intensity: 4,
+        description_ko: "아무것도 할 수 없다는 것을 받아들인 상태입니다.",
+        description_en: "Acceptance that nothing can be done."
       },
       {
         name_ko: "무력감",
         name_en: "Helplessness",
-        intensity: 3,
-        description_ko: "상황을 바꿀 수 없다는 느낌입니다.",
-        description_en: "Feeling unable to change the situation."
-      },
-      {
-        name_ko: "우울",
-        name_en: "Gloom",
-        intensity: 4,
-        description_ko: "지속적인 슬픔과 어둠의 느낌입니다.",
-        description_en: "Persistent sadness and feeling of darkness."
-      },
-      {
-        name_ko: "비탄",
-        name_en: "Grief",
         intensity: 5,
-        description_ko: "중요한 상실에 대한 깊은 슬픔입니다.",
-        description_en: "Deep sadness over significant loss."
+        description_ko: "상실을 막거나 대처할 수 없다는 깨달음입니다.",
+        description_en: "Realization of the inability to prevent or cope with the loss."
       },
       {
-        name_ko: "고뇌",
-        name_en: "Anguish",
+        name_ko: "절망감",
+        name_en: "Hopelessness",
         intensity: 6,
-        description_ko: "극심한 정신적 고통입니다.",
-        description_en: "Extreme mental suffering."
+        description_ko: "좋은 일이 올 것 같지 않다는 느낌입니다.",
+        description_en: "A feeling that nothing good is to come."
+      },
+      {
+        name_ko: "비참함",
+        name_en: "Misery",
+        intensity: 7,
+        description_ko: "대개 오래 지속되는 고통스러운 슬픔입니다.",
+        description_en: "Anguished sadness usually prolonged."
       },
       {
         name_ko: "절망",
         name_en: "Despair",
-        intensity: 7,
-        description_ko: "희망을 완전히 잃은 상태입니다.",
-        description_en: "Complete loss of hope."
+        intensity: 8,
+        description_ko: "체념한 고뇌입니다. 희망을 완전히 잃은 상태.",
+        description_en: "Resigned anguish. Complete loss of hope."
+      },
+      {
+        name_ko: "비탄",
+        name_en: "Grief",
+        intensity: 9,
+        description_ko: "사랑하는 사람의 상실에 대한 고통스러운 슬픔입니다.",
+        description_en: "Anguished sadness over a loss of loved ones."
+      },
+      {
+        name_ko: "비애",
+        name_en: "Sorrow",
+        intensity: 10,
+        description_ko: "상실에 대한 깊은 슬픔입니다.",
+        description_en: "Sadness over a loss."
+      },
+      {
+        name_ko: "고뇌",
+        name_en: "Anguish",
+        intensity: 11,
+        description_ko: "격렬하고 동요된 슬픔입니다. 극심한 정신적 고통.",
+        description_en: "Intense agitated sadness. Extreme mental suffering."
       }
     ],
     triggers: [
@@ -418,92 +446,92 @@ export const emotions = {
         name_ko: "감각적 쾌락",
         name_en: "Sensory Pleasure",
         intensity: 1,
-        description_ko: "오감을 통한 즐거운 경험입니다.",
-        description_en: "Pleasant experience through the five senses."
-      },
-      {
-        name_ko: "연민의 기쁨",
-        name_en: "Compassion/Joy",
-        intensity: 2,
-        description_ko: "타인을 돕거나 그들의 행복을 볼 때 느끼는 기쁨입니다.",
-        description_en: "Joy felt when helping others or seeing their happiness."
-      },
-      {
-        name_ko: "즐거움",
-        name_en: "Amusement",
-        intensity: 2,
-        description_ko: "유머나 재미있는 상황에서 느끼는 기분 좋음입니다.",
-        description_en: "Enjoyment from humor or entertaining situations."
-      },
-      {
-        name_ko: "샤덴프로이데",
-        name_en: "Schadenfreude",
-        intensity: 3,
-        description_ko: "타인의 불행에서 느끼는 은밀한 기쁨입니다.",
-        description_en: "Secret pleasure in another's misfortune."
+        description_ko: "오감을 통한 즐거운 경험입니다. 맛있는 음식, 아름다운 음악, 부드러운 촉감 등에서 오는 즐거움.",
+        description_en: "Pleasant experience through the five senses. Enjoyment from delicious food, beautiful music, soft touch, etc."
       },
       {
         name_ko: "환희",
         name_en: "Rejoicing",
-        intensity: 3,
-        description_ko: "좋은 소식이나 성공에 대한 기쁨입니다.",
-        description_en: "Joy at good news or success."
+        intensity: 2,
+        description_ko: "좋은 소식이나 성공에 대한 기쁨입니다. 축하할 일이 생겼을 때 느끼는 감정.",
+        description_en: "Joy at good news or success. The feeling when there's something to celebrate."
       },
       {
-        name_ko: "평화",
-        name_en: "Peace",
+        name_ko: "연민의 기쁨",
+        name_en: "Compassion/Joy",
+        intensity: 3,
+        description_ko: "타인을 돕거나 그들의 행복을 볼 때 느끼는 기쁨입니다. 이타적 행동에서 오는 만족감.",
+        description_en: "Joy felt when helping others or seeing their happiness. Satisfaction from altruistic actions."
+      },
+      {
+        name_ko: "재미",
+        name_en: "Amusement",
         intensity: 4,
-        description_ko: "내면의 고요함과 만족입니다.",
-        description_en: "Inner calm and contentment."
+        description_ko: "유머나 재미있는 상황에서 느끼는 기분 좋음입니다. 웃음을 유발하는 즐거움.",
+        description_en: "Enjoyment from humor or entertaining situations. Pleasure that induces laughter."
+      },
+      {
+        name_ko: "샤덴프로이데",
+        name_en: "Schadenfreude",
+        intensity: 5,
+        description_ko: "타인의 불행에서 느끼는 은밀한 기쁨입니다. 특히 그 사람이 불행을 자초했다고 느낄 때.",
+        description_en: "Secret pleasure in another's misfortune. Especially when they seem to deserve it."
       },
       {
         name_ko: "안도",
         name_en: "Relief",
-        intensity: 4,
-        description_ko: "위협이 지나갔을 때의 해방감입니다.",
-        description_en: "Liberation when a threat has passed."
+        intensity: 6,
+        description_ko: "위협이 지나갔을 때의 해방감입니다. 걱정했던 일이 잘 해결되었을 때의 감정.",
+        description_en: "Liberation when a threat has passed. The feeling when a worry is resolved."
       },
       {
-        name_ko: "자부심",
-        name_en: "Pride",
-        intensity: 5,
-        description_ko: "자신의 성취에 대한 만족입니다.",
-        description_en: "Satisfaction in one's achievements."
+        name_ko: "평화",
+        name_en: "Peace",
+        intensity: 7,
+        description_ko: "내면의 고요함과 만족입니다. 갈등이 없고 조화로운 상태.",
+        description_en: "Inner calm and contentment. A state free of conflict and in harmony."
       },
       {
         name_ko: "피에로",
         name_en: "Fiero",
-        intensity: 5,
-        description_ko: "어려운 도전을 극복했을 때의 승리감입니다.",
-        description_en: "Triumph when overcoming a difficult challenge."
+        intensity: 8,
+        description_ko: "어려운 도전을 극복했을 때의 승리감입니다. 이탈리아어로 '자부심'을 뜻하며, 성취의 순간 느끼는 환희.",
+        description_en: "Triumph when overcoming a difficult challenge. Italian for 'pride', the elation felt at achievement."
+      },
+      {
+        name_ko: "자부심",
+        name_en: "Pride",
+        intensity: 9,
+        description_ko: "자신의 성취에 대한 만족입니다. 노력의 결과물에 대한 긍정적 자기평가.",
+        description_en: "Satisfaction in one's achievements. Positive self-evaluation of one's efforts."
       },
       {
         name_ko: "나체스",
         name_en: "Naches",
-        intensity: 5,
-        description_ko: "자녀나 제자의 성취에 대한 자랑스러움입니다.",
-        description_en: "Pride in the achievements of one's children or students."
+        intensity: 10,
+        description_ko: "자녀나 제자의 성취에 대한 자랑스러움입니다. 이디시어에서 온 말로, 대리적 자부심.",
+        description_en: "Pride in the achievements of one's children or students. From Yiddish, vicarious pride."
       },
       {
         name_ko: "경이",
         name_en: "Wonder",
-        intensity: 6,
-        description_ko: "놀라운 것을 마주했을 때의 경탄입니다.",
-        description_en: "Amazement when encountering something wonderful."
+        intensity: 11,
+        description_ko: "놀라운 것을 마주했을 때의 경탄입니다. 자연, 예술, 또는 인간의 업적 앞에서 느끼는 경외감.",
+        description_en: "Amazement when encountering something wonderful. Awe before nature, art, or human achievement."
       },
       {
         name_ko: "흥분",
         name_en: "Excitement",
-        intensity: 6,
-        description_ko: "기대되는 일에 대한 고조된 에너지입니다.",
-        description_en: "Heightened energy about anticipated events."
+        intensity: 12,
+        description_ko: "기대되는 일에 대한 고조된 에너지입니다. 곧 일어날 좋은 일에 대한 기대감.",
+        description_en: "Heightened energy about anticipated events. Anticipation of good things to come."
       },
       {
-        name_ko: "황홀감",
+        name_ko: "황홀경",
         name_en: "Ecstasy",
-        intensity: 7,
-        description_ko: "최고조의 행복과 환희입니다.",
-        description_en: "Peak happiness and elation."
+        intensity: 13,
+        description_ko: "최고조의 행복과 환희입니다. 자아를 초월하는 듯한 극도의 기쁨.",
+        description_en: "Peak happiness and elation. Extreme joy that seems to transcend the self."
       }
     ],
     triggers: [
