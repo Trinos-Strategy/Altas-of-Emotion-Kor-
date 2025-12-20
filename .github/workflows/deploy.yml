@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, claude/atlas-emotions-korean-g4IHW, claude/add-korean-emotions-UEfso ]
+    branches: [ main, claude/atlas-emotions-korean-g4IHW, claude/add-korean-emotions-UEfso, claude/refine-emotions-design-DXadr ]
   workflow_dispatch:
 
 jobs:
