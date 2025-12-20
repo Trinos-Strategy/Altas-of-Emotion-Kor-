@@ -102,13 +102,19 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
                   >
                     <motion.div
                       className="rounded-full"
-                      style={{
-                        width: isSelected ? '44px' : '40px',
-                        height: isSelected ? '44px' : '40px',
-                        background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
+                      animate={{
+                        width: isSelected ? 44 : 40,
+                        height: isSelected ? 44 : 40,
                         boxShadow: isSelected
                           ? `0 4px 16px ${emotion.color}60`
                           : `0 2px 8px ${emotion.color}30`,
+                      }}
+                      transition={{
+                        duration: 0.35,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }}
+                      style={{
+                        background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
                       }}
                     />
                   </motion.button>
@@ -278,22 +284,23 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
                   aria-label={`${emotion.name_ko} 감정 선택`}
                 >
                   <motion.div
-                    className="rounded-full transition-all duration-300 flex items-center justify-center"
-                    style={{
-                      width: isSelected ? '56px' : '48px',
-                      height: isSelected ? '56px' : '48px',
-                      background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
+                    className="rounded-full flex items-center justify-center"
+                    animate={{
+                      width: isSelected ? 56 : 48,
+                      height: isSelected ? 56 : 48,
                       boxShadow: isSelected
                         ? `0 8px 24px ${emotion.color}50, 0 0 0 3px ${emotion.colorLight}40`
                         : `0 4px 12px ${emotion.color}30`,
-                    }}
-                    animate={{
                       scale: isSelected ? [1, 1.03, 1] : 1,
                     }}
                     transition={{
-                      duration: 2,
-                      repeat: isSelected ? Infinity : 0,
-                      repeatType: 'reverse',
+                      width: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+                      height: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+                      boxShadow: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] },
+                      scale: { duration: 2, repeat: isSelected ? Infinity : 0, repeatType: 'reverse' }
+                    }}
+                    style={{
+                      background: `radial-gradient(circle at 30% 30%, ${emotion.colorLight}, ${emotion.color})`,
                     }}
                   />
                   <span

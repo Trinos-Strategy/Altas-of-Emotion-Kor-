@@ -206,17 +206,24 @@ const Navigation = ({ activeSection, onSectionChange }) => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <div style={{ padding: '16px' }}>
-                {sections.slice(1).map((section) => {
+                {sections.slice(1).map((section, index) => {
                   const isActive = activeSection === section ||
                     (section === 'explore' && activeSection === 'partially-charted');
                   const sectionInfo = sectionNames[section];
-                  
+
                   return (
-                    <button
+                    <motion.button
                       key={section}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: index * 0.05,
+                        duration: 0.3,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }}
                       onClick={() => {
                         onSectionChange(section);
                         setMobileMenuOpen(false);
@@ -233,18 +240,27 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                         border: 'none',
                         cursor: 'pointer',
                         marginBottom: '4px',
-                        transition: 'all 0.2s ease'
+                        transition: 'background-color 0.25s ease, color 0.25s ease'
                       }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span>{sectionInfo?.ko || section}</span>
                         {isActive && (
-                          <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <motion.svg
+                            initial={{ scale: 0, rotate: -45 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ delay: 0.1, type: 'spring', stiffness: 400, damping: 15 }}
+                            style={{ width: '20px', height: '20px' }}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
+                          </motion.svg>
                         )}
                       </div>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
