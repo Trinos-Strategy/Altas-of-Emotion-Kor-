@@ -154,11 +154,18 @@ export const emotions = {
         description_en: "Sudden overwhelming fear making rational thought difficult."
       },
       {
+        name_ko: "경악",
+        name_en: "Horror",
+        intensity: 7,
+        description_ko: "두려움과 혐오가 혼합된 강렬한 충격 상태입니다. 끔찍하거나 충격적인 것을 목격했을 때 느낍니다.",
+        description_en: "A mixture of fear and disgust. Felt when witnessing something terrible or shocking."
+      },
+      {
         name_ko: "공포",
         name_en: "Terror",
-        intensity: 7,
-        description_ko: "극심한 두려움으로 완전히 마비된 상태입니다.",
-        description_en: "Extreme fear causing complete paralysis."
+        intensity: 8,
+        description_ko: "극심한 두려움으로 완전히 마비된 상태입니다. 두려움의 가장 강렬한 형태.",
+        description_en: "Extreme fear causing complete paralysis. The most intense form of fear."
       }
     ],
     triggers: [
@@ -198,6 +205,7 @@ export const emotions = {
       { state_ko: "걱정", state_en: "Trepidation", antidote_ko: "현실 점검, 마음챙김, 준비", antidote_en: "Reality check, mindfulness, preparation" },
       { state_ko: "불안", state_en: "Anxiety", antidote_ko: "심호흡, 현재에 집중, 점진적 노출", antidote_en: "Deep breathing, focusing on present, gradual exposure" },
       { state_ko: "공황", state_en: "Panic", antidote_ko: "그라운딩 기법, 호흡 조절, 안전한 장소", antidote_en: "Grounding techniques, breath control, safe place" },
+      { state_ko: "경악", state_en: "Horror", antidote_ko: "감각 재연결, 안전한 환경 조성, 정서적 지지", antidote_en: "Reconnecting to senses, creating safe environment, emotional support" },
       { state_ko: "공포", state_en: "Terror", antidote_ko: "마음 진정, 마음챙김, 자기 연민", antidote_en: "Calming the mind, mindfulness, self-compassion" }
     ]
   },
