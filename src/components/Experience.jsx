@@ -279,106 +279,149 @@ const getShapeDescription = (shape) => {
   return descriptions[shape] || shape;
 };
 
-// 강도 단계 시각화 (도형 기반)
+// 강도 단계 시각화 (도형 기반) - 컴팩트 버전
 const IntensityStages = ({ emotion, stages, data, isVisible }) => {
   const [hoveredStage, setHoveredStage] = useState(null);
+  const stageCount = stages.length;
+
+  // 단계 수에 따라 크기 조절
+  const getSize = (index) => {
+    if (stageCount <= 7) {
+      return 30 + (index * 18); // 기존 방식
+    } else if (stageCount <= 10) {
+      return 24 + (index * 12); // 중간 크기
+    } else {
+      return 20 + (index * 8); // 작은 크기 (13개용)
+    }
+  };
+
+  const getGap = () => {
+    if (stageCount <= 7) return '12px';
+    if (stageCount <= 10) return '8px';
+    return '6px';
+  };
 
   return (
     <div style={{
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-      gap: '14px',
-      padding: '40px 20px',
-      minHeight: '280px'
+      overflowX: 'auto',
+      overflowY: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      padding: '20px 10px 30px',
+      margin: '0 -10px'
     }}>
-      {stages.map((stage, index) => {
-        const baseSize = 35 + (index * 22);
-        const isHovered = hoveredStage === index;
+      <div style={{
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: stageCount <= 8 ? 'center' : 'flex-start',
+        gap: getGap(),
+        minWidth: stageCount > 8 ? 'max-content' : 'auto',
+        padding: '10px 20px'
+      }}>
+        {stages.map((stage, index) => {
+          const baseSize = getSize(index);
+          const isHovered = hoveredStage === index;
 
-        return (
-          <motion.div
-            key={stage.name_en}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              cursor: 'pointer'
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: index * 0.08, duration: 0.5 }}
-            onMouseEnter={() => setHoveredStage(index)}
-            onMouseLeave={() => setHoveredStage(null)}
-          >
-            {/* 단계 레이블 */}
+          return (
             <motion.div
+              key={stage.name_en}
               style={{
-                marginBottom: '12px',
-                textAlign: 'center',
-                opacity: isHovered ? 1 : 0.7
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                cursor: 'pointer',
+                flexShrink: 0,
+                minWidth: stageCount > 10 ? '60px' : stageCount > 7 ? '70px' : '80px'
               }}
-              animate={{ scale: isHovered ? 1.08 : 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: index * 0.04, duration: 0.4 }}
+              onMouseEnter={() => setHoveredStage(index)}
+              onMouseLeave={() => setHoveredStage(null)}
             >
+              {/* 단계 레이블 */}
+              <motion.div
+                style={{
+                  marginBottom: '8px',
+                  textAlign: 'center',
+                  opacity: isHovered ? 1 : 0.7
+                }}
+                animate={{ scale: isHovered ? 1.05 : 1 }}
+              >
+                <div style={{
+                  fontSize: stageCount > 10 ? '8px' : '9px',
+                  fontWeight: '700',
+                  color: data.primary,
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: stageCount > 10 ? '55px' : '70px'
+                }}>
+                  {stage.name_en}
+                </div>
+                <div style={{
+                  fontSize: stageCount > 10 ? '11px' : '12px',
+                  fontWeight: '600',
+                  color: '#333',
+                  marginTop: '2px'
+                }}>
+                  {stage.name_ko}
+                </div>
+              </motion.div>
+
+              {/* 도형 강도 표시 */}
+              <motion.div
+                style={{
+                  filter: isHovered ? `drop-shadow(0 6px 15px ${data.primary}60)` : `drop-shadow(0 3px 8px ${data.primary}30)`,
+                  transition: 'filter 0.3s ease'
+                }}
+                animate={{
+                  scale: isHovered ? 1.12 : 1,
+                  y: isHovered ? -5 : 0
+                }}
+              >
+                <EmotionShape
+                  shape={data.shape}
+                  size={baseSize}
+                  color={data.primary}
+                  lightColor={data.light}
+                  opacity={0.4 + (index * (0.6 / Math.max(stageCount - 1, 1)))}
+                />
+              </motion.div>
+
+              {/* 숫자 표시 */}
               <div style={{
-                fontSize: '10px',
+                marginTop: '6px',
+                width: stageCount > 10 ? '18px' : '20px',
+                height: stageCount > 10 ? '18px' : '20px',
+                borderRadius: '50%',
+                backgroundColor: data.primary,
+                color: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: stageCount > 10 ? '9px' : '10px',
                 fontWeight: '700',
-                color: data.primary,
-                letterSpacing: '1px',
-                textTransform: 'uppercase'
+                opacity: isHovered ? 1 : 0.7
               }}>
-                {stage.name_en}
-              </div>
-              <div style={{
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#333',
-                marginTop: '4px'
-              }}>
-                {stage.name_ko}
+                {index + 1}
               </div>
             </motion.div>
-
-            {/* 도형 강도 표시 */}
-            <motion.div
-              style={{
-                filter: isHovered ? `drop-shadow(0 8px 20px ${data.primary}60)` : `drop-shadow(0 4px 10px ${data.primary}30)`,
-                transition: 'filter 0.3s ease'
-              }}
-              animate={{
-                scale: isHovered ? 1.15 : 1,
-                y: isHovered ? -8 : 0
-              }}
-            >
-              <EmotionShape
-                shape={data.shape}
-                size={baseSize}
-                color={data.primary}
-                lightColor={data.light}
-                opacity={0.4 + (index * 0.09)}
-              />
-            </motion.div>
-
-            {/* 숫자 표시 */}
-            <div style={{
-              marginTop: '8px',
-              width: '24px',
-              height: '24px',
-              borderRadius: '50%',
-              backgroundColor: data.primary,
-              color: '#fff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '12px',
-              fontWeight: '700',
-              opacity: isHovered ? 1 : 0.7
-            }}>
-              {index + 1}
-            </div>
-          </motion.div>
-        );
-      })}
+          );
+        })}
+      </div>
+      {/* 스크롤 힌트 (8개 이상일 때) */}
+      {stageCount > 8 && (
+        <div style={{
+          textAlign: 'center',
+          marginTop: '8px',
+          fontSize: '11px',
+          color: '#999'
+        }}>
+          ← 스크롤하여 모든 단계 보기 →
+        </div>
+      )}
     </div>
   );
 };

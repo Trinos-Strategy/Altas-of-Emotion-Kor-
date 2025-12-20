@@ -434,9 +434,16 @@ export const emotions = {
     ],
     antidotes: [
       { state_ko: "실망", state_en: "Disappointment", antidote_ko: "수용, 새로운 관점, 회복력", antidote_en: "Acceptance, new perspective, resilience" },
+      { state_ko: "낙담", state_en: "Discouragement", antidote_ko: "작은 성취 인정, 현실적 목표, 자기 격려", antidote_en: "Acknowledging small achievements, realistic goals, self-encouragement" },
+      { state_ko: "혼란", state_en: "Distraughtness", antidote_ko: "호흡 조절, 감정 명명, 안전한 공간", antidote_en: "Breath control, naming emotions, safe space" },
+      { state_ko: "체념", state_en: "Resignation", antidote_ko: "새로운 가능성 탐색, 작은 행동, 지지 구하기", antidote_en: "Exploring new possibilities, small actions, seeking support" },
       { state_ko: "무력감", state_en: "Helplessness", antidote_ko: "작은 행동, 지지 구하기, 자기 효능감", antidote_en: "Small actions, seeking support, self-efficacy" },
+      { state_ko: "절망감", state_en: "Hopelessness", antidote_ko: "연결, 의미 찾기, 전문가 도움", antidote_en: "Connection, finding meaning, professional help" },
+      { state_ko: "비참함", state_en: "Misery", antidote_ko: "자기 연민, 일상 복귀, 건강한 습관", antidote_en: "Self-compassion, returning to routine, healthy habits" },
+      { state_ko: "절망", state_en: "Despair", antidote_ko: "무상함의 이해, 평화, 연결", antidote_en: "Understanding impermanence, peace, connection" },
       { state_ko: "비탄", state_en: "Grief", antidote_ko: "애도의 시간, 지지 체계, 기억하기", antidote_en: "Time to mourn, support system, remembering" },
-      { state_ko: "절망", state_en: "Despair", antidote_ko: "무상함의 이해, 평화, 연결", antidote_en: "Understanding impermanence, peace, connection" }
+      { state_ko: "비애", state_en: "Sorrow", antidote_ko: "감정 표현, 예술적 승화, 타인과 나누기", antidote_en: "Expressing emotions, artistic sublimation, sharing with others" },
+      { state_ko: "고뇌", state_en: "Anguish", antidote_ko: "무상함 인식, 평화 찾기, 전문가 상담", antidote_en: "Recognizing impermanence, finding peace, professional counseling" }
     ]
   },
 
@@ -577,12 +584,18 @@ export const emotions = {
     ],
     antidotes: [
       { state_ko: "감각적 쾌락", state_en: "Sensory Pleasure", antidote_ko: "절제, 마음챙김, 감사", antidote_en: "Moderation, mindfulness, gratitude" },
+      { state_ko: "환희", state_en: "Rejoicing", antidote_ko: "겸손, 타인과 나누기, 감사 유지", antidote_en: "Humility, sharing with others, maintaining gratitude" },
+      { state_ko: "연민의 기쁨", state_en: "Compassion/Joy", antidote_ko: "균형, 자기 돌봄, 경계 유지", antidote_en: "Balance, self-care, maintaining boundaries" },
+      { state_ko: "재미", state_en: "Amusement", antidote_ko: "적절함 유지, 타인 배려, 상황 인식", antidote_en: "Maintaining appropriateness, consideration for others, situational awareness" },
       { state_ko: "샤덴프로이데", state_en: "Schadenfreude", antidote_ko: "자비, 공감, 인류애, 타인의 고통에 대한 연민", antidote_en: "Benevolence, empathy, humanity, compassion for others' suffering" },
-      { state_ko: "자부심", state_en: "Pride", antidote_ko: "겸손, 감사, 타인의 기여 인정, 자만심 경계", antidote_en: "Humility, gratitude, acknowledging others' contributions, guarding against arrogance" },
+      { state_ko: "안도", state_en: "Relief", antidote_ko: "감사, 교훈 인식, 미래 대비", antidote_en: "Gratitude, recognizing lessons, future preparation" },
+      { state_ko: "평화", state_en: "Peace", antidote_ko: "현재 순간 유지, 집착 경계, 균형", antidote_en: "Staying in present moment, guarding against attachment, balance" },
       { state_ko: "피에로", state_en: "Fiero", antidote_ko: "겸손, 성취를 다른 사람과 나누기, 감사", antidote_en: "Humility, sharing achievement with others, gratitude" },
-      { state_ko: "탐닉", state_en: "Indulgence", antidote_ko: "절제, 자기 인식, 장기적 결과 고려", antidote_en: "Moderation, self-awareness, considering long-term consequences" },
-      { state_ko: "우쭐대기", state_en: "Gloating", antidote_ko: "겸손, 연민, 상대방 존중", antidote_en: "Humility, compassion, respecting the other party" },
-      { state_ko: "흥분", state_en: "Excitement", antidote_ko: "균형, 현재 순간에 머물기, 과도한 기대 조절", antidote_en: "Balance, staying in the present moment, moderating excessive expectations" }
+      { state_ko: "자부심", state_en: "Pride", antidote_ko: "겸손, 감사, 타인의 기여 인정, 자만심 경계", antidote_en: "Humility, gratitude, acknowledging others' contributions, guarding against arrogance" },
+      { state_ko: "나체스", state_en: "Naches", antidote_ko: "겸손, 자녀/제자의 독립성 존중, 과도한 기대 자제", antidote_en: "Humility, respecting independence of children/mentees, moderating expectations" },
+      { state_ko: "경이", state_en: "Wonder", antidote_ko: "현재에 머물기, 집착 않기, 열린 마음 유지", antidote_en: "Staying present, not grasping, maintaining open mind" },
+      { state_ko: "흥분", state_en: "Excitement", antidote_ko: "균형, 현재 순간에 머물기, 과도한 기대 조절", antidote_en: "Balance, staying in the present moment, moderating excessive expectations" },
+      { state_ko: "황홀경", state_en: "Ecstasy", antidote_ko: "무상함 인식, 집착 않기, 일상으로의 복귀", antidote_en: "Recognizing impermanence, not grasping, returning to daily life" }
     ],
     obstacles: [
       { state_ko: "즐거움 전체", state_en: "All Enjoyment", obstacle_ko: "집착, 비관주의, 부정성, 무감각", obstacle_en: "Grasping, pessimism, negativity, numbness" },
