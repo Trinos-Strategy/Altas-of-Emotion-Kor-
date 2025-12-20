@@ -21,12 +21,13 @@ const GradientSphere = () => {
     resize();
     window.addEventListener('resize', resize);
 
+    // Refined emotion colors - softer, more elegant
     const emotionColors = [
-      { color: '#E85A4F', angle: 0 },     // 분노 - 빨강
-      { color: '#9B7BB8', angle: 72 },    // 두려움 - 보라
-      { color: '#10B981', angle: 144 },   // 혐오 - 초록
-      { color: '#3B82F6', angle: 216 },   // 슬픔 - 파랑
-      { color: '#F59E0B', angle: 288 },   // 즐거움 - 노랑
+      { color: '#D4847B', angle: 0 },     // 분노 - Warm Terracotta
+      { color: '#9B8BC6', angle: 72 },    // 두려움 - Soft Lavender
+      { color: '#7BAF8D', angle: 144 },   // 혐오 - Sage Green
+      { color: '#7BA3C9', angle: 216 },   // 슬픔 - Muted Blue
+      { color: '#E2C478', angle: 288 },   // 즐거움 - Warm Golden
     ];
 
     const draw = () => {
@@ -79,9 +80,9 @@ const GradientSphere = () => {
       ctx.fillStyle = glossGradient;
       ctx.fill();
 
-      // Outer glow
-      ctx.shadowColor = 'rgba(139, 92, 246, 0.3)';
-      ctx.shadowBlur = 60;
+      // Outer glow - softer
+      ctx.shadowColor = 'rgba(155, 139, 198, 0.2)';
+      ctx.shadowBlur = 50;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(255,255,255,0.1)';
@@ -150,12 +151,13 @@ const GradientSphere = () => {
 const Introduction = ({ onNavigate }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Refined colors - softer, more elegant palette
   const emotionColors = [
-    { name: '분노', name_en: 'ANGER', color: '#E85A4F', desc: '목표가 방해받을 때' },
-    { name: '두려움', name_en: 'FEAR', color: '#9B7BB8', desc: '위협을 느낄 때' },
-    { name: '혐오', name_en: 'DISGUST', color: '#10B981', desc: '불쾌한 것에 대한 반응' },
-    { name: '슬픔', name_en: 'SADNESS', color: '#3B82F6', desc: '상실에 대한 반응' },
-    { name: '즐거움', name_en: 'ENJOYMENT', color: '#F59E0B', desc: '긍정적 경험에 대한 반응' },
+    { name: '분노', name_en: 'ANGER', color: '#D4847B', desc: '목표가 방해받을 때' },
+    { name: '두려움', name_en: 'FEAR', color: '#9B8BC6', desc: '위협을 느낄 때' },
+    { name: '혐오', name_en: 'DISGUST', color: '#7BAF8D', desc: '불쾌한 것에 대한 반응' },
+    { name: '슬픔', name_en: 'SADNESS', color: '#7BA3C9', desc: '상실에 대한 반응' },
+    { name: '즐거움', name_en: 'ENJOYMENT', color: '#E2C478', desc: '긍정적 경험에 대한 반응' },
   ];
 
   return (

@@ -16,50 +16,101 @@
   --font-display: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-serif: 'Noto Serif KR', 'Georgia', serif;
 
-  /* Emotion Colors - Vivid Palette */
-  --color-anger: #E85A4F;
-  --color-anger-light: #FF8C82;
-  --color-anger-dark: #C4423A;
-  --color-anger-glow: rgba(232, 90, 79, 0.4);
-  --color-anger-gradient: linear-gradient(135deg, #E85A4F 0%, #FF6B5C 50%, #C4423A 100%);
+  /* ============================================
+     Refined Emotion Colors - Softer, More Elegant
+     Inspired by atlasofemotions.org original palette
+     ============================================ */
 
-  --color-fear: #8B5CF6;
-  --color-fear-light: #A78BFA;
-  --color-fear-dark: #6D28D9;
-  --color-fear-glow: rgba(139, 92, 246, 0.4);
-  --color-fear-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 50%, #6D28D9 100%);
+  /* Anger - Warm Terracotta (채도 낮춤) */
+  --color-anger: #D4847B;
+  --color-anger-light: #E8ADA6;
+  --color-anger-dark: #B86B63;
+  --color-anger-glow: rgba(212, 132, 123, 0.2);
+  --color-anger-gradient: linear-gradient(
+    150deg,
+    #E8ADA6 0%,
+    #D4847B 35%,
+    #C97870 65%,
+    #B86B63 100%
+  );
 
-  --color-disgust: #10B981;
-  --color-disgust-light: #34D399;
-  --color-disgust-dark: #059669;
-  --color-disgust-glow: rgba(16, 185, 129, 0.4);
-  --color-disgust-gradient: linear-gradient(135deg, #10B981 0%, #34D399 50%, #059669 100%);
+  /* Fear - Soft Lavender Purple (채도 낮춤) */
+  --color-fear: #9B8BC6;
+  --color-fear-light: #BEB0D9;
+  --color-fear-dark: #7B6BA8;
+  --color-fear-glow: rgba(155, 139, 198, 0.2);
+  --color-fear-gradient: linear-gradient(
+    150deg,
+    #BEB0D9 0%,
+    #9B8BC6 35%,
+    #8A7AB8 65%,
+    #7B6BA8 100%
+  );
 
-  --color-sadness: #3B82F6;
-  --color-sadness-light: #60A5FA;
-  --color-sadness-dark: #1D4ED8;
-  --color-sadness-glow: rgba(59, 130, 246, 0.4);
-  --color-sadness-gradient: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #1D4ED8 100%);
+  /* Disgust - Sage Green (이미 적절, 미세 조정) */
+  --color-disgust: #7BAF8D;
+  --color-disgust-light: #A3D4B5;
+  --color-disgust-dark: #5A9070;
+  --color-disgust-glow: rgba(123, 175, 141, 0.2);
+  --color-disgust-gradient: linear-gradient(
+    150deg,
+    #A3D4B5 0%,
+    #7BAF8D 35%,
+    #6A9F7D 65%,
+    #5A9070 100%
+  );
 
-  --color-enjoyment: #F59E0B;
-  --color-enjoyment-light: #FBBF24;
-  --color-enjoyment-dark: #D97706;
-  --color-enjoyment-glow: rgba(245, 158, 11, 0.4);
-  --color-enjoyment-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #D97706 100%);
+  /* Sadness - Muted Blue (채도 낮춤) */
+  --color-sadness: #7BA3C9;
+  --color-sadness-light: #A5C4DC;
+  --color-sadness-dark: #5A83AA;
+  --color-sadness-glow: rgba(123, 163, 201, 0.2);
+  --color-sadness-gradient: linear-gradient(
+    150deg,
+    #A5C4DC 0%,
+    #7BA3C9 35%,
+    #6A93BB 65%,
+    #5A83AA 100%
+  );
 
-  /* Korean Emotions - Han (恨) */
-  --color-han: #4A3B6B;
-  --color-han-light: #6B5B8B;
-  --color-han-dark: #2A1B4B;
-  --color-han-glow: rgba(74, 59, 107, 0.4);
-  --color-han-gradient: linear-gradient(135deg, #6B5B8B 0%, #4A3B6B 50%, #2A1B4B 100%);
+  /* Enjoyment - Warm Golden (채도 낮춤) */
+  --color-enjoyment: #E2C478;
+  --color-enjoyment-light: #F0DCA0;
+  --color-enjoyment-dark: #C9A855;
+  --color-enjoyment-glow: rgba(226, 196, 120, 0.2);
+  --color-enjoyment-gradient: linear-gradient(
+    150deg,
+    #F0DCA0 0%,
+    #E2C478 35%,
+    #D6B668 65%,
+    #C9A855 100%
+  );
 
-  /* Korean Emotions - Jeong (情) */
-  --color-jeong: #C17A4A;
-  --color-jeong-light: #D4956A;
-  --color-jeong-dark: #8B5A3A;
-  --color-jeong-glow: rgba(193, 122, 74, 0.4);
-  --color-jeong-gradient: linear-gradient(135deg, #D4956A 0%, #C17A4A 50%, #8B5A3A 100%);
+  /* Korean Emotions - Han (恨) - Deep Indigo */
+  --color-han: #5A4B7B;
+  --color-han-light: #7B6B9B;
+  --color-han-dark: #3A2B5B;
+  --color-han-glow: rgba(90, 75, 123, 0.2);
+  --color-han-gradient: linear-gradient(
+    150deg,
+    #7B6B9B 0%,
+    #5A4B7B 35%,
+    #4A3B6B 65%,
+    #3A2B5B 100%
+  );
+
+  /* Korean Emotions - Jeong (情) - Warm Amber */
+  --color-jeong: #C4886A;
+  --color-jeong-light: #D9A88A;
+  --color-jeong-dark: #A06850;
+  --color-jeong-glow: rgba(196, 136, 106, 0.2);
+  --color-jeong-gradient: linear-gradient(
+    150deg,
+    #D9A88A 0%,
+    #C4886A 35%,
+    #B4785A 65%,
+    #A06850 100%
+  );
 }
 
 :root {
@@ -104,10 +155,22 @@
   --shadow-glow: 0 0 40px rgba(0,0,0,0.1);
   --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.05);
 
-  /* Animation */
+  /* Animation - Refined Easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-spring: cubic-bezier(0.5, 1.25, 0.5, 1);
+
+  /* New smoother easing functions */
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-gentle: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --ease-in-out-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Duration tokens */
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 600ms;
+  --duration-slower: 800ms;
 }
 
 /* ============================================
