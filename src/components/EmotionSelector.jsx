@@ -6,7 +6,6 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const scrollContainerRef = useRef(null);
-  const controls = useAnimation();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
