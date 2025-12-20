@@ -9,10 +9,10 @@ export const koreanEmotions = {
     name_ko: '한(恨)',
     name_en: 'Han',
     hanja: '恨',
-    color: '#4A3B6B', // 짙은 남색-보라
-    colorLight: '#6B5B8B',
-    colorDark: '#2A1B4B',
-    colorGradient: 'linear-gradient(135deg, #4A3B6B 0%, #2A1B4B 50%, #1A0B3B 100%)',
+    color: '#5A6B7B', // 회청색 계열
+    colorLight: '#8A9BAB',
+    colorDark: '#3A4B5B',
+    colorGradient: 'linear-gradient(135deg, #8A9BAB 0%, #5A6B7B 50%, #3A4B5B 100%)',
 
     definition_ko: '부당함에 대한 감정이 해소되지 못하고 내면에 응축된 상태',
     definition_en: 'A state where emotions of injustice remain unresolved and condensed within',
@@ -386,10 +386,10 @@ export const koreanEmotions = {
     name_ko: '정(情)',
     name_en: 'Jeong',
     hanja: '情',
-    color: '#C17A4A', // 따뜻한 오렌지-갈색
-    colorLight: '#D4956A',
-    colorDark: '#8B5A3A',
-    colorGradient: 'linear-gradient(135deg, #D4956A 0%, #C17A4A 50%, #8B5A3A 100%)',
+    color: '#E88B9D', // 분홍 계열
+    colorLight: '#FFB5C5',
+    colorDark: '#C86A7D',
+    colorGradient: 'linear-gradient(135deg, #FFB5C5 0%, #E88B9D 50%, #C86A7D 100%)',
 
     definition_ko: '시간과 경험의 축적을 통해 형성되는 유대감',
     definition_en: 'A bond formed through the accumulation of time and shared experiences',

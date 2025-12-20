@@ -51,12 +51,12 @@ const EMOTION_STAGES = {
   ]
 };
 
-// 감정별 색상, 도형 및 설명
+// 감정별 색상, 도형 및 설명 - 2025 Palette
 const EMOTION_DATA = {
   anger: {
-    primary: '#E85A4F',
-    light: '#FF8C82',
-    dark: '#C4423A',
+    primary: '#E63946',
+    light: '#FF8B8B',
+    dark: '#C62936',
     name_ko: '분노',
     name_en: 'ANGER',
     description: '무언가가 우리를 막거나 부당하게 대우받는다고 느낄 때 분노합니다.',
@@ -64,9 +64,9 @@ const EMOTION_DATA = {
     size: 280
   },
   fear: {
-    primary: '#9B7BB8',
-    light: '#C4A8E0',
-    dark: '#6D28D9',
+    primary: '#6B4C9A',
+    light: '#9B7FBF',
+    dark: '#4A3570',
     name_ko: '두려움',
     name_en: 'FEAR',
     description: '위험을 감지하거나 불확실한 상황에 직면할 때 두려움을 느낍니다.',
@@ -74,9 +74,9 @@ const EMOTION_DATA = {
     size: 300
   },
   disgust: {
-    primary: '#10B981',
-    light: '#34D399',
-    dark: '#059669',
+    primary: '#4A7C59',
+    light: '#8BC99B',
+    dark: '#3A6248',
     name_ko: '혐오',
     name_en: 'DISGUST',
     description: '불쾌하거나 역겨운 것을 접했을 때 혐오감을 느낍니다.',
@@ -84,9 +84,9 @@ const EMOTION_DATA = {
     size: 240
   },
   sadness: {
-    primary: '#3B82F6',
-    light: '#60A5FA',
-    dark: '#1D4ED8',
+    primary: '#4A6FA5',
+    light: '#89A7C9',
+    dark: '#3A5A8A',
     name_ko: '슬픔',
     name_en: 'SADNESS',
     description: '소중한 것을 잃거나 실망했을 때 슬픔을 느낍니다.',
@@ -94,9 +94,9 @@ const EMOTION_DATA = {
     size: 260
   },
   enjoyment: {
-    primary: '#F59E0B',
-    light: '#FBBF24',
-    dark: '#D97706',
+    primary: '#F4A261',
+    light: '#FFD89B',
+    dark: '#E08A40',
     name_ko: '즐거움',
     name_en: 'ENJOYMENT',
     description: '좋은 일이 일어나거나 기대가 충족될 때 즐거움을 느낍니다.',
