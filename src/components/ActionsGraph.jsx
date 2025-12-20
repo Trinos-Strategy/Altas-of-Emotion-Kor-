@@ -319,7 +319,7 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
         .attr('cx', indicatorOffset)
         .attr('cy', -indicatorOffset)
         .attr('r', indicatorSize)
-        .attr('fill', isIntrinsic ? '#EF4444' : '#22C55E')
+        .attr('fill', isIntrinsic ? '#D4847B' : '#7BAF8D')
         .attr('stroke', 'white')
         .attr('stroke-width', 2)
         .style('filter', 'drop-shadow(0 1px 3px rgba(0,0,0,0.15))');

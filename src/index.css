@@ -95,7 +95,7 @@
     150deg,
     #7B6B9B 0%,
     #5A4B7B 35%,
-    #4A3B6B 65%,
+    #4A4070 65%,
     #3A2B5B 100%
   );
 
@@ -888,20 +888,20 @@ p {
   -webkit-backdrop-filter: blur(8px) saturate(150%);
 }
 
-/* Action Badge Styles */
+/* Action Badge Styles - Refined palette */
 .action-badge-constructive {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+  background: linear-gradient(135deg, #7BAF8D, #5A9070);
+  box-shadow: 0 2px 8px rgba(123, 175, 141, 0.3);
 }
 
 .action-badge-destructive {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  background: linear-gradient(135deg, #D4847B, #B86B63);
+  box-shadow: 0 2px 8px rgba(212, 132, 123, 0.3);
 }
 
 .action-badge-ambiguous {
-  background: linear-gradient(135deg, #eab308, #ca8a04);
-  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.4);
+  background: linear-gradient(135deg, #E2C478, #C9A855);
+  box-shadow: 0 2px 8px rgba(226, 196, 120, 0.3);
 }
 
 /* Scroll Progress Indicator */

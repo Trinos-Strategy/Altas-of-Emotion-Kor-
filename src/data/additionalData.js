@@ -5,12 +5,13 @@
 
 // 부분적으로 탐구된 감정들 (Partially Charted Emotions)
 // 과학자들 사이에서 50% 이하의 합의만 이루어진 감정들
+// Refined softer color palette
 export const partiallyChartedEmotions = [
   {
     id: 'love',
     name_ko: '사랑',
     name_en: 'Love',
-    color: '#FF6B9D',
+    color: '#D4A5B5',
     description_ko: '타인에 대한 강한 애착으로, 주로 부모와 자녀 사이, 또는 연인 사이에서 경험됩니다. 사랑하는 관계 안에서 분노, 두려움, 슬픔, 혐오, 즐거움 모두 경험할 수 있습니다.',
     description_en: 'A strong attachment to another person, typically parent toward child and child toward parent, but also between those romantically committed. Within loving relationships, anger, fear, sadness, disgust and enjoyment can all be experienced.'
   },
@@ -18,7 +19,7 @@ export const partiallyChartedEmotions = [
     id: 'surprise',
     name_ko: '놀람',
     name_en: 'Surprise',
-    color: '#FFD93D',
+    color: '#E8D49B',
     description_ko: '가장 짧은 감정으로, 예상치 못한 사건의 갑작스러운 발생에 의해 촉발됩니다. 종종 더 많은 평가 후 다른 감정으로 이어지는 중간 단계 역할을 합니다.',
     description_en: 'The briefest emotion, surprise is triggered by the sudden occurrence of an unexpected event. It is often a way station that leads, after more appraisal, to any of the other emotions.'
   },
@@ -26,7 +27,7 @@ export const partiallyChartedEmotions = [
     id: 'jealousy',
     name_ko: '질투',
     name_en: 'Jealousy',
-    color: '#9B59B6',
+    color: '#A89BC6',
     description_ko: '세 사람이 관련된 감정적 스토리라인입니다: 원하는 사람, 그 사람의 헌신을 잃을까 두려워하는 사람, 그리고 경쟁자. 질투 중에 세 사람 모두 분노, 두려움, 혐오, 슬픔, 놀람을 느낄 수 있습니다.',
     description_en: 'An emotional storyline involving three people: the desired person, the person afraid of losing the commitment of the desired person, and the rival. During jealousy, anger, fear, disgust, sadness or surprise may be felt by any of the three people.'
   },
@@ -34,7 +35,7 @@ export const partiallyChartedEmotions = [
     id: 'envy',
     name_ko: '시기',
     name_en: 'Envy',
-    color: '#27AE60',
+    color: '#7BAF8D',
     description_ko: '질투와 자주 혼동되지만, 시기는 다른 사람이 가진 것을 원하고 분개하는 것을 포함합니다. 시기를 느낄 때 분노, 경멸, 슬픔도 함께 느낄 수 있습니다.',
     description_en: 'Although often misused as a synonym for jealousy, envy involves resenting and wanting what another person possesses. When a person feels envy, anger, contempt or sadness may also be felt.'
   },
@@ -42,7 +43,7 @@ export const partiallyChartedEmotions = [
     id: 'hate',
     name_ko: '증오',
     name_en: 'Hate',
-    color: '#2C3E50',
+    color: '#5A6B7B',
     description_ko: '특정 개인이나 집단에 집중된 지속적인 분노입니다. 시간이 지나면서 증오는 적대적인 성격 특성을 만들어낼 수 있습니다.',
     description_en: 'Enduring anger focused on a particular person or group of persons. Over time hatred may generate the personality trait of hostility.'
   },
@@ -50,7 +51,7 @@ export const partiallyChartedEmotions = [
     id: 'embarrassment',
     name_ko: '당혹감',
     name_en: 'Embarrassment',
-    color: '#E74C3C',
+    color: '#D4847B',
     description_ko: '자의식적인 고통이나 어색함입니다. 종종 타인의 칭찬이나 실수에 의해 활성화됩니다. 목소리 신호는 없지만, 밝은 피부를 가진 사람에게서만 보이는 얼굴 붉어짐을 유발할 수 있습니다.',
     description_en: 'Self-conscious distress or awkwardness. Often activated by praise from another, or by a faux pas. It has no vocal signal, but may cause a blush that is visible only in light-skinned people.'
   },
@@ -58,7 +59,7 @@ export const partiallyChartedEmotions = [
     id: 'shame',
     name_ko: '수치심',
     name_en: 'Shame',
-    color: '#8E44AD',
+    color: '#9B8BC6',
     description_ko: '자신이 생각하거나 행한 것을 타인이 알면 역겨워할 것이라는 기대입니다. 자신이 한 일이나 생각한 것을 타인이 알지 못하게 하려는 강한 욕구를 유발합니다.',
     description_en: 'An expectation that others would be disgusted if they knew what the person was thinking of or had done. It motivates a strong wish to prevent others from learning what the person has done or thought.'
   },
@@ -66,7 +67,7 @@ export const partiallyChartedEmotions = [
     id: 'contempt',
     name_ko: '경멸',
     name_en: 'Contempt',
-    color: '#7F8C8D',
+    color: '#8B9AA5',
     description_ko: '아동 발달에서 가장 늦게 나타나는 감정으로, 대상에 대한 도덕적 우월감입니다. 종종 즐거움과 혼합됩니다.',
     description_en: 'The last emotion to appear in child development, it is a feeling of moral superiority to the target. Often mixed with enjoyment.'
   },
@@ -74,7 +75,7 @@ export const partiallyChartedEmotions = [
     id: 'guilt',
     name_ko: '죄책감',
     name_en: 'Guilt',
-    color: '#34495E',
+    color: '#5A4B7B',
     description_ko: '과거 행동에 대한 후회로, 잘못된 행동을 고백하고 용서를 바라는 욕구를 유발합니다.',
     description_en: 'Regret about a past action, which motivates the wish to confess the wrongful action, hoping for forgiveness.'
   }
@@ -226,7 +227,7 @@ export const impediments = {
     title_en: 'Impediments to Managing Anger',
     description_ko: '분노를 건설적으로 다루는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block constructive handling of anger.',
-    color: '#E07B6E',
+    color: '#D4847B',
     items: [
       { name_ko: '반추', name_en: 'Rumination', description_ko: '화나는 상황을 반복적으로 생각하면 분노가 증폭됩니다.', description_en: 'Repeatedly thinking about angering situations amplifies anger.' },
       { name_ko: '정당화', name_en: 'Justification', description_ko: '분노가 완전히 정당하다고 믿으면 변화의 동기가 줄어듭니다.', description_en: 'Believing anger is entirely justified reduces motivation to change.' },

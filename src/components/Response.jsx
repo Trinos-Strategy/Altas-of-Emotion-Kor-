@@ -268,7 +268,7 @@ const Response = ({ selectedEmotion }) => {
                         width: '56px',
                         height: '56px',
                         borderRadius: '16px',
-                        backgroundColor: '#FEE2E2',
+                        backgroundColor: '#F8EDED',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -341,7 +341,7 @@ const Response = ({ selectedEmotion }) => {
                         width: '56px',
                         height: '56px',
                         borderRadius: '16px',
-                        backgroundColor: '#D1FAE5',
+                        backgroundColor: '#EDF5F0',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -485,11 +485,11 @@ const Response = ({ selectedEmotion }) => {
                   <div style={{
                     marginTop: '24px',
                     padding: '20px',
-                    backgroundColor: '#F0FDF4',
+                    backgroundColor: '#EDF5F0',
                     borderRadius: '16px',
-                    border: '1px solid #BBF7D0'
+                    border: '1px solid #A3D4B5'
                   }}>
-                    <p style={{ fontSize: '15px', color: '#166534', margin: 0, display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <p style={{ fontSize: '15px', color: '#5A9070', margin: 0, display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                       <span style={{ fontSize: '20px' }}>💡</span>
                       <span>의도적 행동은 연습을 통해 더 자연스럽게 할 수 있습니다. 처음에는 의식적 노력이 필요하지만, 점차 자동적으로 됩니다.</span>
                     </p>
