@@ -2,53 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions } from '../data/emotions';
 
-// 감정별 강도 단계 데이터 (원본 사이트 기반)
-const EMOTION_STAGES = {
-  fear: [
-    { name_ko: '긴장', name_en: 'TENSE', intensity: 1 },
-    { name_ko: '초조', name_en: 'NERVOUS', intensity: 2 },
-    { name_ko: '불안', name_en: 'ANXIOUS', intensity: 3 },
-    { name_ko: '걱정', name_en: 'WORRIED', intensity: 4 },
-    { name_ko: '무서움', name_en: 'FRIGHTENED', intensity: 5 },
-    { name_ko: '공황', name_en: 'PANICKED', intensity: 6 },
-    { name_ko: '공포', name_en: 'TERRIFIED', intensity: 7 }
-  ],
-  anger: [
-    { name_ko: '짜증', name_en: 'ANNOYED', intensity: 1 },
-    { name_ko: '좌절', name_en: 'FRUSTRATED', intensity: 2 },
-    { name_ko: '격분', name_en: 'EXASPERATED', intensity: 3 },
-    { name_ko: '논쟁적', name_en: 'ARGUMENTATIVE', intensity: 4 },
-    { name_ko: '분노', name_en: 'ANGRY', intensity: 5 },
-    { name_ko: '격노', name_en: 'FURIOUS', intensity: 6 },
-    { name_ko: '광분', name_en: 'ENRAGED', intensity: 7 }
-  ],
-  sadness: [
-    { name_ko: '실망', name_en: 'DISAPPOINTED', intensity: 1 },
-    { name_ko: '낙담', name_en: 'DISCOURAGED', intensity: 2 },
-    { name_ko: '우울', name_en: 'GLOOMY', intensity: 3 },
-    { name_ko: '슬픔', name_en: 'SAD', intensity: 4 },
-    { name_ko: '비탄', name_en: 'SORROWFUL', intensity: 5 },
-    { name_ko: '비참', name_en: 'MISERABLE', intensity: 6 },
-    { name_ko: '절망', name_en: 'DESPAIRING', intensity: 7 }
-  ],
-  disgust: [
-    { name_ko: '싫음', name_en: 'DISLIKE', intensity: 1 },
-    { name_ko: '기피', name_en: 'AVERSION', intensity: 2 },
-    { name_ko: '불쾌', name_en: 'DISTASTE', intensity: 3 },
-    { name_ko: '역겨움', name_en: 'REPUGNANCE', intensity: 4 },
-    { name_ko: '구역질', name_en: 'REVULSION', intensity: 5 },
-    { name_ko: '증오', name_en: 'ABHORRENCE', intensity: 6 },
-    { name_ko: '혐오', name_en: 'LOATHING', intensity: 7 }
-  ],
-  enjoyment: [
-    { name_ko: '만족', name_en: 'PLEASED', intensity: 1 },
-    { name_ko: '기쁨', name_en: 'HAPPY', intensity: 2 },
-    { name_ko: '즐거움', name_en: 'AMUSED', intensity: 3 },
-    { name_ko: '환희', name_en: 'DELIGHTED', intensity: 4 },
-    { name_ko: '행복', name_en: 'JOYFUL', intensity: 5 },
-    { name_ko: '희열', name_en: 'ELATED', intensity: 6 },
-    { name_ko: '황홀', name_en: 'ECSTATIC', intensity: 7 }
-  ]
+// emotions.js에서 states를 가져와 EMOTION_STAGES 형식으로 변환
+const getEmotionStages = (emotionKey) => {
+  const emotion = emotions[emotionKey];
+  if (!emotion || !emotion.states) return [];
+  return emotion.states.map((state, index) => ({
+    name_ko: state.name_ko,
+    name_en: state.name_en.toUpperCase(),
+    intensity: state.intensity || index + 1
+  }));
 };
 
 // 감정별 색상, 도형 및 설명 - 2025 Palette
@@ -756,7 +718,7 @@ const EmotionPopupCard = ({ emotion, data, onClose }) => (
       borderLeft: `4px solid ${data.primary}`
     }}>
       <p style={{ fontSize: '14px', color: '#555', margin: 0, lineHeight: '1.6' }}>
-        💡 이 감정의 7단계 강도를 인식해보세요. 낮은 강도에서 조절이 더 쉽습니다.
+        💡 이 감정의 강도 단계를 인식해보세요. 낮은 강도에서 조절이 더 쉽습니다.
       </p>
     </div>
   </motion.div>
@@ -791,7 +753,7 @@ const Experience = ({ selectedEmotion }) => {
   };
 
   const currentData = EMOTION_DATA[localSelectedEmotion];
-  const currentStages = EMOTION_STAGES[localSelectedEmotion];
+  const currentStages = getEmotionStages(localSelectedEmotion);
   const currentEmotion = emotions[localSelectedEmotion];
 
   // Mobile Layout
@@ -820,7 +782,7 @@ const Experience = ({ selectedEmotion }) => {
             color: '#666',
             lineHeight: '1.7'
           }}>
-            각 감정은 고유한 도형과 7단계 강도를 가집니다.
+            각 감정은 고유한 도형과 다양한 강도 단계를 가집니다.
           </p>
         </motion.div>
 
@@ -1043,7 +1005,7 @@ const Experience = ({ selectedEmotion }) => {
               lineHeight: '1.8',
               marginBottom: '28px'
             }}>
-              각 감정은 고유한 도형과 7단계 강도를 가집니다.
+              각 감정은 고유한 도형과 다양한 강도 단계를 가집니다.
               도형의 심리학적 의미를 통해 감정을 더 깊이 이해하세요.
             </p>
 
