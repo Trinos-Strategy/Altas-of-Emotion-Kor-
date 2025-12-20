@@ -19,13 +19,13 @@ const HanShape = ({ size = 200, isActive, onClick, isHovered }) => {
     >
       <defs>
         <radialGradient id="hanGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#7B6B9B" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#3A2B5B" stopOpacity="0" />
+          <stop offset="0%" stopColor="#8A9BAB" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#3A4B5B" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="hanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#7B6B9B" />
-          <stop offset="50%" stopColor="#5A4B7B" />
-          <stop offset="100%" stopColor="#3A2B5B" />
+          <stop offset="0%" stopColor="#8A9BAB" />
+          <stop offset="50%" stopColor="#5A6B7B" />
+          <stop offset="100%" stopColor="#3A4B5B" />
         </linearGradient>
       </defs>
 
@@ -81,13 +81,13 @@ const JeongShape = ({ size = 200, isActive, onClick, isHovered }) => {
     >
       <defs>
         <radialGradient id="jeongGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#D9A88A" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#A06850" stopOpacity="0" />
+          <stop offset="0%" stopColor="#FFB5C5" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#C86A7D" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="jeongGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#D9A88A" />
-          <stop offset="50%" stopColor="#C4886A" />
-          <stop offset="100%" stopColor="#A06850" />
+          <stop offset="0%" stopColor="#FFB5C5" />
+          <stop offset="50%" stopColor="#E88B9D" />
+          <stop offset="100%" stopColor="#C86A7D" />
         </linearGradient>
       </defs>
 
@@ -128,7 +128,7 @@ const JeongShape = ({ size = 200, isActive, onClick, isHovered }) => {
 const SpectrumView = ({ emotion, selectedLevel, onSelectLevel }) => {
   const emotionData = koreanEmotions[emotion];
   const isHan = emotion === 'han';
-  const baseColor = isHan ? '#5A4B7B' : '#C4886A';
+  const baseColor = isHan ? '#5A6B7B' : '#E88B9D';
 
   return (
     <div style={{ padding: '20px 0' }}>
@@ -281,7 +281,7 @@ const SpectrumView = ({ emotion, selectedLevel, onSelectLevel }) => {
 const ImpedimentsView = ({ emotion }) => {
   const emotionData = koreanEmotions[emotion];
   const isHan = emotion === 'han';
-  const baseColor = isHan ? '#5A4B7B' : '#C4886A';
+  const baseColor = isHan ? '#5A6B7B' : '#E88B9D';
 
   if (isHan) {
     // 한의 장애물 - 단계별 전환
@@ -422,7 +422,7 @@ const ImpedimentsView = ({ emotion }) => {
 const AntidotesView = ({ emotion }) => {
   const emotionData = koreanEmotions[emotion];
   const isHan = emotion === 'han';
-  const baseColor = isHan ? '#5A4B7B' : '#C4886A';
+  const baseColor = isHan ? '#5A6B7B' : '#E88B9D';
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   if (isHan) {
@@ -802,7 +802,7 @@ const ComparisonInfoBox = () => {
                 >
                   <h5 style={{
                     margin: '0 0 8px 0',
-                    color: index === 0 ? '#5A4B7B' : '#C4886A',
+                    color: index === 0 ? '#5A6B7B' : '#E88B9D',
                     fontSize: '14px'
                   }}>
                     {comp.emotion_ko} {comp.emotion_en}
@@ -866,7 +866,7 @@ const JeongCharacteristics = () => {
       borderRadius: '14px'
     }}>
       <h5 style={{
-        color: '#C4886A',
+        color: '#E88B9D',
         marginBottom: '12px',
         fontSize: '14px',
         fontWeight: '600'
@@ -956,7 +956,7 @@ const KoreanEmotions = () => {
             fontSize: 'clamp(28px, 4vw, 36px)',
             fontWeight: '700',
             margin: '0 0 8px 0',
-            background: 'linear-gradient(135deg, #5A4B7B 0%, #C4886A 100%)',
+            background: 'linear-gradient(135deg, #5A6B7B 0%, #E88B9D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -1027,7 +1027,7 @@ const KoreanEmotions = () => {
                       margin: '0 0 4px 0',
                       fontSize: '22px',
                       fontWeight: '700',
-                      color: '#5A4B7B'
+                      color: '#5A6B7B'
                     }}>
                       한(恨)
                     </h3>
@@ -1083,7 +1083,7 @@ const KoreanEmotions = () => {
                       margin: '0 0 4px 0',
                       fontSize: '22px',
                       fontWeight: '700',
-                      color: '#C4886A'
+                      color: '#E88B9D'
                     }}>
                       정(情)
                     </h3>
@@ -1175,7 +1175,7 @@ const KoreanEmotions = () => {
                       ? `rgba(${isHan ? '74, 59, 107' : '193, 122, 74'}, 0.15)`
                       : 'transparent',
                     color: activeTab === tab.id
-                      ? (isHan ? '#5A4B7B' : '#C4886A')
+                      ? (isHan ? '#5A6B7B' : '#E88B9D')
                       : '#888',
                     fontWeight: activeTab === tab.id ? '600' : '400',
                     cursor: 'pointer',

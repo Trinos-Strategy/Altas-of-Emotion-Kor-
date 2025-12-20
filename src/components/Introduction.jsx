@@ -21,13 +21,13 @@ const GradientSphere = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    // Refined emotion colors - softer, more elegant
+    // 2025 Emotion Colors - User defined palette
     const emotionColors = [
-      { color: '#D4847B', angle: 0 },     // 분노 - Warm Terracotta
-      { color: '#9B8BC6', angle: 72 },    // 두려움 - Soft Lavender
-      { color: '#7BAF8D', angle: 144 },   // 혐오 - Sage Green
-      { color: '#7BA3C9', angle: 216 },   // 슬픔 - Muted Blue
-      { color: '#E2C478', angle: 288 },   // 즐거움 - Warm Golden
+      { color: '#E63946', angle: 0 },     // 분노 - 붉은 계열
+      { color: '#6B4C9A', angle: 72 },    // 두려움 - 보라 계열
+      { color: '#4A7C59', angle: 144 },   // 혐오 - 녹색 계열
+      { color: '#4A6FA5', angle: 216 },   // 슬픔 - 파란 계열
+      { color: '#F4A261', angle: 288 },   // 즐거움 - 노란 계열
     ];
 
     const draw = () => {
@@ -151,13 +151,13 @@ const GradientSphere = () => {
 const Introduction = ({ onNavigate }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Refined colors - softer, more elegant palette
+  // 2025 Emotion Colors - User defined palette
   const emotionColors = [
-    { name: '분노', name_en: 'ANGER', color: '#D4847B', desc: '목표가 방해받을 때' },
-    { name: '두려움', name_en: 'FEAR', color: '#9B8BC6', desc: '위협을 느낄 때' },
-    { name: '혐오', name_en: 'DISGUST', color: '#7BAF8D', desc: '불쾌한 것에 대한 반응' },
-    { name: '슬픔', name_en: 'SADNESS', color: '#7BA3C9', desc: '상실에 대한 반응' },
-    { name: '즐거움', name_en: 'ENJOYMENT', color: '#E2C478', desc: '긍정적 경험에 대한 반응' },
+    { name: '분노', name_en: 'ANGER', color: '#E63946', desc: '목표가 방해받을 때' },
+    { name: '두려움', name_en: 'FEAR', color: '#6B4C9A', desc: '위협을 느낄 때' },
+    { name: '혐오', name_en: 'DISGUST', color: '#4A7C59', desc: '불쾌한 것에 대한 반응' },
+    { name: '슬픔', name_en: 'SADNESS', color: '#4A6FA5', desc: '상실에 대한 반응' },
+    { name: '즐거움', name_en: 'ENJOYMENT', color: '#F4A261', desc: '긍정적 경험에 대한 반응' },
   ];
 
   return (

@@ -17,99 +17,99 @@
   --font-serif: 'Noto Serif KR', 'Georgia', serif;
 
   /* ============================================
-     Refined Emotion Colors - Softer, More Elegant
-     Inspired by atlasofemotions.org original palette
+     Emotion Colors - 2025 Edition
+     사용자 지정 컬러 팔레트
      ============================================ */
 
-  /* Anger - Warm Terracotta (채도 낮춤) */
-  --color-anger: #D4847B;
-  --color-anger-light: #E8ADA6;
-  --color-anger-dark: #B86B63;
-  --color-anger-glow: rgba(212, 132, 123, 0.2);
+  /* Anger - 분노: 붉은 계열 (#E63946 → #FF8B8B) */
+  --color-anger: #E63946;
+  --color-anger-light: #FF8B8B;
+  --color-anger-dark: #C62936;
+  --color-anger-glow: rgba(230, 57, 70, 0.25);
   --color-anger-gradient: linear-gradient(
     150deg,
-    #E8ADA6 0%,
-    #D4847B 35%,
-    #C97870 65%,
-    #B86B63 100%
+    #FF8B8B 0%,
+    #E63946 40%,
+    #D63040 70%,
+    #C62936 100%
   );
 
-  /* Fear - Soft Lavender Purple (채도 낮춤) */
-  --color-fear: #9B8BC6;
-  --color-fear-light: #BEB0D9;
-  --color-fear-dark: #7B6BA8;
-  --color-fear-glow: rgba(155, 139, 198, 0.2);
+  /* Fear - 두려움: 보라 계열 (#6B4C9A → #9B7FBF) */
+  --color-fear: #6B4C9A;
+  --color-fear-light: #9B7FBF;
+  --color-fear-dark: #4A3570;
+  --color-fear-glow: rgba(107, 76, 154, 0.25);
   --color-fear-gradient: linear-gradient(
     150deg,
-    #BEB0D9 0%,
-    #9B8BC6 35%,
-    #8A7AB8 65%,
-    #7B6BA8 100%
+    #9B7FBF 0%,
+    #6B4C9A 40%,
+    #5A3F85 70%,
+    #4A3570 100%
   );
 
-  /* Disgust - Sage Green (이미 적절, 미세 조정) */
-  --color-disgust: #7BAF8D;
-  --color-disgust-light: #A3D4B5;
-  --color-disgust-dark: #5A9070;
-  --color-disgust-glow: rgba(123, 175, 141, 0.2);
+  /* Disgust - 혐오: 녹색 계열 (#4A7C59 → #8BC99B) */
+  --color-disgust: #4A7C59;
+  --color-disgust-light: #8BC99B;
+  --color-disgust-dark: #3A6248;
+  --color-disgust-glow: rgba(74, 124, 89, 0.25);
   --color-disgust-gradient: linear-gradient(
     150deg,
-    #A3D4B5 0%,
-    #7BAF8D 35%,
-    #6A9F7D 65%,
-    #5A9070 100%
+    #8BC99B 0%,
+    #4A7C59 40%,
+    #406D4E 70%,
+    #3A6248 100%
   );
 
-  /* Sadness - Muted Blue (채도 낮춤) */
-  --color-sadness: #7BA3C9;
-  --color-sadness-light: #A5C4DC;
-  --color-sadness-dark: #5A83AA;
-  --color-sadness-glow: rgba(123, 163, 201, 0.2);
+  /* Sadness - 슬픔: 파란 계열 (#4A6FA5 → #89A7C9) */
+  --color-sadness: #4A6FA5;
+  --color-sadness-light: #89A7C9;
+  --color-sadness-dark: #3A5A8A;
+  --color-sadness-glow: rgba(74, 111, 165, 0.25);
   --color-sadness-gradient: linear-gradient(
     150deg,
-    #A5C4DC 0%,
-    #7BA3C9 35%,
-    #6A93BB 65%,
-    #5A83AA 100%
+    #89A7C9 0%,
+    #4A6FA5 40%,
+    #3F6090 70%,
+    #3A5A8A 100%
   );
 
-  /* Enjoyment - Warm Golden (채도 낮춤) */
-  --color-enjoyment: #E2C478;
-  --color-enjoyment-light: #F0DCA0;
-  --color-enjoyment-dark: #C9A855;
-  --color-enjoyment-glow: rgba(226, 196, 120, 0.2);
+  /* Enjoyment - 즐거움: 노란 계열 (#F4A261 → #FFD89B) */
+  --color-enjoyment: #F4A261;
+  --color-enjoyment-light: #FFD89B;
+  --color-enjoyment-dark: #E08A40;
+  --color-enjoyment-glow: rgba(244, 162, 97, 0.25);
   --color-enjoyment-gradient: linear-gradient(
     150deg,
-    #F0DCA0 0%,
-    #E2C478 35%,
-    #D6B668 65%,
-    #C9A855 100%
+    #FFD89B 0%,
+    #F4A261 40%,
+    #E89550 70%,
+    #E08A40 100%
   );
 
-  /* Korean Emotions - Han (恨) - Deep Indigo */
-  --color-han: #5A4B7B;
-  --color-han-light: #7B6B9B;
-  --color-han-dark: #3A2B5B;
-  --color-han-glow: rgba(90, 75, 123, 0.2);
+  /* Korean Emotions - Han (恨) - 회청색 계열 */
+  --color-han: #5A6B7B;
+  --color-han-light: #8A9BAB;
+  --color-han-dark: #3A4B5B;
+  --color-han-glow: rgba(90, 107, 123, 0.25);
   --color-han-gradient: linear-gradient(
     150deg,
-    #7B6B9B 0%,
-    #5A4B7B 35%,
-    #4A4070 65%,
-    #3A2B5B 100%
+    #8A9BAB 0%,
+    #5A6B7B 40%,
+    #4A5B6B 70%,
+    #3A4B5B 100%
   );
 
-  /* Korean Emotions - Jeong (情) - Warm Amber */
-  --color-jeong: #C4886A;
-  --color-jeong-light: #D9A88A;
-  --color-jeong-dark: #A06850;
-  --color-jeong-glow: rgba(196, 136, 106, 0.2);
+  /* Korean Emotions - Jeong (情) - 분홍 계열 */
+  --color-jeong: #E88B9D;
+  --color-jeong-light: #FFB5C5;
+  --color-jeong-dark: #C86A7D;
+  --color-jeong-glow: rgba(232, 139, 157, 0.25);
   --color-jeong-gradient: linear-gradient(
     150deg,
-    #D9A88A 0%,
-    #C4886A 35%,
-    #B4785A 65%,
-    #A06850 100%
+    #FFB5C5 0%,
+    #E88B9D 40%,
+    #D87A8D 70%,
+    #C86A7D 100%
   );
 }
 
@@ -193,12 +193,14 @@ body {
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.7;
   background: var(--gray-50);
   color: var(--gray-800);
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* Noise Texture Overlay */
@@ -224,9 +226,10 @@ body::before {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--gray-900);
+  word-break: keep-all;
 }
 
 /* Massive Hero Headlines */
@@ -271,7 +274,7 @@ p {
 }
 
 .text-gradient-emotion {
-  background: var(--emotion-gradient, linear-gradient(135deg, #D4847B, #E8ADA6));
+  background: var(--emotion-gradient, linear-gradient(135deg, #E63946, #FF8B8B));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -888,20 +891,20 @@ p {
   -webkit-backdrop-filter: blur(8px) saturate(150%);
 }
 
-/* Action Badge Styles - Refined palette */
+/* Action Badge Styles - 2025 Palette */
 .action-badge-constructive {
-  background: linear-gradient(135deg, #7BAF8D, #5A9070);
-  box-shadow: 0 2px 8px rgba(123, 175, 141, 0.3);
+  background: linear-gradient(135deg, #8BC99B, #4A7C59);
+  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
 }
 
 .action-badge-destructive {
-  background: linear-gradient(135deg, #D4847B, #B86B63);
-  box-shadow: 0 2px 8px rgba(212, 132, 123, 0.3);
+  background: linear-gradient(135deg, #FF8B8B, #E63946);
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.3);
 }
 
 .action-badge-ambiguous {
-  background: linear-gradient(135deg, #E2C478, #C9A855);
-  box-shadow: 0 2px 8px rgba(226, 196, 120, 0.3);
+  background: linear-gradient(135deg, #FFD89B, #F4A261);
+  box-shadow: 0 2px 8px rgba(244, 162, 97, 0.3);
 }
 
 /* Scroll Progress Indicator */

@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder, dalaiLamaQuote, resources } from '../data/emotions';
 import { impediments, antidotesDetailed } from '../data/additionalData';
 
-// 전략 원칙 데이터 - Refined palette
+// 전략 원칙 데이터 - 2025 Palette
 const PRINCIPLES = [
   {
     id: 'recognize',
@@ -11,7 +11,7 @@ const PRINCIPLES = [
     title_ko: '인식하기',
     title_en: 'RECOGNIZE',
     description: '감정을 느낄 때 잠시 멈추고 무엇을 느끼는지 이름 붙여보세요. 인식이 변화의 첫 걸음입니다.',
-    color: '#7BA3C9',
+    color: '#4A6FA5',
     lightColor: '#E8F1F8'
   },
   {
@@ -20,8 +20,8 @@ const PRINCIPLES = [
     title_ko: '자기 연민',
     title_en: 'SELF-COMPASSION',
     description: '모든 감정은 자연스러운 것입니다. 자신을 판단하지 말고 친절하게 대하세요.',
-    color: '#D4847B',
-    lightColor: '#F8EDED'
+    color: '#E63946',
+    lightColor: '#FFE8E8'
   },
   {
     id: 'practice',
@@ -29,8 +29,8 @@ const PRINCIPLES = [
     title_ko: '연습하기',
     title_en: 'PRACTICE',
     description: '감정 조절은 기술입니다. 규칙적인 연습으로 점점 더 자연스러워집니다.',
-    color: '#E2C478',
-    lightColor: '#FBF7EC'
+    color: '#F4A261',
+    lightColor: '#FFF5EB'
   }
 ];
 
@@ -726,11 +726,11 @@ const ImpedimentsSection = () => {
 // 리소스 리스트
 const ResourcesList = () => {
   const resourceTypes = {
-    YouTube: { icon: '📺', color: '#D4847B', bg: '#F8EDED' },
-    Meditation: { icon: '🧘', color: '#9B8BC6', bg: '#F0EDF5' },
-    App: { icon: '📱', color: '#7BA3C9', bg: '#E8F1F8' },
-    Article: { icon: '📖', color: '#7BAF8D', bg: '#EDF5F0' },
-    Website: { icon: '🌐', color: '#5A4B7B', bg: '#EDEBF0' }
+    YouTube: { icon: '📺', color: '#E63946', bg: '#FFE8E8' },
+    Meditation: { icon: '🧘', color: '#6B4C9A', bg: '#F0EDF8' },
+    App: { icon: '📱', color: '#4A6FA5', bg: '#E8F1F8' },
+    Article: { icon: '📖', color: '#4A7C59', bg: '#EDF8F0' },
+    Website: { icon: '🌐', color: '#5A6B7B', bg: '#EDEFF2' }
   };
 
   return (
