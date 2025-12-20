@@ -222,20 +222,22 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
         .attr('stop-color', '#f9fafb')
         .attr('stop-opacity', 1);
 
-      // Connection line with gradient effect
+      // Connection line with gradient effect - refined thickness
       const line = g.append('line')
         .attr('x1', lineEndX)
         .attr('y1', lineEndY)
         .attr('x2', lineEndX)
         .attr('y2', lineEndY)
         .attr('stroke', nodeColor)
-        .attr('stroke-width', intensity === 'high' ? 3 : (intensity === 'medium' ? 2 : 1.5))
-        .attr('stroke-opacity', 0.5)
-        .attr('stroke-dasharray', isIntrinsic ? 'none' : '6,4');
+        .attr('stroke-width', intensity === 'high' ? 2.5 : (intensity === 'medium' ? 2 : 1.5))
+        .attr('stroke-opacity', 0.4)
+        .attr('stroke-linecap', 'round')
+        .attr('stroke-dasharray', isIntrinsic ? 'none' : '8,6');
 
       line.transition()
-        .delay(500 + i * 80)
-        .duration(500)
+        .delay(400 + i * 60)
+        .duration(600)
+        .ease(d3.easeQuadOut)
         .attr('x2', x)
         .attr('y2', y);
 
@@ -243,13 +245,14 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
       const nodeGroup = g.append('g')
         .attr('class', 'action-node')
         .style('cursor', 'pointer')
-        .attr('transform', `translate(${lineEndX}, ${lineEndY})`)
+        .attr('transform', `translate(${lineEndX}, ${lineEndY}) scale(0.5)`)
         .style('opacity', 0);
 
       nodeGroup.transition()
-        .delay(600 + i * 80)
-        .duration(500)
-        .attr('transform', `translate(${x}, ${y})`)
+        .delay(500 + i * 60)
+        .duration(700)
+        .ease(d3.easeBackOut.overshoot(1.2))
+        .attr('transform', `translate(${x}, ${y}) scale(1)`)
         .style('opacity', 1);
 
       // Node shadow
@@ -335,24 +338,38 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
           .attr('opacity', 0.7);
       }
 
-      // Interaction handlers
+      // Interaction handlers - smooth ease-out transitions
       nodeGroup
         .on('mouseenter', function() {
+          d3.select(this)
+            .transition()
+            .duration(300)
+            .ease(d3.easeQuadOut)
+            .attr('transform', `translate(${x}, ${y}) scale(1.1)`);
+
           d3.select(this).selectAll('circle').filter((d, i) => i === 1)
             .transition()
-            .duration(200)
-            .attr('r', nodeRadius * 0.85 + 5)
-            .attr('stroke-width', 3.5);
+            .duration(300)
+            .ease(d3.easeQuadOut)
+            .attr('stroke-width', 3.5)
+            .style('filter', 'drop-shadow(0 6px 16px rgba(0,0,0,0.2))');
 
           // Bring to front
           this.parentNode.appendChild(this);
         })
         .on('mouseleave', function() {
+          d3.select(this)
+            .transition()
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('transform', `translate(${x}, ${y}) scale(1)`);
+
           d3.select(this).selectAll('circle').filter((d, i) => i === 1)
             .transition()
-            .duration(200)
-            .attr('r', nodeRadius * 0.85)
-            .attr('stroke-width', 2.5);
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('stroke-width', 2.5)
+            .style('filter', 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))');
         })
         .on('click', () => {
           setSelectedAction(action);

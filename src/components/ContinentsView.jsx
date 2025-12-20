@@ -2,14 +2,36 @@ import { motion } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 
 const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinent }) => {
-  // Position config for overlapping circles
+  // Position config for overlapping circles with floating animation params
   const positions = [
-    { x: 50, y: 45, scale: 1.1 },   // anger - center-left
-    { x: 35, y: 55, scale: 0.95 },  // fear - bottom-left
-    { x: 65, y: 55, scale: 0.9 },   // disgust - bottom-right
-    { x: 30, y: 35, scale: 1 },     // sadness - top-left
-    { x: 70, y: 40, scale: 1.05 },  // enjoyment - top-right
+    { x: 50, y: 45, scale: 1.1, floatDuration: 6, floatDelay: 0 },   // anger - center-left
+    { x: 35, y: 55, scale: 0.95, floatDuration: 7, floatDelay: 1 },  // fear - bottom-left
+    { x: 65, y: 55, scale: 0.9, floatDuration: 5, floatDelay: 2 },   // disgust - bottom-right
+    { x: 30, y: 35, scale: 1, floatDuration: 8, floatDelay: 0.5 },   // sadness - top-left
+    { x: 70, y: 40, scale: 1.05, floatDuration: 6.5, floatDelay: 1.5 },  // enjoyment - top-right
   ];
+
+  // Floating animation variants
+  const floatVariants = (duration, delay) => ({
+    animate: {
+      y: [0, -3, 0, 3, 0],
+      x: [0, 2, 0, -2, 0],
+      transition: {
+        y: {
+          duration: duration,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: delay
+        },
+        x: {
+          duration: duration * 1.2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: delay
+        }
+      }
+    }
+  });
 
   return (
     <div className="relative w-full h-[500px] md:h-[600px]">
@@ -43,7 +65,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
           </filter>
         </defs>
 
-        {/* Emotion Circles */}
+        {/* Emotion Circles with Floating Animation */}
         {emotionOrder.map((emotionId, index) => {
           const emotion = emotions[emotionId];
           const pos = positions[index];
@@ -52,26 +74,36 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
           const radius = isHovered ? baseRadius * 1.1 : baseRadius;
 
           return (
-            <g key={emotionId}>
+            <motion.g
+              key={emotionId}
+              variants={floatVariants(pos.floatDuration, pos.floatDelay)}
+              animate="animate"
+            >
               <motion.circle
                 cx={pos.x}
                 cy={pos.y}
                 r={radius}
                 fill={`url(#gradient-${emotionId})`}
                 stroke={emotion.color}
-                strokeWidth={isHovered ? 0.8 : 0.3}
+                strokeWidth={isHovered ? 1 : 0.4}
                 filter={isHovered ? "url(#shadow)" : undefined}
                 className="cursor-pointer"
                 initial={{ r: 0, opacity: 0 }}
                 animate={{
                   r: radius,
                   opacity: 1,
-                  scale: isHovered ? 1.05 : 1
+                  scale: isHovered ? 1.08 : 1
                 }}
                 transition={{
-                  duration: 0.8,
-                  delay: index * 0.1,
-                  type: 'spring'
+                  duration: 1,
+                  delay: index * 0.15,
+                  type: 'spring',
+                  stiffness: 100,
+                  damping: 15
+                }}
+                whileHover={{
+                  scale: 1.12,
+                  transition: { duration: 0.3, ease: "easeOut" }
                 }}
                 onMouseEnter={() => setHoveredContinent(emotionId)}
                 onMouseLeave={() => setHoveredContinent(null)}
@@ -111,7 +143,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
               >
                 {emotion.name_en}
               </motion.text>
-            </g>
+            </motion.g>
           );
         })}
       </svg>
