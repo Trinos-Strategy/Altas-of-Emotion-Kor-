@@ -153,59 +153,95 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
         transition={{ duration: 0.4 }}
       >
         {/* 헤더 - 라이트 테마 */}
-        <div className="sticky top-0 z-10 px-12 py-8 border-b border-gray-200 flex justify-between items-center"
-          style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(10px)' }}>
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
+            padding: '24px 24px',
+            borderBottom: '1px solid #e5e7eb',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            background: 'rgba(255,255,255,0.97)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
           <div>
-            <p className="text-[11px] tracking-[0.4em] uppercase mb-2" style={{ color: emotion?.color || '#666' }}>
+            <p style={{ fontSize: '11px', letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: '8px', color: emotion?.color || '#666' }}>
               Emotional Episode Timeline
             </p>
-            <h3 className="text-2xl text-gray-900 font-semibold" style={{ fontFamily: 'Georgia, serif' }}>
+            <h3 style={{ fontSize: '24px', color: '#111827', fontWeight: '600', fontFamily: 'Georgia, serif' }}>
               감정 에피소드의 10단계
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all"
+            style={{
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#9ca3af',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '50%',
+              cursor: 'pointer'
+            }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* 콘텐츠 - 라이트 테마 */}
-        <div className="px-12 py-10">
+        <div style={{ padding: '32px 24px 40px' }}>
           {/* 설명 */}
-          <p className="text-gray-600 text-2xl mb-10 tracking-wider" style={{ lineHeight: '1.9' }}>
+          <p style={{ color: '#4b5563', fontSize: '18px', marginBottom: '32px', letterSpacing: '0.025em', lineHeight: '1.9' }}>
             {emotionalEpisodeTimelineDetailed.description_ko}
           </p>
 
           {/* 10단계 그리드 - 라이트 테마 */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-5 mb-10">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gap: '16px',
+            marginBottom: '32px'
+          }}>
             {steps.map((step, i) => (
               <motion.button
                 key={step.id}
                 onClick={() => setSelectedStep(selectedStep?.id === step.id ? null : step)}
-                className={`px-8 py-6 rounded-xl border transition-all group text-left ${
-                  selectedStep?.id === step.id
-                    ? 'border-gray-300 bg-gray-50 shadow-md'
-                    : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white'
-                }`}
+                style={{
+                  padding: '20px 16px',
+                  borderRadius: '16px',
+                  border: selectedStep?.id === step.id ? '2px solid #d1d5db' : '1px solid #f3f4f6',
+                  backgroundColor: selectedStep?.id === step.id ? '#f9fafb' : '#fff',
+                  boxShadow: selectedStep?.id === step.id ? '0 4px 12px rgba(0,0,0,0.08)' : 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
               >
                 <span
-                  className={`text-4xl font-extralight block mb-3 transition-colors`}
                   style={{
+                    display: 'block',
+                    fontSize: '28px',
+                    fontWeight: '200',
+                    marginBottom: '8px',
                     fontFamily: 'Georgia, serif',
                     color: selectedStep?.id === step.id ? (emotion?.color || '#333') : '#ddd'
                   }}
                 >
                   {String(step.id).padStart(2, '0')}
                 </span>
-                <p className="text-gray-800 text-2xl font-medium tracking-wider" style={{ lineHeight: '1.6' }}>{step.name_ko}</p>
-                <p className="text-xs tracking-[0.2em] text-gray-400 uppercase mt-2">{step.name_en}</p>
+                <p style={{ color: '#1f2937', fontSize: '16px', fontWeight: '500', lineHeight: '1.4', marginBottom: '4px' }}>{step.name_ko}</p>
+                <p style={{ fontSize: '10px', letterSpacing: '0.15em', color: '#9ca3af', textTransform: 'uppercase' }}>{step.name_en}</p>
               </motion.button>
             ))}
           </div>
@@ -218,19 +254,30 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="p-10 border border-gray-200 rounded-2xl mb-10 bg-gradient-to-br from-white to-gray-50 shadow-sm"
+                style={{
+                  padding: '28px',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '20px',
+                  marginBottom: '28px',
+                  background: 'linear-gradient(135deg, #fff 0%, #f9fafb 100%)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}
               >
-                <div className="flex items-start gap-6">
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                   <span
-                    className="text-5xl font-extralight"
-                    style={{ fontFamily: 'Georgia, serif', color: emotion?.color || '#666' }}
+                    style={{
+                      fontSize: '36px',
+                      fontWeight: '200',
+                      fontFamily: 'Georgia, serif',
+                      color: emotion?.color || '#666'
+                    }}
                   >
                     {String(selectedStep.id).padStart(2, '0')}
                   </span>
-                  <div className="flex-1">
-                    <h4 className="text-4xl text-gray-900 font-semibold mb-2">{selectedStep.name_ko}</h4>
-                    <p className="text-sm tracking-[0.2em] text-gray-400 uppercase mb-5">{selectedStep.name_en}</p>
-                    <p className="text-gray-700 text-2xl" style={{ lineHeight: '1.9' }}>{selectedStep.description_ko}</p>
+                  <div style={{ flex: 1 }}>
+                    <h4 style={{ fontSize: '24px', color: '#111827', fontWeight: '600', marginBottom: '6px' }}>{selectedStep.name_ko}</h4>
+                    <p style={{ fontSize: '12px', letterSpacing: '0.15em', color: '#9ca3af', textTransform: 'uppercase', marginBottom: '16px' }}>{selectedStep.name_en}</p>
+                    <p style={{ color: '#374151', fontSize: '16px', lineHeight: '1.8' }}>{selectedStep.description_ko}</p>
                   </div>
                 </div>
               </motion.div>
@@ -239,17 +286,30 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
 
           {/* 단계 선택 안내 - 라이트 테마 */}
           {!selectedStep && (
-            <div className="p-10 border border-gray-100 rounded-2xl text-center mb-10 bg-gray-50">
-              <p className="text-gray-500 text-2xl tracking-wider" style={{ lineHeight: '1.8' }}>
+            <div style={{
+              padding: '28px',
+              border: '1px solid #f3f4f6',
+              borderRadius: '20px',
+              textAlign: 'center',
+              marginBottom: '28px',
+              backgroundColor: '#f9fafb'
+            }}>
+              <p style={{ color: '#6b7280', fontSize: '16px', letterSpacing: '0.025em', lineHeight: '1.7' }}>
                 위의 단계를 클릭하여 상세 설명을 확인하세요
               </p>
             </div>
           )}
 
           {/* 인용구 - 라이트 테마 */}
-          <div className="p-12 border border-gray-100 rounded-2xl text-center bg-gradient-to-r from-gray-50 to-white">
-            <p className="text-gray-600 text-3xl md:text-4xl font-light tracking-wider" style={{ fontFamily: 'Georgia, serif', lineHeight: '1.8' }}>
-              "감정은 선택하지 않지만, <span className="text-gray-900 font-medium">반응은 선택</span>할 수 있습니다."
+          <div style={{
+            padding: '32px 24px',
+            border: '1px solid #f3f4f6',
+            borderRadius: '20px',
+            textAlign: 'center',
+            background: 'linear-gradient(90deg, #f9fafb 0%, #fff 100%)'
+          }}>
+            <p style={{ color: '#4b5563', fontSize: '20px', fontWeight: '300', letterSpacing: '0.025em', fontFamily: 'Georgia, serif', lineHeight: '1.7' }}>
+              "감정은 선택하지 않지만, <span style={{ color: '#111827', fontWeight: '500' }}>반응은 선택</span>할 수 있습니다."
             </p>
           </div>
         </div>

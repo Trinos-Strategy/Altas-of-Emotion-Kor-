@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { partiallyChartedEmotions } from '../data/additionalData';
 
@@ -167,7 +167,7 @@ const SectionHeader = ({ showInfo, onToggleInfo }) => {
   return (
     <motion.header
       ref={headerRef}
-      className="text-center mb-12"
+      style={{ textAlign: 'center', marginBottom: '48px' }}
       initial={{ opacity: 0, y: -20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
@@ -321,15 +321,27 @@ const MetaInfo = () => {
 const PartiallyChartedEmotions = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section
-      className="min-h-screen py-12 px-4 md:px-8"
-      style={{ backgroundColor: '#FAFAFA' }}
+      style={{
+        minHeight: '100vh',
+        padding: isMobile ? '80px 16px 120px' : '96px 40px 120px',
+        backgroundColor: '#FAFAFA'
+      }}
       role="region"
       aria-label="탐험하는 감정들"
     >
-      <div className="max-w-5xl mx-auto">
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         {/* 헤더 */}
         <SectionHeader
           showInfo={showInfo}
