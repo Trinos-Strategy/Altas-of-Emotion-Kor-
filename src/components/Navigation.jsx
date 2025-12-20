@@ -5,8 +5,17 @@ import { sectionNames } from '../data/emotions';
 const Navigation = ({ activeSection, onSectionChange }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sections = ['introduction', 'triggers', 'continents', 'actions', 'links', 'explore', 'korean-emotions'];
   const isIntroduction = activeSection === 'introduction';
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -96,7 +105,8 @@ const Navigation = ({ activeSection, onSectionChange }) => {
             </motion.button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {!isMobile && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {sections.slice(1).map((section, index) => {
                 const isActive = activeSection === section || 
                   (section === 'explore' && activeSection === 'partially-charted');
@@ -158,17 +168,20 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                 );
               })}
             </div>
+            )}
 
             {/* Language & Mobile Menu */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span className="hidden md:block" style={{ color: '#888', fontSize: '16px', fontWeight: '500' }}>
-                한국어
-              </span>
+              {!isMobile && (
+                <span style={{ color: '#888', fontSize: '16px', fontWeight: '500' }}>
+                  한국어
+                </span>
+              )}
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button (Hamburger) */}
+              {isMobile && (
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden"
                 style={{
                   padding: '8px',
                   marginRight: '-8px',
@@ -189,15 +202,15 @@ const Navigation = ({ activeSection, onSectionChange }) => {
                   )}
                 </svg>
               </button>
+              )}
             </div>
           </div>
         </div>
 
         {/* Mobile Navigation Dropdown */}
         <AnimatePresence>
-          {mobileMenuOpen && (
+          {isMobile && mobileMenuOpen && (
             <motion.div
-              className="md:hidden"
               style={{
                 borderTop: '1px solid rgba(0,0,0,0.08)',
                 backgroundColor: 'rgba(255,255,255,0.98)',
@@ -271,9 +284,8 @@ const Navigation = ({ activeSection, onSectionChange }) => {
 
       {/* Mobile menu overlay */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {isMobile && mobileMenuOpen && (
           <motion.div
-            className="md:hidden"
             style={{
               position: 'fixed',
               inset: 0,
