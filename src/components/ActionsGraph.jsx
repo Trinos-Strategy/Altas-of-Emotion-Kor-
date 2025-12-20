@@ -2,11 +2,14 @@ import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as d3 from 'd3';
 
-// 강도별 크기 매핑 (원본 사이트 분석 기반)
-const intensityToSize = {
-  high: 55,      // 높은 강도: 큰 원형 (100-120px 직경)
-  medium: 42,    // 중간 강도: 중간 원형 (80-100px 직경)
-  low: 32        // 낮은 강도: 작은 원형 (60-80px 직경)
+// 강도별 크기 매핑 - 반응형으로 조절됨
+const getIntensitySize = (intensity, isMobile) => {
+  const sizes = {
+    high: isMobile ? 38 : 55,
+    medium: isMobile ? 30 : 42,
+    low: isMobile ? 24 : 32
+  };
+  return sizes[intensity] || sizes.medium;
 };
 
 // 각 행동의 강도 정의
@@ -77,7 +80,19 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
     const updateDimensions = () => {
       if (containerRef.current) {
         const { width } = containerRef.current.getBoundingClientRect();
-        const size = Math.min(width, 650);
+        const isMobile = window.innerWidth < 640;
+        const isTablet = window.innerWidth < 1024;
+
+        // Responsive sizing - more compact on mobile
+        let size;
+        if (isMobile) {
+          size = Math.min(width - 16, 360);
+        } else if (isTablet) {
+          size = Math.min(width, 500);
+        } else {
+          size = Math.min(width, 650);
+        }
+
         setDimensions({ width: size, height: size });
       }
     };
@@ -186,12 +201,13 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
     const actions = emotion.actions;
     const angleStep = (2 * Math.PI) / actions.length;
     const startAngle = -Math.PI / 2; // Start from top
+    const isMobile = width < 450;
 
     // Draw connections and action nodes
     actions.forEach((action, i) => {
       const angle = startAngle + angleStep * i;
       const intensity = getIntensity(action.name_en);
-      const nodeRadius = intensityToSize[intensity];
+      const nodeRadius = getIntensitySize(intensity, isMobile);
 
       // 강도에 따라 거리도 조정 (높은 강도 = 더 바깥쪽)
       const distanceMultiplier = intensity === 'high' ? 1.05 : (intensity === 'medium' ? 1 : 0.95);
@@ -280,8 +296,13 @@ const ActionsGraph = ({ emotion, selectedAction, setSelectedAction }) => {
           .style('filter', li === nodeLayers.length - 1 ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))' : 'none');
       });
 
-      // Node label (크기에 따라 폰트 조정)
-      const fontSize = intensity === 'high' ? '13px' : (intensity === 'medium' ? '11px' : '10px');
+      // Node label (크기에 따라 폰트 조정) - responsive
+      let fontSize;
+      if (isMobile) {
+        fontSize = intensity === 'high' ? '10px' : (intensity === 'medium' ? '9px' : '8px');
+      } else {
+        fontSize = intensity === 'high' ? '13px' : (intensity === 'medium' ? '11px' : '10px');
+      }
       const text = nodeGroup.append('text')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')

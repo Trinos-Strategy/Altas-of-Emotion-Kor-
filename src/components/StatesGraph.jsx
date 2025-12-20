@@ -15,9 +15,16 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
     const updateDimensions = () => {
       if (containerRef.current) {
         const { width } = containerRef.current.getBoundingClientRect();
+        const isMobile = window.innerWidth < 640;
+        const isTablet = window.innerWidth < 1024;
+
+        // Responsive sizing based on viewport
+        const maxWidth = isMobile ? width - 16 : isTablet ? Math.min(width, 700) : Math.min(width, 900);
+        const heightRatio = isMobile ? 0.75 : isTablet ? 0.65 : 0.6;
+
         setDimensions({
-          width: Math.min(width, 900),
-          height: Math.min(width * 0.6, 500)
+          width: maxWidth,
+          height: Math.min(maxWidth * heightRatio, isMobile ? 350 : 500)
         });
       }
     };
@@ -164,14 +171,16 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .attr('fill', 'transparent')
         .attr('stroke', 'transparent');
 
-      // Visible dot
+      // Visible dot - larger touch target for mobile
+      const isMobileDot = dimensions.width < 500;
+      const dotRadius = isMobileDot ? 10 : 6;
       group.append('circle')
         .attr('cx', state._x)
         .attr('cy', state._y - 10)
-        .attr('r', 6)
+        .attr('r', dotRadius)
         .attr('fill', emotion.color)
         .attr('stroke', 'white')
-        .attr('stroke-width', 2)
+        .attr('stroke-width', isMobileDot ? 3 : 2)
         .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0)
         .transition()
@@ -189,15 +198,17 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0);
 
-      // Label text
-      const labelY = i % 2 === 0 ? state._y - 35 : state._y + 15;
+      // Label text - responsive font size
+      const isMobile = dimensions.width < 500;
+      const fontSize = isMobile ? '10px' : '12px';
+      const labelY = i % 2 === 0 ? state._y - (isMobile ? 28 : 35) : state._y + (isMobile ? 12 : 15);
 
       const text = group.append('text')
         .attr('x', state._x)
         .attr('y', labelY)
         .attr('text-anchor', 'middle')
         .attr('fill', '#374151')
-        .attr('font-size', '12px')
+        .attr('font-size', fontSize)
         .attr('font-weight', '600')
         .text(state.name_ko)
         .style('opacity', 0)

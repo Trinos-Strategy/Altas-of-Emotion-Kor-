@@ -1,7 +1,17 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 
 const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinent }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLegendExpanded, setIsLegendExpanded] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   // Position config for overlapping circles with floating animation params
   const positions = [
     { x: 50, y: 45, scale: 1.1, floatDuration: 6, floatDelay: 0 },   // anger - center-left
@@ -33,8 +43,11 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
     }
   });
 
+  // Responsive base radius
+  const baseRadiusMultiplier = isMobile ? 0.85 : 1;
+
   return (
-    <div className="relative w-full h-[500px] md:h-[600px]">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px]">
       {/* SVG Container */}
       <svg
         viewBox="0 0 100 100"
@@ -70,7 +83,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
           const emotion = emotions[emotionId];
           const pos = positions[index];
           const isHovered = hoveredContinent === emotionId;
-          const baseRadius = 18 * pos.scale;
+          const baseRadius = 18 * pos.scale * baseRadiusMultiplier;
           const radius = isHovered ? baseRadius * 1.1 : baseRadius;
 
           return (
@@ -110,7 +123,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
                 onClick={() => onContinentClick(emotionId)}
               />
 
-              {/* Emotion Label */}
+              {/* Emotion Label - responsive font sizes */}
               <motion.text
                 x={pos.x}
                 y={pos.y}
@@ -118,7 +131,7 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
                 dominantBaseline="middle"
                 className="pointer-events-none select-none"
                 fill="white"
-                fontSize={isHovered ? 4 : 3.5}
+                fontSize={isMobile ? (isHovered ? 3.5 : 3) : (isHovered ? 4 : 3.5)}
                 fontWeight="600"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -130,13 +143,13 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
 
               <motion.text
                 x={pos.x}
-                y={pos.y + 4.5}
+                y={pos.y + (isMobile ? 3.5 : 4.5)}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="pointer-events-none select-none"
                 fill="white"
                 fillOpacity={0.7}
-                fontSize={2}
+                fontSize={isMobile ? 1.5 : 2}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 + index * 0.1 }}
@@ -148,10 +161,12 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
         })}
       </svg>
 
-      {/* Hover Info Card */}
+      {/* Hover Info Card - Collapsible on mobile */}
       {hoveredContinent && (
         <motion.div
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 glass rounded-xl p-4 max-w-sm w-full mx-4 border border-gray-200/50 shadow-lg"
+          className={`absolute left-1/2 transform -translate-x-1/2 glass rounded-xl p-4 max-w-sm w-[calc(100%-2rem)] border border-gray-200/50 shadow-lg ${
+            isMobile ? 'bottom-2' : 'bottom-4'
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
@@ -171,27 +186,85 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
         </motion.div>
       )}
 
-      {/* Legend */}
-      <div className="absolute top-4 right-4 glass rounded-lg p-3 border border-gray-200/50">
-        <p className="text-gray-500 text-xs mb-2 font-medium">감정 대륙</p>
-        <div className="space-y-1">
-          {emotionOrder.map((emotionId) => (
-            <div
-              key={emotionId}
-              className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100/50 rounded px-1 py-0.5 transition-colors"
-              onMouseEnter={() => setHoveredContinent(emotionId)}
-              onMouseLeave={() => setHoveredContinent(null)}
+      {/* Legend - Collapsible on mobile */}
+      <div className={`absolute top-4 right-4 glass rounded-lg border border-gray-200/50 ${isMobile ? 'p-2' : 'p-3'}`}>
+        {isMobile ? (
+          <>
+            <button
+              onClick={() => setIsLegendExpanded(!isLegendExpanded)}
+              className="flex items-center gap-2 min-h-[44px] min-w-[44px] justify-center"
+              aria-label={isLegendExpanded ? '범례 접기' : '범례 펼치기'}
+              aria-expanded={isLegendExpanded}
             >
-              <div
-                className="w-3 h-3 rounded-full shadow-sm"
-                style={{ backgroundColor: emotions[emotionId].color }}
-              />
-              <span className="text-gray-600 text-xs">
-                {emotions[emotionId].name_ko}
-              </span>
+              <div className="flex -space-x-1">
+                {emotionOrder.slice(0, 3).map((emotionId) => (
+                  <div
+                    key={emotionId}
+                    className="w-3 h-3 rounded-full border border-white shadow-sm"
+                    style={{ backgroundColor: emotions[emotionId].color }}
+                  />
+                ))}
+              </div>
+              <motion.span
+                animate={{ rotate: isLegendExpanded ? 180 : 0 }}
+                className="text-gray-400 text-xs"
+              >
+                ▼
+              </motion.span>
+            </button>
+            {isLegendExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-2 pt-2 border-t border-gray-200/50"
+              >
+                <div className="space-y-1">
+                  {emotionOrder.map((emotionId) => (
+                    <div
+                      key={emotionId}
+                      className="flex items-center space-x-2 cursor-pointer active:bg-gray-100/50 rounded px-1 py-1.5 min-h-[36px]"
+                      onClick={() => {
+                        setHoveredContinent(emotionId);
+                        setTimeout(() => setHoveredContinent(null), 2000);
+                      }}
+                    >
+                      <div
+                        className="w-3 h-3 rounded-full shadow-sm"
+                        style={{ backgroundColor: emotions[emotionId].color }}
+                      />
+                      <span className="text-gray-600 text-xs">
+                        {emotions[emotionId].name_ko}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </>
+        ) : (
+          <>
+            <p className="text-gray-500 text-xs mb-2 font-medium">감정 대륙</p>
+            <div className="space-y-1">
+              {emotionOrder.map((emotionId) => (
+                <div
+                  key={emotionId}
+                  className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100/50 rounded px-1 py-0.5 transition-colors"
+                  onMouseEnter={() => setHoveredContinent(emotionId)}
+                  onMouseLeave={() => setHoveredContinent(null)}
+                >
+                  <div
+                    className="w-3 h-3 rounded-full shadow-sm"
+                    style={{ backgroundColor: emotions[emotionId].color }}
+                  />
+                  <span className="text-gray-600 text-xs">
+                    {emotions[emotionId].name_ko}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
