@@ -767,8 +767,17 @@ const Experience = ({ selectedEmotion }) => {
   const [hoveredEmotion, setHoveredEmotion] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showLearnMore, setShowLearnMore] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (selectedEmotion) {
@@ -785,6 +794,213 @@ const Experience = ({ selectedEmotion }) => {
   const currentStages = EMOTION_STAGES[localSelectedEmotion];
   const currentEmotion = emotions[localSelectedEmotion];
 
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <section
+        ref={sectionRef}
+        style={{ minHeight: '100vh', backgroundColor: '#fafafa', padding: '80px 16px 120px' }}
+      >
+        {/* 헤더 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          style={{ marginBottom: '24px' }}
+        >
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            color: '#1a1a1a',
+            marginBottom: '12px'
+          }}>
+            감정의 경험
+          </h2>
+          <p style={{
+            fontSize: '15px',
+            color: '#666',
+            lineHeight: '1.7'
+          }}>
+            각 감정은 고유한 도형과 7단계 강도를 가집니다.
+          </p>
+        </motion.div>
+
+        {/* 모바일용 감정 선택 버튼들 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          style={{
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '10px',
+            padding: '4px',
+            marginBottom: '20px',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          {Object.keys(EMOTION_DATA).map((emotionKey) => {
+            const data = EMOTION_DATA[emotionKey];
+            const isSelected = localSelectedEmotion === emotionKey;
+            return (
+              <button
+                key={emotionKey}
+                onClick={() => setLocalSelectedEmotion(emotionKey)}
+                style={{
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 16px',
+                  borderRadius: '24px',
+                  border: 'none',
+                  background: isSelected ? data.primary : '#fff',
+                  color: isSelected ? '#fff' : '#333',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  boxShadow: isSelected ? `0 4px 12px ${data.primary}50` : '0 2px 8px rgba(0,0,0,0.08)',
+                  transition: 'all 0.25s ease'
+                }}
+              >
+                <EmotionShape shape={data.shape} size={20} color={isSelected ? '#fff' : data.primary} lightColor={data.light} />
+                {data.name_ko}
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* 선택된 감정 정보 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '20px',
+            padding: '20px',
+            marginBottom: '20px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <EmotionShape shape={currentData.shape} size={56} color={currentData.primary} lightColor={currentData.light} />
+            <div>
+              <h3 style={{ fontSize: '22px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                {currentData.name_ko}
+              </h3>
+              <p style={{ fontSize: '11px', color: '#888', margin: '2px 0 0', letterSpacing: '1px' }}>
+                {currentData.name_en}
+              </p>
+              <p style={{ fontSize: '11px', color: currentData.primary, margin: '4px 0 0', fontWeight: '600' }}>
+                {getShapeDescription(currentData.shape)}
+              </p>
+            </div>
+          </div>
+          <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.7', margin: 0 }}>
+            {currentData.description}
+          </p>
+        </motion.div>
+
+        {/* 강도 단계 태그 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '16px',
+            padding: '16px',
+            marginBottom: '20px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
+          }}
+        >
+          <h4 style={{
+            fontSize: '12px',
+            fontWeight: '700',
+            color: '#888',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            marginBottom: '12px'
+          }}>
+            {currentStages.length}단계 강도
+          </h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {currentStages.map((stage, i) => (
+              <span
+                key={i}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: currentData.primary,
+                  opacity: 0.4 + (i * 0.08),
+                  color: '#fff',
+                  borderRadius: '16px',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}
+              >
+                {stage.name_ko}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Learn More 버튼 */}
+        <motion.button
+          onClick={() => setShowLearnMore(true)}
+          style={{
+            width: '100%',
+            padding: '16px 20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '14px',
+            fontSize: '16px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 6px 24px rgba(102, 126, 234, 0.35)'
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <span>📊 연구 통계 더 알아보기</span>
+          <span style={{ fontSize: '18px' }}>→</span>
+        </motion.button>
+
+        {/* Learn More 모달 */}
+        <AnimatePresence>
+          {showLearnMore && (
+            <LearnMoreModal onClose={() => setShowLearnMore(false)} />
+          )}
+        </AnimatePresence>
+
+        {/* 감정 팝업 오버레이 */}
+        <AnimatePresence>
+          {showPopup && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  zIndex: 999
+                }}
+                onClick={() => setShowPopup(false)}
+              />
+              <EmotionPopupCard
+                emotion={localSelectedEmotion}
+                data={currentData}
+                onClose={() => setShowPopup(false)}
+              />
+            </>
+          )}
+        </AnimatePresence>
+      </section>
+    );
+  }
+
+  // Desktop Layout
   return (
     <section
       ref={sectionRef}
