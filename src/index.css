@@ -271,7 +271,7 @@ p {
 }
 
 .text-gradient-emotion {
-  background: var(--emotion-gradient, linear-gradient(135deg, #E85A4F, #FF6B5C));
+  background: var(--emotion-gradient, linear-gradient(135deg, #D4847B, #E8ADA6));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

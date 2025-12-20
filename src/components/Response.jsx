@@ -461,8 +461,8 @@ const Response = ({ selectedEmotion }) => {
                   display: 'inline-block',
                   padding: '8px 20px',
                   borderRadius: '20px',
-                  backgroundColor: selectedAction.type === 'intrinsic' ? '#FEE2E2' : '#D1FAE5',
-                  color: selectedAction.type === 'intrinsic' ? '#DC2626' : '#059669',
+                  backgroundColor: selectedAction.type === 'intrinsic' ? '#F8EDED' : '#EDF5F0',
+                  color: selectedAction.type === 'intrinsic' ? '#D4847B' : '#5A9070',
                   fontSize: '14px',
                   fontWeight: '700',
                   marginBottom: '20px'

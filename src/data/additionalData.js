@@ -241,7 +241,7 @@ export const impediments = {
     title_en: 'Impediments to Overcoming Fear',
     description_ko: '두려움을 건설적으로 다루는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block constructive handling of fear.',
-    color: '#9B7BB8',
+    color: '#9B8BC6',
     items: [
       { name_ko: '회피', name_en: 'Avoidance', description_ko: '두려운 상황을 피하면 두려움이 더 강화됩니다.', description_en: 'Avoiding feared situations strengthens the fear.' },
       { name_ko: '파국적 사고', name_en: 'Catastrophizing', description_ko: '최악의 결과만 상상하면 두려움이 증폭됩니다.', description_en: 'Imagining only worst-case scenarios amplifies fear.' },
@@ -256,7 +256,7 @@ export const impediments = {
     title_en: 'Impediments to Managing Disgust',
     description_ko: '혐오를 건설적으로 다루는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block constructive handling of disgust.',
-    color: '#6BAF8D',
+    color: '#7BAF8D',
     items: [
       { name_ko: '경직된 기준', name_en: 'Rigid Standards', description_ko: '엄격한 도덕적/위생적 기준이 혐오를 확대합니다.', description_en: 'Strict moral/hygienic standards amplify disgust.' },
       { name_ko: '오염 사고', name_en: 'Contamination Thinking', description_ko: '"더러움"이 퍼진다는 생각이 혐오를 강화합니다.', description_en: 'Thinking "dirtiness" spreads strengthens disgust.' },
@@ -271,7 +271,7 @@ export const impediments = {
     title_en: 'Impediments to Recovering from Sadness',
     description_ko: '슬픔에서 회복하는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block recovery from sadness.',
-    color: '#6B9DC4',
+    color: '#7BA3C9',
     items: [
       { name_ko: '고립', name_en: 'Isolation', description_ko: '사회적 고립이 슬픔을 악화시킵니다.', description_en: 'Social isolation worsens sadness.' },
       { name_ko: '억압', name_en: 'Suppression', description_ko: '슬픔을 억누르면 해소되지 않고 지속됩니다.', description_en: 'Suppressing sadness prevents it from resolving.' },
@@ -286,7 +286,7 @@ export const impediments = {
     title_en: 'Impediments to Enjoyment',
     description_ko: '긍정적 감정을 경험하는 것을 방해하는 요소들입니다.',
     description_en: 'Factors that block the experience of positive emotions.',
-    color: '#E8C547',
+    color: '#E2C478',
     items: [
       { name_ko: '집착', name_en: 'Grasping', description_ko: '즐거움에 지나치게 매달리면 오히려 그것을 밀어냅니다.', description_en: 'Clinging too tightly to pleasure pushes it away.' },
       { name_ko: '비관주의', name_en: 'Pessimism', description_ko: '부정적 결과를 예상하여 긍정적 경험을 차단합니다.', description_en: 'Expecting negative outcomes blocks positive experiences.' },
