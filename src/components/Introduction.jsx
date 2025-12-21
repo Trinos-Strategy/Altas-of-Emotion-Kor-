@@ -386,15 +386,15 @@ const Introduction = ({ onNavigate }) => {
             감정 지도 한국어판
           </p>
 
-          {/* Main Title - 라인별 오버플로우 히든 */}
-          <h1 className="mb-16">
-            <span className="block overflow-hidden">
+          {/* Main Title - 라인별 오버플로우 히든, 줄간격 개선 */}
+          <h1 className="mb-20">
+            <span className="block overflow-hidden mb-2">
               <span
                 className="hero-title-line block"
                 style={{
                   fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
                   fontWeight: 300,
-                  lineHeight: 1.15,
+                  lineHeight: 1.5,
                   letterSpacing: '0.02em',
                 }}
               >
@@ -407,7 +407,7 @@ const Introduction = ({ onNavigate }) => {
                 style={{
                   fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
                   fontWeight: 300,
-                  lineHeight: 1.15,
+                  lineHeight: 1.5,
                   letterSpacing: '0.02em',
                 }}
               >
@@ -535,15 +535,15 @@ const Introduction = ({ onNavigate }) => {
                     fontSize: 'clamp(3.5rem, 10vw, 6rem)',
                     fontWeight: 200,
                     lineHeight: 1,
-                    marginBottom: '1rem',
+                    marginBottom: '1.25rem',
                     letterSpacing: '-0.03em',
                   }}
                 >
                   0{stat.suffix}
                 </div>
                 <p
-                  className="text-black/45 tracking-[0.12em]"
-                  style={{ fontSize: '0.75rem' }}
+                  className="text-black/60 tracking-[0.06em] font-medium"
+                  style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}
                 >
                   {stat.label}
                 </p>
@@ -554,6 +554,11 @@ const Introduction = ({ onNavigate }) => {
       </section>
 
       {/* ============ QUOTE SECTION ============ */}
+      {/* Noto Serif KR 폰트 로드 */}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
       <section
         className="quote-section"
         style={{
@@ -562,24 +567,33 @@ const Introduction = ({ onNavigate }) => {
           color: 'white',
         }}
       >
-        <div className="max-w-[900px] mx-auto text-center">
+        <div className="max-w-[1000px] mx-auto text-center">
           <blockquote
             className="quote-text"
             style={{
-              fontSize: 'clamp(1.5rem, 4.5vw, 3rem)',
-              fontWeight: 300,
-              lineHeight: 1.5,
+              fontFamily: "'Noto Serif KR', '궁서', 'Gungsuh', serif",
+              fontSize: 'clamp(1.75rem, 5vw, 3.5rem)',
+              fontWeight: 400,
+              lineHeight: 1.9,
               marginBottom: '4rem',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.03em',
+              wordBreak: 'keep-all',
             }}
           >
-            감정을 촉발하는 요인과 반응 방식에 대해
+            감정을 촉발하는 요인과
             <br />
-            더 깊은 이해와 통제력을 얻으세요
+            반응 방식에 대해
+            <br />
+            <span style={{ opacity: 0.9 }}>더 깊은 이해와 통제력을 얻으세요</span>
           </blockquote>
           <cite
-            className="quote-author text-white/40 not-italic tracking-[0.08em]"
-            style={{ fontSize: '0.875rem' }}
+            className="quote-author not-italic"
+            style={{
+              fontFamily: "'Noto Serif KR', '궁서', 'Gungsuh', serif",
+              fontSize: 'clamp(1rem, 2vw, 1.375rem)',
+              color: 'rgba(255,255,255,0.5)',
+              letterSpacing: '0.08em',
+            }}
           >
             — 달라이 라마 & 폴 에크만 박사
           </cite>
@@ -593,7 +607,7 @@ const Introduction = ({ onNavigate }) => {
       >
         <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
-          <div className="mb-20 md:mb-28 max-w-[600px]">
+          <div className="mb-12 md:mb-16 max-w-[600px]">
             <p
               className="text-black/35 tracking-[0.2em] mb-6"
               style={{ fontSize: '0.625rem' }}
@@ -605,14 +619,64 @@ const Introduction = ({ onNavigate }) => {
                 fontSize: 'clamp(2rem, 5vw, 3rem)',
                 fontWeight: 300,
                 letterSpacing: '0.01em',
-                lineHeight: 1.3,
+                lineHeight: 1.4,
               }}
             >
               인류가 공유하는 감정의 언어
             </h2>
           </div>
 
-          {/* Emotions Grid - 여백 증가 */}
+          {/* 감정 아이콘 프리뷰 그리드 */}
+          <div
+            className="emotion-icons-preview grid grid-cols-5 gap-6 md:gap-10 mb-16 md:mb-24"
+            style={{ maxWidth: '700px', margin: '0 auto 4rem' }}
+          >
+            {[
+              { emoji: '😠', name: '분노', nameEn: 'Anger', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #C92A2A 100%)' },
+              { emoji: '😨', name: '두려움', nameEn: 'Fear', gradient: 'linear-gradient(135deg, #845EC2 0%, #5B3E96 100%)' },
+              { emoji: '🤢', name: '혐오', nameEn: 'Disgust', gradient: 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)' },
+              { emoji: '😢', name: '슬픔', nameEn: 'Sadness', gradient: 'linear-gradient(135deg, #42A5F5 0%, #1976D2 100%)' },
+              { emoji: '✨', name: '즐거움', nameEn: 'Enjoyment', gradient: 'linear-gradient(135deg, #FFA726 0%, #F57C00 100%)' },
+            ].map((item, index) => (
+              <motion.div
+                key={item.name}
+                className="emotion-icon-item flex flex-col items-center gap-3"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <motion.div
+                  className="icon-circle flex items-center justify-center rounded-full shadow-lg cursor-pointer"
+                  style={{
+                    width: 'clamp(56px, 12vw, 80px)',
+                    height: 'clamp(56px, 12vw, 80px)',
+                    background: item.gradient,
+                    fontSize: 'clamp(28px, 6vw, 40px)',
+                  }}
+                  whileHover={{ scale: 1.15, rotate: 8 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  onClick={() => onNavigate('continents')}
+                >
+                  {item.emoji}
+                </motion.div>
+                <p
+                  className="text-center font-semibold text-gray-800"
+                  style={{ fontSize: 'clamp(0.875rem, 2vw, 1.125rem)' }}
+                >
+                  {item.name}
+                </p>
+                <span
+                  className="text-gray-400 uppercase"
+                  style={{ fontSize: '0.625rem', letterSpacing: '0.08em' }}
+                >
+                  ({item.nameEn})
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Emotions Grid - 상세 카드 */}
           <div
             className="grid md:grid-cols-5 gap-4 md:gap-6"
             style={{ marginTop: 'clamp(48px, 8vh, 100px)' }}
@@ -700,7 +764,7 @@ const Introduction = ({ onNavigate }) => {
       <section
         className="journey-section"
         style={{
-          padding: 'clamp(120px, 20vh, 280px) clamp(24px, 5vw, 120px)',
+          padding: 'clamp(140px, 22vh, 320px) clamp(24px, 5vw, 120px)',
           backgroundColor: 'var(--color-bg-secondary)',
         }}
       >
@@ -709,17 +773,17 @@ const Introduction = ({ onNavigate }) => {
             {/* Left: Text */}
             <div className="journey-title">
               <p
-                className="text-black/35 tracking-[0.2em] mb-6"
-                style={{ fontSize: '0.625rem' }}
+                className="text-black/35 tracking-[0.2em] mb-8"
+                style={{ fontSize: '0.75rem' }}
               >
                 탐험의 여정
               </p>
               <h2
-                className="mb-10"
+                className="mb-12"
                 style={{
-                  fontSize: 'clamp(2rem, 5vw, 3rem)',
+                  fontSize: 'clamp(2.25rem, 6vw, 3.5rem)',
                   fontWeight: 300,
-                  lineHeight: 1.25,
+                  lineHeight: 1.5,
                   letterSpacing: '0.01em',
                 }}
               >
@@ -728,8 +792,12 @@ const Introduction = ({ onNavigate }) => {
                 네 단계 여정
               </h2>
               <p
-                className="text-black/55"
-                style={{ fontSize: '1rem', lineHeight: 2 }}
+                className="text-black/60"
+                style={{
+                  fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                  lineHeight: 2.2,
+                  wordBreak: 'keep-all',
+                }}
               >
                 각 감정의 트리거, 경험, 반응, 그리고 해독제를 탐험하며
                 자신만의 감정 지도를 완성해 나가세요.
@@ -739,36 +807,46 @@ const Introduction = ({ onNavigate }) => {
             {/* Right: Steps */}
             <div className="journey-steps space-y-0">
               {[
-                { num: '01', title: '트리거', titleEn: 'Trigger', desc: '감정의 시작점' },
-                { num: '02', title: '경험', titleEn: 'Experience', desc: '강도의 스펙트럼' },
-                { num: '03', title: '반응', titleEn: 'Response', desc: '행동의 선택' },
-                { num: '04', title: '해독제', titleEn: 'Antidote', desc: '균형의 전략' },
+                { num: '01', title: '트리거', titleEn: 'Trigger', desc: '감정이 시작되는 순간과 원인을 이해합니다' },
+                { num: '02', title: '경험', titleEn: 'Experience', desc: '감정의 강도와 미묘한 차이를 탐색합니다' },
+                { num: '03', title: '반응', titleEn: 'Response', desc: '감정에 대한 행동 선택지를 배웁니다' },
+                { num: '04', title: '해독제', titleEn: 'Antidote', desc: '균형과 조절을 위한 전략을 습득합니다' },
               ].map((step, index) => (
                 <div
                   key={step.num}
-                  className="journey-step flex items-center gap-10 py-8"
-                  style={{ borderBottom: index < 3 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}
+                  className="journey-step flex items-center gap-8 md:gap-10 py-10"
+                  style={{ borderBottom: index < 3 ? '1px solid rgba(0,0,0,0.08)' : 'none' }}
                 >
                   <span
-                    className="text-black/15 font-light"
-                    style={{ fontSize: '0.75rem', letterSpacing: '0.1em', width: '2rem' }}
+                    className="text-black/20 font-light"
+                    style={{ fontSize: '1rem', letterSpacing: '0.1em', width: '2.5rem' }}
                   >
                     {step.num}
                   </span>
                   <div>
                     <h4
-                      className="mb-2 flex items-baseline gap-3"
-                      style={{ fontSize: '1.375rem', fontWeight: 400, letterSpacing: '0.02em' }}
+                      className="mb-3 flex items-baseline gap-3"
+                      style={{
+                        fontSize: 'clamp(1.5rem, 3vw, 1.75rem)',
+                        fontWeight: 500,
+                        letterSpacing: '0.02em',
+                      }}
                     >
                       {step.title}
                       <span
-                        className="text-black/25"
-                        style={{ fontSize: '0.6rem', fontWeight: 400 }}
+                        className="text-black/30"
+                        style={{ fontSize: '0.75rem', fontWeight: 400 }}
                       >
                         ({step.titleEn})
                       </span>
                     </h4>
-                    <p className="text-black/45" style={{ fontSize: '0.875rem' }}>
+                    <p
+                      className="text-black/55"
+                      style={{
+                        fontSize: 'clamp(1rem, 2vw, 1.125rem)',
+                        lineHeight: 1.8,
+                      }}
+                    >
                       {step.desc}
                     </p>
                   </div>
@@ -867,24 +945,24 @@ const Introduction = ({ onNavigate }) => {
       {/* ============ FOOTER ============ */}
       <footer
         style={{
-          padding: 'clamp(60px, 10vh, 100px) clamp(24px, 5vw, 120px)',
+          padding: 'clamp(80px, 12vh, 120px) clamp(24px, 5vw, 120px)',
           borderTop: '1px solid rgba(0,0,0,0.06)',
           backgroundColor: 'var(--color-bg-secondary)',
-          paddingBottom: 'calc(clamp(60px, 10vh, 100px) + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: 'calc(clamp(80px, 12vh, 120px) + env(safe-area-inset-bottom, 0px))',
         }}
       >
         <div className="max-w-[1200px] mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12">
             <div className="text-center md:text-left">
               <p
-                className="text-black/55 mb-2"
-                style={{ fontSize: '0.9375rem' }}
+                className="text-black/65 mb-3 font-medium"
+                style={{ fontSize: '1.125rem' }}
               >
                 감정 지도 한국어판
               </p>
               <p
-                className="text-black/35"
-                style={{ fontSize: '0.6875rem' }}
+                className="text-black/45"
+                style={{ fontSize: '0.875rem' }}
               >
                 © 트리노스 전략연구소
               </p>
@@ -893,20 +971,24 @@ const Introduction = ({ onNavigate }) => {
               href="https://atlasofemotions.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black/35 hover:text-black/60 transition-colors"
-              style={{ fontSize: '0.75rem' }}
+              className="text-black/45 hover:text-black/70 transition-colors"
+              style={{ fontSize: '0.9375rem' }}
             >
               원본 프로젝트: The Ekmans' Atlas of Emotions →
             </a>
           </div>
 
           <div
-            className="pt-8 text-center"
-            style={{ borderTop: '1px solid rgba(0,0,0,0.04)' }}
+            className="pt-10 text-center"
+            style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}
           >
             <p
-              className="text-black/30 max-w-2xl mx-auto"
-              style={{ fontSize: '0.6875rem', lineHeight: 1.9 }}
+              className="text-black/40 max-w-3xl mx-auto"
+              style={{
+                fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
+                lineHeight: 2.2,
+                wordBreak: 'keep-all',
+              }}
             >
               본 사이트는 Paul Ekman 박사와 Eve Ekman의 "Atlas of Emotions" 연구를
               한국어로 번역하여 제공하는 비영리 교육 프로젝트입니다.
