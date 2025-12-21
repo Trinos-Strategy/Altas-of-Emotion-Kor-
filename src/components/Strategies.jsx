@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions, emotionOrder, dalaiLamaQuote, resources } from '../data/emotions';
-import { impediments, antidotesDetailed } from '../data/additionalData';
+import { impediments } from '../data/additionalData';
 
 // 전략 원칙 데이터 - 2025 Palette
 const PRINCIPLES = [
@@ -331,8 +331,9 @@ const PrincipleCard = ({ principle, index }) => {
 // 상세 해독제 섹션 (감정별 상태별 해독제)
 const DetailedAntidotesSection = ({ selectedEmotion, setSelectedEmotion }) => {
   const [expandedState, setExpandedState] = useState(null);
-  const antidotes = antidotesDetailed[selectedEmotion] || [];
   const emotion = emotions[selectedEmotion];
+  // emotions.js에서 직접 해독제 데이터 가져오기
+  const antidotes = emotion?.antidotes || [];
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
