@@ -123,84 +123,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] relative overflow-hidden">
-      {/* Multiple Emotion Circles - Original Atlas Style */}
-      {isIntroduction && (
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          {/* Enjoyment - 오른쪽 위 (가장 큰 피치/살구색) */}
-          <motion.div
-            className="absolute"
-            style={{
-              top: '-250px',
-              right: '-350px',
-              width: '1100px',
-              height: '1100px',
-              background: 'radial-gradient(circle at 40% 40%, #FFE5D4 0%, #FFD4B8 40%, #FFCBB0 60%, rgba(255,203,176,0) 100%)',
-              borderRadius: '50%',
-              filter: 'blur(60px)',
-              opacity: 0.85,
-            }}
-            animate={{
-              x: [0, 30, 0],
-              y: [0, -20, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-
-          {/* Disgust - 왼쪽 아래 (초록색) */}
-          <motion.div
-            className="absolute"
-            style={{
-              left: '-350px',
-              bottom: '-350px',
-              width: '900px',
-              height: '900px',
-              background: 'radial-gradient(circle at 60% 40%, #D4F1E8 0%, #B8E6D8 40%, rgba(184,230,216,0) 100%)',
-              borderRadius: '50%',
-              filter: 'blur(70px)',
-              opacity: 0.6,
-            }}
-            animate={{
-              x: [0, 20, 0],
-              y: [0, 30, 0],
-            }}
-            transition={{
-              duration: 22,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 7,
-            }}
-          />
-
-          {/* Sadness/Fear - 오른쪽 중간 (파란색) */}
-          <motion.div
-            className="absolute"
-            style={{
-              right: '-150px',
-              top: '200px',
-              width: '800px',
-              height: '800px',
-              background: 'radial-gradient(circle at 30% 50%, #D4E8F7 0%, #B8D8EC 40%, rgba(184,216,236,0) 100%)',
-              borderRadius: '50%',
-              filter: 'blur(60px)',
-              opacity: 0.5,
-            }}
-            animate={{
-              x: [0, -25, 0],
-              y: [0, 20, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 14,
-            }}
-          />
-        </div>
-      )}
 
       {/* Navigation */}
       <Navigation
@@ -209,7 +131,7 @@ function App() {
       />
 
       {/* Main Content - 네비게이션 높이(72px) 고려한 padding-top */}
-      <main style={{ paddingTop: isIntroduction ? '0' : '72px', paddingBottom: '96px' }}>
+      <main style={{ paddingTop: isIntroduction ? '0' : '72px', paddingBottom: isIntroduction ? '0' : '96px' }}>
         <AnimatePresence mode="wait">
           {renderSection()}
         </AnimatePresence>
