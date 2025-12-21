@@ -95,6 +95,8 @@ export const emotions = {
     antidotes: [
       { state_ko: "짜증", state_en: "Annoyance", antidote_ko: "인내, 열린 마음, 타인에 대한 관심", antidote_en: "Patience, open-mindedness, concern for others" },
       { state_ko: "좌절", state_en: "Frustration", antidote_ko: "수용, 유연성, 인내심", antidote_en: "Acceptance, flexibility, patience" },
+      { state_ko: "성가심", state_en: "Exasperation", antidote_ko: "한 발 물러서기, 휴식 취하기, 유머 찾기", antidote_en: "Stepping back, taking a break, finding humor" },
+      { state_ko: "논쟁적", state_en: "Argumentativeness", antidote_ko: "경청, 상대 입장 이해, 공통점 찾기", antidote_en: "Active listening, understanding other's position, finding common ground" },
       { state_ko: "격분", state_en: "Bitterness", antidote_ko: "용서, 내려놓음, 관점 전환", antidote_en: "Forgiveness, letting go, perspective shift" },
       { state_ko: "복수심", state_en: "Vengefulness", antidote_ko: "공감, 이해, 자비", antidote_en: "Empathy, understanding, compassion" },
       { state_ko: "격노", state_en: "Fury", antidote_ko: "마음 진정, 거리두기, 심호흡", antidote_en: "Calming the mind, distancing, deep breathing" }
@@ -203,7 +205,10 @@ export const emotions = {
     ],
     antidotes: [
       { state_ko: "걱정", state_en: "Trepidation", antidote_ko: "현실 점검, 마음챙김, 준비", antidote_en: "Reality check, mindfulness, preparation" },
+      { state_ko: "긴장", state_en: "Nervousness", antidote_ko: "이완 기법, 긍정적 자기 대화, 준비된 느낌 갖기", antidote_en: "Relaxation techniques, positive self-talk, feeling prepared" },
       { state_ko: "불안", state_en: "Anxiety", antidote_ko: "심호흡, 현재에 집중, 점진적 노출", antidote_en: "Deep breathing, focusing on present, gradual exposure" },
+      { state_ko: "두려움", state_en: "Dread", antidote_ko: "최악의 시나리오 점검, 대처 계획, 지지 체계 활성화", antidote_en: "Worst-case scenario check, coping plan, activating support system" },
+      { state_ko: "절망", state_en: "Desperation", antidote_ko: "희망 찾기, 작은 행동 시작, 도움 요청", antidote_en: "Finding hope, starting small actions, asking for help" },
       { state_ko: "공황", state_en: "Panic", antidote_ko: "그라운딩 기법, 호흡 조절, 안전한 장소", antidote_en: "Grounding techniques, breath control, safe place" },
       { state_ko: "경악", state_en: "Horror", antidote_ko: "감각 재연결, 안전한 환경 조성, 정서적 지지", antidote_en: "Reconnecting to senses, creating safe environment, emotional support" },
       { state_ko: "공포", state_en: "Terror", antidote_ko: "마음 진정, 마음챙김, 자기 연민", antidote_en: "Calming the mind, mindfulness, self-compassion" }
@@ -306,6 +311,9 @@ export const emotions = {
     antidotes: [
       { state_ko: "싫음", state_en: "Dislike", antidote_ko: "공평한 평가, 열린 마음", antidote_en: "Impartial evaluation, open-mindedness" },
       { state_ko: "거부감", state_en: "Aversion", antidote_ko: "이해하려는 노력, 공감", antidote_en: "Effort to understand, empathy" },
+      { state_ko: "불쾌", state_en: "Distaste", antidote_ko: "중립적 관점 유지, 감각적 거리두기, 재평가", antidote_en: "Maintaining neutral perspective, sensory distancing, reappraisal" },
+      { state_ko: "역겨움", state_en: "Revulsion", antidote_ko: "합리적 분석, 노출 치료, 점진적 둔감화", antidote_en: "Rational analysis, exposure therapy, gradual desensitization" },
+      { state_ko: "구역질", state_en: "Nausea", antidote_ko: "신체적 진정, 환기, 주의 전환", antidote_en: "Physical calming, ventilation, attention diversion" },
       { state_ko: "경멸", state_en: "Contempt", antidote_ko: "연민, 자비, 용서", antidote_en: "Compassion, mercy, forgiveness" },
       { state_ko: "혐오", state_en: "Loathing", antidote_ko: "공평한 관점, 자기 성찰", antidote_en: "Impartial perspective, self-reflection" }
     ]

@@ -12,13 +12,13 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  // Position config for overlapping circles with floating animation params
+  // Position config - 화면 전체에 분산 배치 (클릭 가능하도록)
   const positions = [
-    { x: 50, y: 45, scale: 1.1, floatDuration: 6, floatDelay: 0 },   // anger - center-left
-    { x: 35, y: 55, scale: 0.95, floatDuration: 7, floatDelay: 1 },  // fear - bottom-left
-    { x: 65, y: 55, scale: 0.9, floatDuration: 5, floatDelay: 2 },   // disgust - bottom-right
-    { x: 30, y: 35, scale: 1, floatDuration: 8, floatDelay: 0.5 },   // sadness - top-left
-    { x: 70, y: 40, scale: 1.05, floatDuration: 6.5, floatDelay: 1.5 },  // enjoyment - top-right
+    { x: 50, y: 30, scale: 1.1, floatDuration: 6, floatDelay: 0 },     // anger - 상단 중앙
+    { x: 20, y: 50, scale: 0.95, floatDuration: 7, floatDelay: 1 },    // fear - 좌측 중앙
+    { x: 80, y: 50, scale: 0.9, floatDuration: 5, floatDelay: 2 },     // disgust - 우측 중앙
+    { x: 30, y: 75, scale: 1, floatDuration: 8, floatDelay: 0.5 },     // sadness - 좌측 하단
+    { x: 70, y: 75, scale: 1.05, floatDuration: 6.5, floatDelay: 1.5 }, // enjoyment - 우측 하단
   ];
 
   // Floating animation variants
