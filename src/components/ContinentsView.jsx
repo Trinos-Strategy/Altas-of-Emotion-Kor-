@@ -2,9 +2,17 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { emotions, emotionOrder } from '../data/emotions';
 
+// 감정 아이콘 이모지 매핑
+const emotionIcons = {
+  anger: '🔥',
+  fear: '😨',
+  disgust: '🤢',
+  sadness: '💧',
+  enjoyment: '✨',
+};
+
 const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinent }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isLegendExpanded, setIsLegendExpanded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -13,359 +21,242 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Position config - 충분한 간격으로 분산 배치 (겹침 방지)
-  // viewBox 100x100 기준, 원 반지름 14 고려하여 최소 30 이상 간격 확보
-  const positions = [
-    { x: 50, y: 18, scale: 1.0, floatDuration: 6, floatDelay: 0 },      // anger - 최상단 중앙
-    { x: 15, y: 45, scale: 0.95, floatDuration: 7, floatDelay: 1 },     // fear - 좌측 중앙
-    { x: 85, y: 45, scale: 0.95, floatDuration: 5, floatDelay: 2 },     // disgust - 우측 중앙
-    { x: 25, y: 78, scale: 1.0, floatDuration: 8, floatDelay: 0.5 },    // sadness - 좌측 하단
-    { x: 75, y: 78, scale: 1.0, floatDuration: 6.5, floatDelay: 1.5 },  // enjoyment - 우측 하단
-  ];
-
-  // Floating animation variants - 부드러운 움직임
-  const floatVariants = (duration, delay) => ({
-    animate: {
-      y: [0, -2, 0, 2, 0],
-      x: [0, 1.5, 0, -1.5, 0],
-      transition: {
-        y: {
-          duration: duration,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay
-        },
-        x: {
-          duration: duration * 1.2,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay
-        }
-      }
-    }
-  });
-
-  // Responsive base radius - 더 작게 조정하여 겹침 방지
-  const baseRadius = isMobile ? 12 : 14;
-
   return (
-    <div className="relative w-full h-[450px] sm:h-[500px] md:h-[600px]">
-      {/* SVG Container */}
-      <svg
-        viewBox="0 0 100 100"
-        className="w-full h-full"
-        preserveAspectRatio="xMidYMid meet"
+    <div className="w-full min-h-[500px] sm:min-h-[600px] flex flex-col items-center justify-center px-4 py-8 sm:py-12">
+      {/* Section Header */}
+      <motion.div
+        className="text-center mb-8 sm:mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        <defs>
-          {emotionOrder.map((emotionId) => {
-            const emotion = emotions[emotionId];
-            return (
-              <radialGradient
-                key={`gradient-${emotionId}`}
-                id={`gradient-${emotionId}`}
-                cx="30%"
-                cy="30%"
-                r="70%"
-              >
-                <stop offset="0%" stopColor={emotion.colorLight} stopOpacity="0.95" />
-                <stop offset="60%" stopColor={emotion.color} stopOpacity="0.85" />
-                <stop offset="100%" stopColor={emotion.colorDark || emotion.color} stopOpacity="0.7" />
-              </radialGradient>
-            );
-          })}
+        <p
+          className="text-black/35 tracking-[0.2em] mb-3"
+          style={{ fontSize: '0.625rem' }}
+        >
+          다섯 가지 감정 대륙
+        </p>
+        <h2
+          className="text-gray-900"
+          style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
+            fontWeight: 300,
+            letterSpacing: '0.01em',
+          }}
+        >
+          탐험하고 싶은 감정을 선택하세요
+        </h2>
+      </motion.div>
 
-          {/* Enhanced drop shadow filter */}
-          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.35"/>
-          </filter>
-
-          {/* Glow filter for hover */}
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-
-        {/* Emotion Circles with Floating Animation */}
+      {/* 감정 선택 펼침 그리드 - 겹침 완전 제거 */}
+      <div
+        className="emotion-selector-spread w-full max-w-[900px]"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
+          gap: isMobile ? '16px' : '20px',
+          padding: isMobile ? '16px' : '24px',
+        }}
+      >
         {emotionOrder.map((emotionId, index) => {
           const emotion = emotions[emotionId];
-          const pos = positions[index];
           const isHovered = hoveredContinent === emotionId;
-          const radius = baseRadius * pos.scale;
-          const hoverRadius = radius * 1.15;
 
           return (
-            <motion.g
+            <motion.button
               key={emotionId}
-              variants={floatVariants(pos.floatDuration, pos.floatDelay)}
-              animate="animate"
+              className="emotion-card-spread"
+              onClick={() => onContinentClick(emotionId)}
+              onMouseEnter={() => setHoveredContinent(emotionId)}
+              onMouseLeave={() => setHoveredContinent(null)}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{ y: -6, scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
               style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px',
+                padding: isMobile ? '20px 12px' : '28px 16px',
+                background: isHovered
+                  ? `linear-gradient(145deg, ${emotion.colorLight || emotion.color}15, ${emotion.color}25)`
+                  : 'white',
+                border: `2px solid ${isHovered ? emotion.color : 'rgba(0,0,0,0.06)'}`,
+                borderRadius: '20px',
                 cursor: 'pointer',
-                // hover 시 z-index 올리기
-                zIndex: isHovered ? 100 : index
+                minWidth: '100px',
+                minHeight: isMobile ? '130px' : '160px',
+                boxShadow: isHovered
+                  ? `0 12px 32px ${emotion.color}30, 0 0 0 4px ${emotion.color}10`
+                  : '0 2px 12px rgba(0,0,0,0.06)',
+                transition: 'all 400ms cubic-bezier(0.4, 0, 0.2, 1)',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              {/* 투명한 히트 영역 (터치/클릭 영역 확대) */}
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={radius + 5}
-                fill="transparent"
-                className="cursor-pointer"
-                onMouseEnter={() => setHoveredContinent(emotionId)}
-                onMouseLeave={() => setHoveredContinent(null)}
-                onClick={() => onContinentClick(emotionId)}
-                style={{ touchAction: 'manipulation' }}
-              />
-
-              {/* 실제 감정 원 */}
-              <motion.circle
-                cx={pos.x}
-                cy={pos.y}
-                fill={`url(#gradient-${emotionId})`}
-                stroke={emotion.color}
-                strokeWidth={isHovered ? 1.5 : 0.5}
-                filter={isHovered ? "url(#glow)" : "url(#shadow)"}
-                className="cursor-pointer"
-                initial={{ r: 0, opacity: 0 }}
+              {/* 감정 아이콘 */}
+              <motion.span
+                className="emotion-icon-large"
                 animate={{
-                  r: isHovered ? hoverRadius : radius,
-                  opacity: 1,
+                  scale: isHovered ? 1.2 : 1,
+                  rotate: isHovered ? 8 : 0,
                 }}
-                transition={{
-                  r: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
-                  opacity: { duration: 0.8, delay: index * 0.12 }
-                }}
-                onMouseEnter={() => setHoveredContinent(emotionId)}
-                onMouseLeave={() => setHoveredContinent(null)}
-                onClick={() => onContinentClick(emotionId)}
-                style={{ touchAction: 'manipulation' }}
-              />
-
-              {/* Emotion Label - 한국어 */}
-              <motion.text
-                x={pos.x}
-                y={pos.y - 0.5}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="pointer-events-none select-none"
-                fill="white"
-                fontSize={isMobile ? 3 : 3.5}
-                fontWeight="600"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  fontSize: isHovered ? (isMobile ? 3.5 : 4) : (isMobile ? 3 : 3.5)
-                }}
-                transition={{ delay: 0.4 + index * 0.1 }}
+                transition={{ duration: 0.3 }}
                 style={{
-                  textShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                  letterSpacing: '0.05em'
+                  fontSize: isMobile ? '40px' : '52px',
+                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))',
+                  lineHeight: 1,
+                }}
+              >
+                {emotionIcons[emotionId]}
+              </motion.span>
+
+              {/* 한국어 이름 */}
+              <h3
+                style={{
+                  fontSize: isMobile ? '1.125rem' : '1.25rem',
+                  fontWeight: 700,
+                  color: isHovered ? emotion.color : '#1a1a1a',
+                  margin: 0,
+                  transition: 'color 300ms ease',
                 }}
               >
                 {emotion.name_ko}
-              </motion.text>
+              </h3>
 
-              {/* Emotion Label - 영어 (작게) */}
-              <motion.text
-                x={pos.x}
-                y={pos.y + (isMobile ? 3 : 3.5)}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="pointer-events-none select-none"
-                fill="white"
-                fillOpacity={isHovered ? 0.9 : 0.6}
-                fontSize={isMobile ? 1.5 : 1.8}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
-                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
+              {/* 영어 이름 */}
+              <span
+                style={{
+                  fontSize: '0.6875rem',
+                  color: '#888',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                }}
               >
                 ({emotion.name_en})
-              </motion.text>
+              </span>
 
-              {/* 클릭 안내 아이콘 (hover 시) */}
+              {/* 컬러 인디케이터 바 */}
+              <motion.div
+                animate={{
+                  width: isHovered ? '60%' : '30%',
+                  opacity: isHovered ? 1 : 0.5,
+                }}
+                style={{
+                  height: '3px',
+                  backgroundColor: emotion.color,
+                  borderRadius: '2px',
+                  marginTop: '4px',
+                  transition: 'all 300ms ease',
+                }}
+              />
+
+              {/* 클릭 힌트 */}
               <AnimatePresence>
                 {isHovered && (
-                  <motion.g
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.2 }}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    style={{
+                      position: 'absolute',
+                      bottom: '8px',
+                      fontSize: '0.625rem',
+                      color: emotion.color,
+                      fontWeight: 500,
+                    }}
                   >
-                    <circle
-                      cx={pos.x + radius * 0.7}
-                      cy={pos.y - radius * 0.7}
-                      r={2.5}
-                      fill="white"
-                      fillOpacity={0.9}
-                    />
-                    <text
-                      x={pos.x + radius * 0.7}
-                      y={pos.y - radius * 0.7 + 0.3}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill={emotion.color}
-                      fontSize={2}
-                      fontWeight="bold"
-                    >
-                      →
-                    </text>
-                  </motion.g>
+                    탐험하기 →
+                  </motion.div>
                 )}
               </AnimatePresence>
-            </motion.g>
+            </motion.button>
           );
         })}
-      </svg>
+      </div>
 
-      {/* Hover Info Card - 개선된 디자인 */}
+      {/* 선택된 감정 정보 카드 */}
       <AnimatePresence>
         {hoveredContinent && (
           <motion.div
-            className={`absolute left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-md rounded-2xl p-5 max-w-sm w-[calc(100%-2rem)] shadow-xl ${
-              isMobile ? 'bottom-3' : 'bottom-6'
-            }`}
+            className="mt-8 sm:mt-10 w-full max-w-lg mx-auto"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
-            transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{
-              borderLeft: `4px solid ${emotions[hoveredContinent].color}`
-            }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-4 h-4 rounded-full shadow-inner"
-                style={{ backgroundColor: emotions[hoveredContinent].color }}
-              />
-              <h3 className="text-gray-900 font-semibold text-lg">
-                {emotions[hoveredContinent].name_ko}
-                <span className="text-gray-400 font-normal text-sm ml-2">
-                  ({emotions[hoveredContinent].name_en})
+            <div
+              className="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl"
+              style={{
+                borderLeft: `4px solid ${emotions[hoveredContinent].color}`,
+              }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span style={{ fontSize: '2rem' }}>{emotionIcons[hoveredContinent]}</span>
+                <div>
+                  <h3 className="text-gray-900 font-semibold text-lg">
+                    {emotions[hoveredContinent].name_ko}
+                    <span className="text-gray-400 font-normal text-sm ml-2">
+                      ({emotions[hoveredContinent].name_en})
+                    </span>
+                  </h3>
+                </div>
+              </div>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                {emotions[hoveredContinent].description_ko}
+              </p>
+              <div className="flex items-center gap-3 text-xs">
+                <span
+                  className="px-3 py-1.5 rounded-full text-white font-medium"
+                  style={{ backgroundColor: emotions[hoveredContinent].color }}
+                >
+                  클릭하여 상세 보기
                 </span>
-              </h3>
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed mb-3">
-              {emotions[hoveredContinent].description_ko}
-            </p>
-            <div className="flex items-center gap-2 text-xs">
-              <span
-                className="px-2 py-1 rounded-full text-white"
-                style={{ backgroundColor: emotions[hoveredContinent].color }}
-              >
-                클릭하여 상세 보기
-              </span>
-              <span className="text-gray-400">
-                {emotions[hoveredContinent].states?.length || 0}개 상태
-              </span>
+                <span className="text-gray-400">
+                  {emotions[hoveredContinent].states?.length || 0}개 감정 상태
+                </span>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Legend - 개선된 디자인 */}
-      <div className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-100 shadow-lg ${isMobile ? 'p-2' : 'p-3'}`}>
-        {isMobile ? (
-          <>
-            <button
-              onClick={() => setIsLegendExpanded(!isLegendExpanded)}
-              className="flex items-center gap-2 min-h-[44px] min-w-[44px] justify-center px-2"
-              aria-label={isLegendExpanded ? '범례 접기' : '범례 펼치기'}
-              aria-expanded={isLegendExpanded}
-            >
-              <div className="flex -space-x-1">
-                {emotionOrder.slice(0, 3).map((emotionId) => (
-                  <div
-                    key={emotionId}
-                    className="w-4 h-4 rounded-full border-2 border-white shadow-sm"
-                    style={{ backgroundColor: emotions[emotionId].color }}
-                  />
-                ))}
-              </div>
-              <motion.span
-                animate={{ rotate: isLegendExpanded ? 180 : 0 }}
-                className="text-gray-400 text-sm ml-1"
-              >
-                ▼
-              </motion.span>
-            </button>
-            <AnimatePresence>
-              {isLegendExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mt-2 pt-2 border-t border-gray-100"
-                >
-                  <div className="space-y-1">
-                    {emotionOrder.map((emotionId) => (
-                      <button
-                        key={emotionId}
-                        className="flex items-center space-x-3 w-full cursor-pointer active:bg-gray-50 rounded-lg px-2 py-2 min-h-[44px] transition-colors"
-                        onClick={() => {
-                          setHoveredContinent(emotionId);
-                          setTimeout(() => onContinentClick(emotionId), 300);
-                        }}
-                      >
-                        <div
-                          className="w-4 h-4 rounded-full shadow-sm flex-shrink-0"
-                          style={{ backgroundColor: emotions[emotionId].color }}
-                        />
-                        <span className="text-gray-700 text-sm font-medium">
-                          {emotions[emotionId].name_ko}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        ) : (
-          <>
-            <p className="text-gray-500 text-xs mb-3 font-semibold tracking-wide">감정 대륙</p>
-            <div className="space-y-1">
-              {emotionOrder.map((emotionId) => (
-                <div
-                  key={emotionId}
-                  className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 rounded-lg px-2 py-1.5 transition-all duration-200"
-                  onMouseEnter={() => setHoveredContinent(emotionId)}
-                  onMouseLeave={() => setHoveredContinent(null)}
-                  onClick={() => onContinentClick(emotionId)}
-                >
-                  <div
-                    className="w-3.5 h-3.5 rounded-full shadow-sm transition-transform duration-200"
-                    style={{
-                      backgroundColor: emotions[emotionId].color,
-                      transform: hoveredContinent === emotionId ? 'scale(1.3)' : 'scale(1)'
-                    }}
-                  />
-                  <span
-                    className="text-sm transition-colors duration-200"
-                    style={{
-                      color: hoveredContinent === emotionId ? emotions[emotionId].color : '#4B5563',
-                      fontWeight: hoveredContinent === emotionId ? 600 : 400
-                    }}
-                  >
-                    {emotions[emotionId].name_ko}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-
       {/* 안내 텍스트 */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center pb-2">
-        <p className="text-gray-400 text-xs">
-          {isMobile ? '감정을 탭하여 상세 보기' : '감정 위에 마우스를 올려보세요'}
-        </p>
-      </div>
+      <motion.p
+        className="mt-6 sm:mt-8 text-gray-400 text-center"
+        style={{ fontSize: '0.75rem' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+      >
+        {isMobile ? '감정 카드를 탭하여 상세 보기' : '감정 카드에 마우스를 올려보세요'}
+      </motion.p>
+
+      {/* 스타일 */}
+      <style>{`
+        .emotion-card-spread:focus {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.3);
+        }
+
+        @media (max-width: 639px) {
+          .emotion-selector-spread {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          /* 5번째 감정 (즐거움) 중앙 정렬 */
+          .emotion-card-spread:nth-child(5) {
+            grid-column: 1 / -1;
+            max-width: 200px;
+            justify-self: center;
+          }
+        }
+      `}</style>
     </div>
   );
 };

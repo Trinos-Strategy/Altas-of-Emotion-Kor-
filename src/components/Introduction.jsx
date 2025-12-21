@@ -416,21 +416,83 @@ const Introduction = ({ onNavigate }) => {
             </span>
           </h1>
 
-          {/* CTA Button */}
+          {/* CTA Button - Luxury Design */}
           <button
             onClick={() => onNavigate('triggers')}
-            className="hero-cta group inline-flex items-center gap-4 px-12 py-6 border border-black/15 hover:border-black hover:bg-black hover:text-white transition-all duration-500"
-            style={{ fontSize: '0.875rem', letterSpacing: '0.08em', minHeight: '48px' }}
+            className="hero-cta cta-button-luxury group"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '14px',
+              padding: '20px 44px',
+              background: 'linear-gradient(135deg, #00BCD4 0%, #0097A7 100%)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 24px rgba(0,188,212,0.35)',
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: '56px',
+              letterSpacing: '0.05em',
+            }}
           >
-            <span className="tracking-wider">탐험 시작</span>
-            <svg
-              className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            {/* Shine effect overlay */}
+            <span
+              className="shine-effect"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                transform: 'translateX(-100%)',
+                transition: 'transform 600ms ease',
+              }}
+            />
+            {/* Star Icon */}
+            <span className="button-icon" style={{ display: 'inline-flex' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  fill="none"
+                />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+              </svg>
+            </span>
+            <span className="button-text" style={{ position: 'relative', zIndex: 1 }}>탐험 시작</span>
+            <span
+              className="button-arrow"
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                transition: 'transform 400ms ease',
+                fontSize: '1.25rem',
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+              →
+            </span>
+            <style>{`
+              .cta-button-luxury:hover {
+                transform: translateY(-3px) scale(1.03) !important;
+                box-shadow: 0 10px 36px rgba(0,188,212,0.45) !important;
+              }
+              .cta-button-luxury:hover .shine-effect {
+                transform: translateX(100%) !important;
+              }
+              .cta-button-luxury:hover .button-arrow {
+                transform: translateX(5px) !important;
+              }
+              .cta-button-luxury .button-icon {
+                animation: rotate-pulse 3s ease-in-out infinite;
+              }
+              @keyframes rotate-pulse {
+                0%, 100% { transform: rotate(0deg) scale(1); }
+                50% { transform: rotate(8deg) scale(1.12); }
+              }
+            `}</style>
           </button>
         </div>
 
@@ -746,18 +808,58 @@ const Introduction = ({ onNavigate }) => {
 
           <button
             onClick={() => onNavigate('triggers')}
-            className="group inline-flex items-center gap-5 px-14 py-7 bg-black text-white hover:bg-black/85 transition-all duration-500"
-            style={{ fontSize: '0.875rem', minHeight: '48px' }}
+            className="cta-button-luxury-bottom group"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '14px',
+              padding: '22px 48px',
+              background: 'linear-gradient(135deg, #00BCD4 0%, #0097A7 100%)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 24px rgba(0,188,212,0.35)',
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: '60px',
+              letterSpacing: '0.05em',
+            }}
           >
-            <span className="tracking-[0.12em]">탐험 시작</span>
-            <svg
-              className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            <span
+              className="shine-effect-bottom"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                transform: 'translateX(-100%)',
+                transition: 'transform 600ms ease',
+              }}
+            />
+            <span style={{ display: 'inline-flex' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  fill="none"
+                />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+              </svg>
+            </span>
+            <span style={{ position: 'relative', zIndex: 1 }}>탐험 시작</span>
+            <span style={{ position: 'relative', zIndex: 1, fontSize: '1.25rem' }}>→</span>
+            <style>{`
+              .cta-button-luxury-bottom:hover {
+                transform: translateY(-3px) scale(1.03) !important;
+                box-shadow: 0 10px 36px rgba(0,188,212,0.45) !important;
+              }
+              .cta-button-luxury-bottom:hover .shine-effect-bottom {
+                transform: translateX(100%) !important;
+              }
+            `}</style>
           </button>
         </div>
       </section>
