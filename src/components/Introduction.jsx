@@ -393,15 +393,15 @@ const Introduction = ({ onNavigate }) => {
 
           /* 달라이 라마 인용문 - 핵심 모바일 최적화 */
           .quote-section {
-            padding: 48px 24px !important;
+            padding: 48px 32px !important;
           }
           .quote-text {
-            font-size: 1.25rem !important;
-            line-height: 1.7 !important;
+            font-size: 1.375rem !important;
+            line-height: 1.75 !important;
             margin-bottom: 2rem !important;
           }
           .quote-author {
-            font-size: 0.9375rem !important;
+            font-size: 1rem !important;
           }
 
           /* 감정 섹션 */
@@ -414,10 +414,10 @@ const Introduction = ({ onNavigate }) => {
             margin-bottom: 32px !important;
           }
           .emotion-icon-item p {
-            font-size: 0.875rem !important;
+            font-size: 0.9375rem !important;
           }
           .emotion-icon-item span {
-            font-size: 0.5rem !important;
+            font-size: 0.5625rem !important;
           }
           .emotion-card {
             padding: 24px 20px !important;
@@ -426,28 +426,33 @@ const Introduction = ({ onNavigate }) => {
           .emotion-card h3 {
             font-size: 1.5rem !important;
           }
+          .emotion-card p {
+            font-size: 0.9375rem !important;
+            line-height: 1.7 !important;
+          }
 
           /* 여정 섹션 */
           .journey-section {
             padding: 48px 20px !important;
           }
           .journey-title h2 {
-            font-size: 1.75rem !important;
+            font-size: 1.875rem !important;
             margin-bottom: 16px !important;
           }
           .journey-title > p {
-            font-size: 1rem !important;
-            line-height: 1.7 !important;
+            font-size: 1.0625rem !important;
+            line-height: 1.75 !important;
           }
           .journey-step {
             padding: 16px 0 !important;
             gap: 16px !important;
           }
           .journey-step h4 {
-            font-size: 1.25rem !important;
+            font-size: 1.375rem !important;
           }
           .journey-step p {
-            font-size: 0.9375rem !important;
+            font-size: 1rem !important;
+            line-height: 1.7 !important;
           }
 
           /* CTA 섹션 */
@@ -471,7 +476,8 @@ const Introduction = ({ onNavigate }) => {
             padding: 40px 20px !important;
           }
           footer p {
-            font-size: 0.875rem !important;
+            font-size: 0.9375rem !important;
+            line-height: 1.8 !important;
           }
         }
 
@@ -485,11 +491,11 @@ const Introduction = ({ onNavigate }) => {
           }
 
           .quote-section {
-            padding: 36px 16px !important;
+            padding: 36px 24px !important;
           }
           .quote-text {
-            font-size: 1.125rem !important;
-            line-height: 1.65 !important;
+            font-size: 1.1875rem !important;
+            line-height: 1.7 !important;
           }
 
           .emotion-icons-preview {
@@ -727,7 +733,7 @@ const Introduction = ({ onNavigate }) => {
       <section
         className="quote-section"
         style={{
-          padding: 'clamp(140px, 25vh, 350px) clamp(24px, 5vw, 120px)',
+          padding: 'clamp(140px, 25vh, 350px) clamp(24px, 4vw, 40px)',
           backgroundColor: 'var(--color-bg-dark)',
           color: 'white',
         }}

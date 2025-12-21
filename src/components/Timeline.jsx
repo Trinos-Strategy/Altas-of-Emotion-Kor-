@@ -327,7 +327,7 @@ const LearnMoreModal = ({ isOpen, onClose, emotion }) => {
             textAlign: 'center',
             background: 'linear-gradient(135deg, #f9fafb 0%, #fff 100%)'
           }}>
-            <p style={{ color: '#4b5563', fontSize: '18px', fontWeight: '300', fontFamily: 'Georgia, serif', lineHeight: '1.7', margin: 0 }}>
+            <p style={{ color: '#4b5563', fontSize: '22px', fontWeight: '300', fontFamily: 'Georgia, serif', lineHeight: '1.7', margin: 0 }}>
               "감정은 선택하지 않지만, <span style={{ color: '#111827', fontWeight: '500' }}>반응은 선택</span>할 수 있습니다."
             </p>
           </div>
@@ -498,7 +498,7 @@ const Timeline = ({ selectedEmotion }) => {
           viewport={{ once: true }}
         >
           <p
-            className="text-2xl md:text-3xl font-light mb-8"
+            className="text-3xl md:text-4xl font-light mb-8"
             style={{ fontFamily: 'Georgia, serif', color: 'rgba(255,255,255,0.6)' }}
           >
             "감정은 선택하지 않지만,<br />

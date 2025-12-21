@@ -258,10 +258,10 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
             border-radius: 16px !important;
           }
           .emotion-card-spread h3 {
-            font-size: 1rem !important;
+            font-size: 1.0625rem !important;
           }
           .emotion-card-spread span {
-            font-size: 0.5625rem !important;
+            font-size: 0.625rem !important;
           }
           .emotion-icon-large {
             font-size: 32px !important;
@@ -295,7 +295,10 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
             font-size: 28px !important;
           }
           .emotion-card-spread h3 {
-            font-size: 0.9375rem !important;
+            font-size: 1rem !important;
+          }
+          .emotion-card-spread span {
+            font-size: 0.5625rem !important;
           }
         }
       `}</style>
