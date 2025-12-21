@@ -360,168 +360,224 @@ const Introduction = ({ onNavigate }) => {
         @media (max-width: 768px) {
           /* 히어로 섹션 */
           .hero-section {
-            padding: 80px 20px 60px !important;
+            padding: 70px 20px 50px !important;
             min-height: auto !important;
           }
           .hero-title-line {
-            font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
-            line-height: 1.35 !important;
+            font-size: clamp(1.875rem, 8vw, 2.75rem) !important;
+            line-height: 1.4 !important;
           }
           .hero-subtitle {
-            margin-bottom: 24px !important;
+            margin-bottom: 20px !important;
+            font-size: 0.8125rem !important;
           }
           .cta-button-luxury {
-            padding: 16px 32px !important;
-            font-size: 1rem !important;
-            gap: 10px !important;
+            padding: 18px 36px !important;
+            font-size: 1.0625rem !important;
+            gap: 12px !important;
           }
           .scroll-indicator {
             display: none !important;
           }
 
-          /* 통계 섹션 */
+          /* 통계 섹션 - 간격 축소 */
           .stats-section {
-            padding: 48px 20px !important;
+            padding: 40px 20px !important;
           }
           .stat-item {
             text-align: center !important;
           }
           .stat-number {
-            font-size: clamp(2.5rem, 12vw, 4rem) !important;
-            margin-bottom: 0.75rem !important;
+            font-size: clamp(2.75rem, 14vw, 4.5rem) !important;
+            margin-bottom: 0.5rem !important;
+          }
+          .stat-item p {
+            font-size: 1.0625rem !important;
           }
 
-          /* 달라이 라마 인용문 - 핵심 모바일 최적화 */
+          /* 달라이 라마 인용문 - 간격 축소 & 텍스트 증가 */
           .quote-section {
-            padding: 48px 32px !important;
+            padding: 40px 20px !important;
           }
           .quote-text {
-            font-size: 1.375rem !important;
-            line-height: 1.75 !important;
-            margin-bottom: 2rem !important;
+            font-size: 1.5rem !important;
+            line-height: 1.8 !important;
+            margin-bottom: 1.5rem !important;
           }
           .quote-author {
-            font-size: 1rem !important;
+            font-size: 1.0625rem !important;
           }
 
-          /* 감정 섹션 */
+          /* 감정 섹션 - 간격 축소 */
           .emotions-section {
-            padding: 48px 20px !important;
+            padding: 40px 20px !important;
           }
           .emotion-icons-preview {
             grid-template-columns: repeat(3, 1fr) !important;
-            gap: 16px !important;
-            margin-bottom: 32px !important;
+            gap: 14px !important;
+            margin-bottom: 28px !important;
+          }
+          .emotion-icon-item p {
+            font-size: 1rem !important;
+          }
+          .emotion-icon-item span {
+            font-size: 0.625rem !important;
+          }
+          .emotion-card {
+            padding: 22px 18px !important;
+            min-height: 180px !important;
+          }
+          .emotion-card h3 {
+            font-size: 1.625rem !important;
+          }
+          .emotion-card p {
+            font-size: 1rem !important;
+            line-height: 1.75 !important;
+          }
+
+          /* 여정 섹션 - 간격 축소 */
+          .journey-section {
+            padding: 40px 20px !important;
+          }
+          .journey-title h2 {
+            font-size: 2rem !important;
+            margin-bottom: 14px !important;
+          }
+          .journey-title > p {
+            font-size: 1.125rem !important;
+            line-height: 1.8 !important;
+          }
+          .journey-step {
+            padding: 14px 0 !important;
+            gap: 14px !important;
+          }
+          .journey-step h4 {
+            font-size: 1.5rem !important;
+          }
+          .journey-step p {
+            font-size: 1.0625rem !important;
+            line-height: 1.75 !important;
+          }
+
+          /* CTA 섹션 - 간격 축소 */
+          .cta-section {
+            padding: 50px 20px !important;
+          }
+          .cta-content h2 {
+            font-size: 1.875rem !important;
+            margin-bottom: 14px !important;
+          }
+          .cta-content > p {
+            font-size: 1.0625rem !important;
+            margin-bottom: 20px !important;
+          }
+          .cta-button-luxury-bottom {
+            padding: 18px 36px !important;
+            font-size: 1.0625rem !important;
+          }
+
+          /* 푸터 - 간격 축소 */
+          footer {
+            padding: 36px 20px !important;
+          }
+          footer p {
+            font-size: 1rem !important;
+            line-height: 1.85 !important;
+          }
+        }
+
+        /* 작은 모바일 (480px 이하) - 375px, 390px, 414px 최적화 */
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 56px 16px 40px !important;
+          }
+          .hero-title-line {
+            font-size: 1.625rem !important;
+            line-height: 1.45 !important;
+          }
+          .hero-subtitle {
+            font-size: 0.75rem !important;
+          }
+
+          .quote-section {
+            padding: 32px 16px !important;
+          }
+          .quote-text {
+            font-size: 1.3125rem !important;
+            line-height: 1.75 !important;
+          }
+          .quote-author {
+            font-size: 0.9375rem !important;
+          }
+
+          .emotion-icons-preview {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 10px !important;
+          }
+          .icon-circle {
+            width: 52px !important;
+            height: 52px !important;
+            font-size: 26px !important;
           }
           .emotion-icon-item p {
             font-size: 0.9375rem !important;
           }
-          .emotion-icon-item span {
-            font-size: 0.5625rem !important;
+
+          .stats-section {
+            padding: 32px 16px !important;
+          }
+          .stat-number {
+            font-size: clamp(2.5rem, 13vw, 4rem) !important;
+          }
+          .stat-item p {
+            font-size: 1rem !important;
+          }
+
+          .emotions-section {
+            padding: 32px 16px !important;
           }
           .emotion-card {
-            padding: 24px 20px !important;
-            min-height: 200px !important;
+            padding: 20px 16px !important;
+            min-height: 160px !important;
           }
           .emotion-card h3 {
             font-size: 1.5rem !important;
           }
           .emotion-card p {
             font-size: 0.9375rem !important;
-            line-height: 1.7 !important;
           }
 
-          /* 여정 섹션 */
           .journey-section {
-            padding: 48px 20px !important;
+            padding: 32px 16px !important;
           }
           .journey-title h2 {
-            font-size: 1.875rem !important;
-            margin-bottom: 16px !important;
+            font-size: 1.75rem !important;
           }
           .journey-title > p {
             font-size: 1.0625rem !important;
-            line-height: 1.75 !important;
-          }
-          .journey-step {
-            padding: 16px 0 !important;
-            gap: 16px !important;
           }
           .journey-step h4 {
             font-size: 1.375rem !important;
           }
           .journey-step p {
             font-size: 1rem !important;
-            line-height: 1.7 !important;
           }
 
-          /* CTA 섹션 */
           .cta-section {
-            padding: 60px 20px !important;
+            padding: 40px 16px !important;
           }
           .cta-content h2 {
-            font-size: 1.75rem !important;
-            margin-bottom: 16px !important;
+            font-size: 1.625rem !important;
           }
           .cta-content > p {
-            margin-bottom: 24px !important;
-          }
-          .cta-button-luxury-bottom {
-            padding: 16px 32px !important;
             font-size: 1rem !important;
           }
 
-          /* 푸터 */
           footer {
-            padding: 40px 20px !important;
+            padding: 28px 16px !important;
           }
           footer p {
             font-size: 0.9375rem !important;
-            line-height: 1.8 !important;
-          }
-        }
-
-        /* 작은 모바일 (480px 이하) */
-        @media (max-width: 480px) {
-          .hero-section {
-            padding: 60px 16px 48px !important;
-          }
-          .hero-title-line {
-            font-size: 1.5rem !important;
-          }
-
-          .quote-section {
-            padding: 36px 24px !important;
-          }
-          .quote-text {
-            font-size: 1.1875rem !important;
-            line-height: 1.7 !important;
-          }
-
-          .emotion-icons-preview {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 12px !important;
-          }
-          .icon-circle {
-            width: 48px !important;
-            height: 48px !important;
-            font-size: 24px !important;
-          }
-
-          .stats-section {
-            padding: 36px 16px !important;
-          }
-
-          .journey-section {
-            padding: 36px 16px !important;
-          }
-
-          .cta-section {
-            padding: 48px 16px !important;
-          }
-
-          footer {
-            padding: 32px 16px !important;
           }
         }
       `}</style>
@@ -733,7 +789,7 @@ const Introduction = ({ onNavigate }) => {
       <section
         className="quote-section"
         style={{
-          padding: 'clamp(140px, 25vh, 350px) clamp(24px, 4vw, 40px)',
+          padding: 'clamp(100px, 18vh, 280px) clamp(20px, 3vw, 32px)',
           backgroundColor: 'var(--color-bg-dark)',
           color: 'white',
         }}
