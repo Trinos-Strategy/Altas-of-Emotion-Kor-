@@ -238,11 +238,34 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
         {isMobile ? '감정 카드를 탭하여 상세 보기' : '감정 카드에 마우스를 올려보세요'}
       </motion.p>
 
-      {/* 스타일 */}
+      {/* 스타일 - 모바일 최적화 강화 */}
       <style>{`
         .emotion-card-spread:focus {
           outline: none;
           box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.3);
+        }
+
+        /* 태블릿 & 모바일 (768px 이하) */
+        @media (max-width: 768px) {
+          .emotion-selector-spread {
+            gap: 12px !important;
+            padding: 12px !important;
+          }
+          .emotion-card-spread {
+            padding: 16px 10px !important;
+            min-height: 110px !important;
+            gap: 8px !important;
+            border-radius: 16px !important;
+          }
+          .emotion-card-spread h3 {
+            font-size: 1rem !important;
+          }
+          .emotion-card-spread span {
+            font-size: 0.5625rem !important;
+          }
+          .emotion-icon-large {
+            font-size: 32px !important;
+          }
         }
 
         @media (max-width: 639px) {
@@ -252,8 +275,27 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
           /* 5번째 감정 (즐거움) 중앙 정렬 */
           .emotion-card-spread:nth-child(5) {
             grid-column: 1 / -1;
-            max-width: 200px;
+            max-width: 180px;
             justify-self: center;
+          }
+        }
+
+        /* 작은 모바일 (480px 이하) */
+        @media (max-width: 480px) {
+          .emotion-selector-spread {
+            gap: 10px !important;
+            padding: 8px !important;
+          }
+          .emotion-card-spread {
+            padding: 14px 8px !important;
+            min-height: 100px !important;
+            border-radius: 14px !important;
+          }
+          .emotion-icon-large {
+            font-size: 28px !important;
+          }
+          .emotion-card-spread h3 {
+            font-size: 0.9375rem !important;
           }
         }
       `}</style>

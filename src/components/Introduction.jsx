@@ -354,6 +354,171 @@ const Introduction = ({ onNavigate }) => {
         lineHeight: 1.8,
       }}
     >
+      {/* ============ 글로벌 모바일 최적화 스타일 ============ */}
+      <style>{`
+        /* 모바일 최적화 (768px 이하) */
+        @media (max-width: 768px) {
+          /* 히어로 섹션 */
+          .hero-section {
+            padding: 80px 20px 60px !important;
+            min-height: auto !important;
+          }
+          .hero-title-line {
+            font-size: clamp(1.75rem, 7vw, 2.5rem) !important;
+            line-height: 1.35 !important;
+          }
+          .hero-subtitle {
+            margin-bottom: 24px !important;
+          }
+          .cta-button-luxury {
+            padding: 16px 32px !important;
+            font-size: 1rem !important;
+            gap: 10px !important;
+          }
+          .scroll-indicator {
+            display: none !important;
+          }
+
+          /* 통계 섹션 */
+          .stats-section {
+            padding: 48px 20px !important;
+          }
+          .stat-item {
+            text-align: center !important;
+          }
+          .stat-number {
+            font-size: clamp(2.5rem, 12vw, 4rem) !important;
+            margin-bottom: 0.75rem !important;
+          }
+
+          /* 달라이 라마 인용문 - 핵심 모바일 최적화 */
+          .quote-section {
+            padding: 48px 24px !important;
+          }
+          .quote-text {
+            font-size: 1.25rem !important;
+            line-height: 1.7 !important;
+            margin-bottom: 2rem !important;
+          }
+          .quote-author {
+            font-size: 0.9375rem !important;
+          }
+
+          /* 감정 섹션 */
+          .emotions-section {
+            padding: 48px 20px !important;
+          }
+          .emotion-icons-preview {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 16px !important;
+            margin-bottom: 32px !important;
+          }
+          .emotion-icon-item p {
+            font-size: 0.875rem !important;
+          }
+          .emotion-icon-item span {
+            font-size: 0.5rem !important;
+          }
+          .emotion-card {
+            padding: 24px 20px !important;
+            min-height: 200px !important;
+          }
+          .emotion-card h3 {
+            font-size: 1.5rem !important;
+          }
+
+          /* 여정 섹션 */
+          .journey-section {
+            padding: 48px 20px !important;
+          }
+          .journey-title h2 {
+            font-size: 1.75rem !important;
+            margin-bottom: 16px !important;
+          }
+          .journey-title > p {
+            font-size: 1rem !important;
+            line-height: 1.7 !important;
+          }
+          .journey-step {
+            padding: 16px 0 !important;
+            gap: 16px !important;
+          }
+          .journey-step h4 {
+            font-size: 1.25rem !important;
+          }
+          .journey-step p {
+            font-size: 0.9375rem !important;
+          }
+
+          /* CTA 섹션 */
+          .cta-section {
+            padding: 60px 20px !important;
+          }
+          .cta-content h2 {
+            font-size: 1.75rem !important;
+            margin-bottom: 16px !important;
+          }
+          .cta-content > p {
+            margin-bottom: 24px !important;
+          }
+          .cta-button-luxury-bottom {
+            padding: 16px 32px !important;
+            font-size: 1rem !important;
+          }
+
+          /* 푸터 */
+          footer {
+            padding: 40px 20px !important;
+          }
+          footer p {
+            font-size: 0.875rem !important;
+          }
+        }
+
+        /* 작은 모바일 (480px 이하) */
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 60px 16px 48px !important;
+          }
+          .hero-title-line {
+            font-size: 1.5rem !important;
+          }
+
+          .quote-section {
+            padding: 36px 16px !important;
+          }
+          .quote-text {
+            font-size: 1.125rem !important;
+            line-height: 1.65 !important;
+          }
+
+          .emotion-icons-preview {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 12px !important;
+          }
+          .icon-circle {
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 24px !important;
+          }
+
+          .stats-section {
+            padding: 36px 16px !important;
+          }
+
+          .journey-section {
+            padding: 36px 16px !important;
+          }
+
+          .cta-section {
+            padding: 48px 16px !important;
+          }
+
+          footer {
+            padding: 32px 16px !important;
+          }
+        }
+      `}</style>
       {/* 햄버거 메뉴 버튼 */}
       <button
         onClick={() => setMenuOpen(true)}
