@@ -395,17 +395,17 @@ const Introduction = ({ onNavigate }) => {
             font-size: 1.0625rem !important;
           }
 
-          /* 달라이 라마 인용문 - 간격 축소 & 텍스트 증가 */
+          /* 달라이 라마 인용문 - 좌우 padding 최소화 & 텍스트 증가 */
           .quote-section {
-            padding: 40px 20px !important;
+            padding: 56px 16px !important;
           }
           .quote-text {
-            font-size: 1.5rem !important;
-            line-height: 1.8 !important;
+            font-size: 1.625rem !important;
+            line-height: 1.85 !important;
             margin-bottom: 1.5rem !important;
           }
           .quote-author {
-            font-size: 1.0625rem !important;
+            font-size: 1.125rem !important;
           }
 
           /* 감정 섹션 - 간격 축소 */
@@ -500,14 +500,14 @@ const Introduction = ({ onNavigate }) => {
           }
 
           .quote-section {
-            padding: 32px 16px !important;
+            padding: 48px 16px !important;
           }
           .quote-text {
-            font-size: 1.3125rem !important;
-            line-height: 1.75 !important;
+            font-size: 1.5rem !important;
+            line-height: 1.8 !important;
           }
           .quote-author {
-            font-size: 0.9375rem !important;
+            font-size: 1rem !important;
           }
 
           .emotion-icons-preview {
