@@ -5,7 +5,7 @@ import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 감정 데이터
+// 감정 데이터 - 한국어 중심, 영문은 병기용으로만 사용
 const emotions = [
   {
     id: 'anger',
@@ -201,12 +201,12 @@ const Introduction = ({ onNavigate }) => {
         style={{ padding: 'clamp(80px, 15vh, 200px) clamp(24px, 5vw, 120px)' }}
       >
         <div className="max-w-[1200px] w-full mx-auto text-center">
-          {/* Subtitle */}
+          {/* Subtitle - 한국어 중심 */}
           <p
-            className="hero-subtitle text-black/40 uppercase tracking-[0.3em] mb-8"
+            className="hero-subtitle text-black/40 tracking-[0.2em] mb-8"
             style={{ fontSize: 'clamp(0.625rem, 1vw, 0.75rem)' }}
           >
-            Atlas of Emotions
+            감정 지도 한국어판
           </p>
 
           {/* Main Title */}
@@ -237,9 +237,9 @@ const Introduction = ({ onNavigate }) => {
           <button
             onClick={() => onNavigate('triggers')}
             className="hero-cta group inline-flex items-center gap-4 px-10 py-5 border border-black/20 hover:border-black hover:bg-black hover:text-white transition-all duration-500"
-            style={{ fontSize: '0.875rem', letterSpacing: '0.1em' }}
+            style={{ fontSize: '0.875rem', letterSpacing: '0.05em' }}
           >
-            <span className="uppercase tracking-wider">탐험 시작</span>
+            <span className="tracking-wider">탐험 시작</span>
             <svg
               className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
               fill="none"
@@ -254,10 +254,10 @@ const Introduction = ({ onNavigate }) => {
         {/* Scroll Indicator */}
         <div className="scroll-indicator absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
           <span
-            className="text-black/30 uppercase tracking-[0.2em]"
+            className="text-black/30 tracking-[0.1em]"
             style={{ fontSize: '0.625rem' }}
           >
-            Scroll
+            스크롤
           </span>
           <div className="w-px h-12 bg-black/20 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1/2 bg-black/60 animate-pulse"
@@ -302,7 +302,7 @@ const Introduction = ({ onNavigate }) => {
                   0{stat.suffix}
                 </div>
                 <p
-                  className="text-black/50 uppercase tracking-[0.15em]"
+                  className="text-black/50 tracking-[0.1em]"
                   style={{ fontSize: '0.75rem' }}
                 >
                   {stat.label}
@@ -333,7 +333,7 @@ const Introduction = ({ onNavigate }) => {
             더 깊은 이해와 통제력을 얻으세요
           </blockquote>
           <cite
-            className="quote-author text-white/50 not-italic tracking-[0.1em]"
+            className="quote-author text-white/50 not-italic tracking-[0.05em]"
             style={{ fontSize: '0.875rem' }}
           >
             — 달라이 라마 & 폴 에크만 박사
@@ -347,13 +347,13 @@ const Introduction = ({ onNavigate }) => {
         style={{ padding: 'clamp(100px, 20vh, 250px) clamp(24px, 5vw, 120px)' }}
       >
         <div className="max-w-[1200px] mx-auto">
-          {/* Section Header */}
+          {/* Section Header - 한국어 중심 */}
           <div className="mb-16 md:mb-24">
             <p
-              className="text-black/40 uppercase tracking-[0.3em] mb-4"
+              className="text-black/40 tracking-[0.2em] mb-4"
               style={{ fontSize: '0.625rem' }}
             >
-              Five Universal Emotions
+              다섯 가지 보편적 감정
             </p>
             <h2
               style={{
@@ -361,7 +361,7 @@ const Introduction = ({ onNavigate }) => {
                 fontWeight: 300,
               }}
             >
-              다섯 가지 보편적 감정
+              인류가 공유하는 감정의 언어
             </h2>
           </div>
 
@@ -390,8 +390,9 @@ const Introduction = ({ onNavigate }) => {
                   0{index + 1}
                 </span>
 
+                {/* 감정명 - 한국어 중심, 영문은 작게 병기 */}
                 <h3
-                  className="mb-3"
+                  className="mb-2"
                   style={{
                     fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                     fontWeight: 300,
@@ -400,14 +401,16 @@ const Introduction = ({ onNavigate }) => {
                   {emotion.name}
                 </h3>
 
+                {/* 영문 병기 - 작은 글씨로 */}
                 <p
-                  className="uppercase tracking-[0.15em] mb-6 transition-colors duration-500"
+                  className="mb-6 transition-colors duration-500"
                   style={{
-                    fontSize: '0.625rem',
-                    opacity: hoveredEmotion === emotion.id ? 0.7 : 0.4,
+                    fontSize: '0.6rem',
+                    opacity: hoveredEmotion === emotion.id ? 0.6 : 0.35,
+                    letterSpacing: '0.05em',
                   }}
                 >
-                  {emotion.nameEn}
+                  ({emotion.nameEn})
                 </p>
 
                 <p
@@ -451,10 +454,10 @@ const Introduction = ({ onNavigate }) => {
             {/* Left: Text */}
             <div>
               <p
-                className="text-black/40 uppercase tracking-[0.3em] mb-4"
+                className="text-black/40 tracking-[0.2em] mb-4"
                 style={{ fontSize: '0.625rem' }}
               >
-                The Journey
+                탐험의 여정
               </p>
               <h2
                 className="mb-8"
@@ -480,10 +483,10 @@ const Introduction = ({ onNavigate }) => {
             {/* Right: Steps */}
             <div className="space-y-0">
               {[
-                { num: '01', title: '트리거', desc: '감정의 시작점' },
-                { num: '02', title: '경험', desc: '강도의 스펙트럼' },
-                { num: '03', title: '반응', desc: '행동의 선택' },
-                { num: '04', title: '해독제', desc: '균형의 전략' },
+                { num: '01', title: '트리거', titleEn: 'Trigger', desc: '감정의 시작점' },
+                { num: '02', title: '경험', titleEn: 'Experience', desc: '강도의 스펙트럼' },
+                { num: '03', title: '반응', titleEn: 'Response', desc: '행동의 선택' },
+                { num: '04', title: '해독제', titleEn: 'Antidote', desc: '균형의 전략' },
               ].map((step, index) => (
                 <div
                   key={step.num}
@@ -498,10 +501,16 @@ const Introduction = ({ onNavigate }) => {
                   </span>
                   <div>
                     <h4
-                      className="mb-1"
+                      className="mb-1 flex items-baseline gap-2"
                       style={{ fontSize: '1.25rem', fontWeight: 400 }}
                     >
                       {step.title}
+                      <span
+                        className="text-black/30"
+                        style={{ fontSize: '0.6rem', fontWeight: 400 }}
+                      >
+                        ({step.titleEn})
+                      </span>
                     </h4>
                     <p className="text-black/50" style={{ fontSize: '0.875rem' }}>
                       {step.desc}
@@ -545,7 +554,7 @@ const Introduction = ({ onNavigate }) => {
             className="group inline-flex items-center gap-4 px-12 py-6 bg-black text-white hover:bg-black/80 transition-all duration-500"
             style={{ fontSize: '0.875rem' }}
           >
-            <span className="uppercase tracking-[0.15em]">탐험 시작</span>
+            <span className="tracking-[0.1em]">탐험 시작</span>
             <svg
               className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
               fill="none"
@@ -558,29 +567,57 @@ const Introduction = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ============ FOOTER ============ */}
+      {/* ============ FOOTER - 저작권 표시 강화 ============ */}
       <footer
         style={{
-          padding: '3rem clamp(24px, 5vw, 120px)',
+          padding: 'clamp(48px, 8vh, 80px) clamp(24px, 5vw, 120px)',
           borderTop: '1px solid rgba(0,0,0,0.08)',
+          backgroundColor: '#FAFAFA',
         }}
       >
-        <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <p
-            className="text-black/40 uppercase tracking-[0.15em]"
-            style={{ fontSize: '0.625rem' }}
+        <div className="max-w-[1200px] mx-auto">
+          {/* 상단: 브랜드 및 링크 */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+            <div className="text-center md:text-left">
+              <p
+                className="text-black/60 mb-1"
+                style={{ fontSize: '0.875rem' }}
+              >
+                감정 지도 한국어판
+              </p>
+              <p
+                className="text-black/40"
+                style={{ fontSize: '0.625rem' }}
+              >
+                © 트리노스 전략연구소
+              </p>
+            </div>
+            <a
+              href="https://atlasofemotions.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black/40 hover:text-black transition-colors"
+              style={{ fontSize: '0.75rem' }}
+            >
+              원본 프로젝트: The Ekmans' Atlas of Emotions →
+            </a>
+          </div>
+
+          {/* 하단: 저작권 고지 */}
+          <div
+            className="pt-6 text-center"
+            style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}
           >
-            © Atlas of Emotions
-          </p>
-          <a
-            href="https://atlasofemotions.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black/40 hover:text-black transition-colors uppercase tracking-[0.1em]"
-            style={{ fontSize: '0.625rem' }}
-          >
-            Original Project →
-          </a>
+            <p
+              className="text-black/40 leading-relaxed max-w-2xl mx-auto"
+              style={{ fontSize: '0.6875rem', lineHeight: 1.8 }}
+            >
+              본 사이트는 Paul Ekman 박사와 Eve Ekman의 "Atlas of Emotions" 연구를
+              한국어로 번역하여 제공하는 비영리 교육 프로젝트입니다.
+              <br />
+              원본 영문 컨텐츠의 모든 저작권은 원저작자에게 있습니다.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
