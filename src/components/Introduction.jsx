@@ -408,31 +408,38 @@ const Introduction = ({ onNavigate }) => {
             font-size: 1.125rem !important;
           }
 
-          /* 감정 섹션 - 간격 축소 */
+          /* 감정 섹션 - 간격 축소 & 겹침 방지 */
           .emotions-section {
-            padding: 40px 20px !important;
+            padding: 40px 16px !important;
           }
           .emotion-icons-preview {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 14px !important;
-            margin-bottom: 28px !important;
+            gap: 12px !important;
+            margin-bottom: 24px !important;
+          }
+          .emotion-icon-item {
+            gap: 6px !important;
           }
           .emotion-icon-item p {
-            font-size: 1rem !important;
+            font-size: 0.9375rem !important;
           }
           .emotion-icon-item span {
-            font-size: 0.625rem !important;
+            font-size: 0.5625rem !important;
+          }
+          .icon-circle {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 28px !important;
           }
           .emotion-card {
-            padding: 22px 18px !important;
-            min-height: 180px !important;
+            padding: 20px 16px !important;
+            min-height: 160px !important;
           }
           .emotion-card h3 {
-            font-size: 1.625rem !important;
+            font-size: 1.5rem !important;
           }
           .emotion-card p {
-            font-size: 1rem !important;
-            line-height: 1.75 !important;
+            font-size: 0.9375rem !important;
+            line-height: 1.7 !important;
           }
 
           /* 여정 섹션 - 간격 축소 */
@@ -511,40 +518,47 @@ const Introduction = ({ onNavigate }) => {
           }
 
           .emotion-icons-preview {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 10px !important;
+            gap: 8px !important;
+            margin-bottom: 20px !important;
           }
           .icon-circle {
-            width: 52px !important;
-            height: 52px !important;
-            font-size: 26px !important;
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 24px !important;
+          }
+          .emotion-icon-item {
+            gap: 4px !important;
           }
           .emotion-icon-item p {
-            font-size: 0.9375rem !important;
+            font-size: 0.875rem !important;
+          }
+          .emotion-icon-item span {
+            font-size: 0.5rem !important;
           }
 
           .stats-section {
-            padding: 32px 16px !important;
+            padding: 28px 16px !important;
           }
           .stat-number {
-            font-size: clamp(2.5rem, 13vw, 4rem) !important;
+            font-size: clamp(2.25rem, 12vw, 3.5rem) !important;
           }
           .stat-item p {
-            font-size: 1rem !important;
+            font-size: 0.9375rem !important;
           }
 
           .emotions-section {
-            padding: 32px 16px !important;
+            padding: 28px 16px !important;
           }
           .emotion-card {
-            padding: 20px 16px !important;
-            min-height: 160px !important;
+            padding: 18px 14px !important;
+            min-height: 140px !important;
           }
           .emotion-card h3 {
-            font-size: 1.5rem !important;
+            font-size: 1.375rem !important;
           }
           .emotion-card p {
-            font-size: 0.9375rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.65 !important;
           }
 
           .journey-section {
@@ -853,10 +867,10 @@ const Introduction = ({ onNavigate }) => {
             </h2>
           </div>
 
-          {/* 감정 아이콘 프리뷰 그리드 */}
+          {/* 감정 아이콘 프리뷰 그리드 - 반응형 겹침 방지 */}
           <div
-            className="emotion-icons-preview grid grid-cols-5 gap-6 md:gap-10 mb-16 md:mb-24"
-            style={{ maxWidth: '700px', margin: '0 auto 4rem' }}
+            className="emotion-icons-preview grid grid-cols-3 sm:grid-cols-5 gap-4 sm:gap-6 md:gap-10 mb-12 md:mb-24"
+            style={{ maxWidth: '700px', margin: '0 auto 3rem' }}
           >
             {[
               { emoji: '😠', name: '분노', nameEn: 'Anger', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #C92A2A 100%)' },
@@ -903,10 +917,10 @@ const Introduction = ({ onNavigate }) => {
             ))}
           </div>
 
-          {/* Emotions Grid - 상세 카드 */}
+          {/* Emotions Grid - 상세 카드 (반응형 겹침 방지) */}
           <div
-            className="grid md:grid-cols-5 gap-4 md:gap-6"
-            style={{ marginTop: 'clamp(48px, 8vh, 100px)' }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"
+            style={{ marginTop: 'clamp(32px, 6vh, 80px)' }}
           >
             {emotions.map((emotion, index) => (
               <motion.div

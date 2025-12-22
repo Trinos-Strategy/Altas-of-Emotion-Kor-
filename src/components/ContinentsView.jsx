@@ -48,14 +48,12 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
         </h2>
       </motion.div>
 
-      {/* 감정 선택 펼침 그리드 - 겹침 완전 제거 */}
+      {/* 감정 선택 펼침 그리드 - 겹침 완전 제거 & 반응형 강화 */}
       <div
-        className="emotion-selector-spread w-full max-w-[900px]"
+        className="emotion-selector-spread w-full max-w-[900px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5"
         style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
-          gap: isMobile ? '16px' : '20px',
-          padding: isMobile ? '16px' : '24px',
+          gap: isMobile ? '12px' : '20px',
+          padding: isMobile ? '12px' : '24px',
         }}
       >
         {emotionOrder.map((emotionId, index) => {
@@ -271,12 +269,27 @@ const ContinentsView = ({ onContinentClick, hoveredContinent, setHoveredContinen
         @media (max-width: 639px) {
           .emotion-selector-spread {
             grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
           }
           /* 5번째 감정 (즐거움) 중앙 정렬 */
           .emotion-card-spread:nth-child(5) {
             grid-column: 1 / -1;
-            max-width: 180px;
+            max-width: 160px;
             justify-self: center;
+          }
+        }
+
+        /* 중간 화면 (640px - 767px) - 3열 그리드 */
+        @media (min-width: 640px) and (max-width: 767px) {
+          .emotion-selector-spread {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 14px !important;
+          }
+          /* 마지막 2개 감정 중앙 정렬 */
+          .emotion-card-spread:nth-child(4),
+          .emotion-card-spread:nth-child(5) {
+            justify-self: center;
+            max-width: 160px;
           }
         }
 
