@@ -166,11 +166,16 @@
   --ease-in-out-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-  /* Duration tokens */
+  /* Duration tokens - optimized for smooth transitions */
   --duration-fast: 200ms;
+  --duration-medium: 300ms;
   --duration-normal: 400ms;
-  --duration-slow: 600ms;
-  --duration-slower: 800ms;
+  --duration-slow: 500ms;
+  --duration-slower: 600ms;
+
+  /* Premium animation easing for modern feel */
+  --ease-premium: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-bounce-subtle: cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 /* ============================================
@@ -1069,5 +1074,119 @@ p {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   Safe Area Insets (for notched devices)
+   ============================================ */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+.safe-area-inset {
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+}
+
+/* ============================================
+   Mobile Touch Interaction Improvements
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover effects on touch devices */
+  .card:hover,
+  .card-neo:hover,
+  .bento-card:hover,
+  .guidance-card:hover {
+    transform: none;
+  }
+
+  /* Larger touch targets */
+  button,
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Active states instead of hover */
+  .card:active {
+    transform: scale(0.98);
+  }
+
+  .guidance-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
+  }
+}
+
+/* ============================================
+   Collapsible Info Panel Styles
+   ============================================ */
+.info-panel-collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease-out-expo), padding 0.4s var(--ease-out-expo);
+}
+
+.info-panel-collapsible.expanded {
+  max-height: 500px;
+}
+
+.info-panel-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.info-panel-toggle-icon {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+.info-panel-toggle-icon.expanded {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   Mobile Navigation Improvements
+   ============================================ */
+@media (max-width: 640px) {
+  /* Improved touch scrolling */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .overflow-x-auto > * {
+    scroll-snap-align: center;
+  }
+
+  /* Mobile-optimized spacing */
+  .mobile-compact {
+    padding: var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  /* Full-width mobile buttons */
+  .mobile-full-width {
+    width: 100%;
+    display: flex;
   }
 }

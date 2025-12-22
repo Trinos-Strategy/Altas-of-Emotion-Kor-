@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions } from '../data/emotions';
 
@@ -33,8 +33,17 @@ const getIntensity = (actionName) => ACTION_INTENSITIES[actionName?.toUpperCase(
 const Response = ({ selectedEmotion }) => {
   const [selectedAction, setSelectedAction] = useState(null);
   const [showActionTypes, setShowActionTypes] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const currentEmotion = selectedEmotion ? emotions[selectedEmotion] : emotions.enjoyment;
   const intrinsicActions = currentEmotion.actions.filter(a => a.type === 'intrinsic');
@@ -43,25 +52,25 @@ const Response = ({ selectedEmotion }) => {
   return (
     <section
       ref={sectionRef}
-      style={{ minHeight: '100vh', padding: '80px 32px 120px', backgroundColor: '#fafafa' }}
+      style={{ minHeight: '100vh', padding: isMobile ? '80px 16px 120px' : '80px 32px 120px', backgroundColor: '#fafafa' }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* 헤더 */}
         <motion.header
-          style={{ textAlign: 'center', marginBottom: '64px' }}
+          style={{ textAlign: 'center', marginBottom: isMobile ? '40px' : '64px' }}
           initial={{ opacity: 0, y: -30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
         >
           <h2 style={{
-            fontSize: '48px',
+            fontSize: isMobile ? '32px' : '48px',
             fontWeight: '800',
             color: '#1a1a1a',
-            marginBottom: '20px'
+            marginBottom: isMobile ? '12px' : '20px'
           }}>
             감정 반응
           </h2>
           <p style={{
-            fontSize: '20px',
+            fontSize: isMobile ? '16px' : '20px',
             color: '#666',
             lineHeight: '1.7',
             maxWidth: '600px',
@@ -73,33 +82,34 @@ const Response = ({ selectedEmotion }) => {
           </p>
         </motion.header>
 
-        {/* 강도 범례 - 확대됨 */}
+        {/* 강도 범례 - 모바일에서 축소 */}
         <motion.div
           style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '48px',
-            marginBottom: '48px',
-            padding: '24px 40px',
+            gap: isMobile ? '16px' : '48px',
+            marginBottom: isMobile ? '32px' : '48px',
+            padding: isMobile ? '16px 12px' : '24px 40px',
             backgroundColor: '#fff',
-            borderRadius: '20px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+            borderRadius: isMobile ? '16px' : '20px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            flexWrap: isMobile ? 'wrap' : 'nowrap'
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2 }}
         >
           {Object.entries(INTENSITY_SIZES).map(([key, { size, label }]) => (
-            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '16px' }}>
               <div style={{
-                width: `${size}px`,
-                height: `${size}px`,
+                width: `${isMobile ? size * 0.6 : size}px`,
+                height: `${isMobile ? size * 0.6 : size}px`,
                 borderRadius: '50%',
                 background: `radial-gradient(circle at 30% 30%, ${currentEmotion.colorLight}, ${currentEmotion.color})`,
-                boxShadow: `0 6px 20px ${currentEmotion.color}40`
+                boxShadow: `0 ${isMobile ? 3 : 6}px ${isMobile ? 10 : 20}px ${currentEmotion.color}40`
               }} />
               <span style={{
-                fontSize: '18px',
+                fontSize: isMobile ? '13px' : '18px',
                 fontWeight: '600',
                 color: '#333'
               }}>
@@ -109,12 +119,12 @@ const Response = ({ selectedEmotion }) => {
           ))}
         </motion.div>
 
-        {/* 중앙 감정 원 - 3배 확대 */}
+        {/* 중앙 감정 원 - 모바일에서 축소 */}
         <motion.div
           style={{
             display: 'flex',
             justifyContent: 'center',
-            marginBottom: '64px'
+            marginBottom: isMobile ? '40px' : '64px'
           }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -122,16 +132,16 @@ const Response = ({ selectedEmotion }) => {
         >
           <div style={{
             position: 'relative',
-            width: '450px',
-            height: '450px'
+            width: isMobile ? '260px' : '450px',
+            height: isMobile ? '260px' : '450px'
           }}>
             {/* 외부 글로우 */}
             <div style={{
               position: 'absolute',
-              inset: '-40px',
+              inset: isMobile ? '-20px' : '-40px',
               borderRadius: '50%',
               background: `radial-gradient(circle, ${currentEmotion.color}30 0%, transparent 70%)`,
-              filter: 'blur(30px)'
+              filter: isMobile ? 'blur(20px)' : 'blur(30px)'
             }} />
 
             {/* 동심원 레이어들 */}
@@ -164,19 +174,19 @@ const Response = ({ selectedEmotion }) => {
               zIndex: 10
             }}>
               <div style={{
-                fontSize: '40px',
+                fontSize: isMobile ? '28px' : '40px',
                 fontWeight: '800',
                 color: '#fff',
                 textShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                marginBottom: '8px'
+                marginBottom: isMobile ? '4px' : '8px'
               }}>
                 {currentEmotion.name_ko}
               </div>
               <div style={{
-                fontSize: '16px',
+                fontSize: isMobile ? '12px' : '16px',
                 fontWeight: '700',
                 color: 'rgba(255,255,255,0.9)',
-                letterSpacing: '3px',
+                letterSpacing: isMobile ? '2px' : '3px',
                 textShadow: '0 2px 6px rgba(0,0,0,0.2)'
               }}>
                 {currentEmotion.name_en?.toUpperCase() || currentEmotion.id?.toUpperCase()}
@@ -248,44 +258,44 @@ const Response = ({ selectedEmotion }) => {
               >
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '32px',
+                  gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                  gap: isMobile ? '20px' : '32px',
                   marginTop: '16px'
                 }}>
                   {/* 본능적 행동 카드 */}
                   <motion.div
                     style={{
                       backgroundColor: '#fff',
-                      borderRadius: '20px',
-                      padding: '32px',
+                      borderRadius: isMobile ? '16px' : '20px',
+                      padding: isMobile ? '20px' : '32px',
                       boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                       borderTop: `5px solid ${currentEmotion.color}`
                     }}
-                    whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' }}
+                    whileHover={!isMobile ? { y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' } : {}}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
                       <div style={{
-                        width: '56px',
-                        height: '56px',
-                        borderRadius: '16px',
+                        width: isMobile ? '44px' : '56px',
+                        height: isMobile ? '44px' : '56px',
+                        borderRadius: isMobile ? '12px' : '16px',
                         backgroundColor: '#F8EDED',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '28px'
+                        fontSize: isMobile ? '22px' : '28px'
                       }}>
                         ⚡
                       </div>
                       <div>
-                        <h4 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                        <h4 style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
                           본능적 행동
                         </h4>
-                        <p style={{ fontSize: '14px', color: '#888', margin: 0 }}>
+                        <p style={{ fontSize: isMobile ? '12px' : '14px', color: '#888', margin: 0 }}>
                           Intrinsic Actions
                         </p>
                       </div>
                     </div>
-                    <p style={{ fontSize: '16px', color: '#666', lineHeight: '1.7', marginBottom: '24px' }}>
+                    <p style={{ fontSize: isMobile ? '14px' : '16px', color: '#666', lineHeight: '1.7', marginBottom: isMobile ? '16px' : '24px' }}>
                       자동적으로 발생하는 반응으로, 의식적 통제 없이 나타납니다.
                       진화적으로 프로그래밍된 행동입니다.
                     </p>
@@ -329,36 +339,36 @@ const Response = ({ selectedEmotion }) => {
                   <motion.div
                     style={{
                       backgroundColor: '#fff',
-                      borderRadius: '20px',
-                      padding: '32px',
+                      borderRadius: isMobile ? '16px' : '20px',
+                      padding: isMobile ? '20px' : '32px',
                       boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                       borderTop: `5px solid ${currentEmotion.colorLight}`
                     }}
-                    whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' }}
+                    whileHover={!isMobile ? { y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.15)' } : {}}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '16px' : '20px' }}>
                       <div style={{
-                        width: '56px',
-                        height: '56px',
-                        borderRadius: '16px',
+                        width: isMobile ? '44px' : '56px',
+                        height: isMobile ? '44px' : '56px',
+                        borderRadius: isMobile ? '12px' : '16px',
                         backgroundColor: '#EDF5F0',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '28px'
+                        fontSize: isMobile ? '22px' : '28px'
                       }}>
                         🧠
                       </div>
                       <div>
-                        <h4 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                        <h4 style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
                           의도적 행동
                         </h4>
-                        <p style={{ fontSize: '14px', color: '#888', margin: 0 }}>
+                        <p style={{ fontSize: isMobile ? '12px' : '14px', color: '#888', margin: 0 }}>
                           Intentional Actions
                         </p>
                       </div>
                     </div>
-                    <p style={{ fontSize: '16px', color: '#666', lineHeight: '1.7', marginBottom: '24px' }}>
+                    <p style={{ fontSize: isMobile ? '14px' : '16px', color: '#666', lineHeight: '1.7', marginBottom: isMobile ? '16px' : '24px' }}>
                       의식적으로 선택하는 반응으로, 감정을 건설적으로 다루는 방법입니다.
                       학습과 연습을 통해 발달시킬 수 있습니다.
                     </p>

@@ -911,9 +911,9 @@ const KoreanEmotions = () => {
   useEffect(() => {
     setIsVisible(true);
 
-    // Check for mobile screen size
+    // Check for mobile screen size - use 768px for better mobile detection
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 900);
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
@@ -938,7 +938,7 @@ const KoreanEmotions = () => {
       style={{
         minHeight: '100vh',
         background: 'linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)',
-        padding: isMobile ? '90px 16px 60px 16px' : '100px 40px 60px 40px'
+        padding: isMobile ? '80px 12px 100px 12px' : '100px 40px 60px 40px'
       }}
     >
       <div style={{
@@ -950,10 +950,10 @@ const KoreanEmotions = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          style={{ marginBottom: '32px' }}
+          style={{ marginBottom: isMobile ? '20px' : '32px' }}
         >
           <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 36px)',
+            fontSize: isMobile ? '24px' : 'clamp(28px, 4vw, 36px)',
             fontWeight: '700',
             margin: '0 0 8px 0',
             background: 'linear-gradient(135deg, #5A6B7B 0%, #E88B9D 100%)',
@@ -964,7 +964,7 @@ const KoreanEmotions = () => {
             한국인의 감정
           </h2>
           <p style={{
-            fontSize: '16px',
+            fontSize: isMobile ? '14px' : '16px',
             color: '#666',
             margin: '0'
           }}>
@@ -975,179 +975,285 @@ const KoreanEmotions = () => {
         {/* 비교 인포박스 */}
         <ComparisonInfoBox />
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr',
-          gap: isMobile ? '24px' : '40px',
-          alignItems: 'start'
-        }}>
-          {/* 왼쪽: 대륙 선택 영역 */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            {/* 두 감정 대륙 */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '24px',
-              marginBottom: '24px'
-            }}>
-              {/* 한(恨) 대륙 */}
-              <motion.div
-                style={{
-                  background: selectedEmotion === 'han'
-                    ? 'linear-gradient(135deg, rgba(74, 59, 107, 0.12) 0%, rgba(42, 27, 75, 0.18) 100%)'
-                    : 'rgba(74, 59, 107, 0.04)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  cursor: 'pointer',
-                  border: selectedEmotion === 'han'
-                    ? '2px solid rgba(74, 59, 107, 0.4)'
-                    : '2px solid transparent',
-                  transition: 'all 0.3s ease'
-                }}
-                onClick={() => {
-                  setSelectedEmotion('han');
-                  setSelectedLevel(null);
-                }}
-                onMouseEnter={() => setHoveredEmotion('han')}
-                onMouseLeave={() => setHoveredEmotion(null)}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <HanShape
-                    size={120}
-                    isActive={selectedEmotion === 'han'}
-                    isHovered={hoveredEmotion === 'han'}
-                  />
-                  <div>
-                    <h3 style={{
-                      margin: '0 0 4px 0',
-                      fontSize: '22px',
-                      fontWeight: '700',
-                      color: '#5A6B7B'
-                    }}>
-                      한(恨)
-                    </h3>
-                    <p style={{
-                      margin: '0 0 8px 0',
-                      fontSize: '14px',
-                      color: '#888'
-                    }}>
-                      Han - Deep accumulated sorrow
-                    </p>
-                    <p style={{
-                      margin: '0',
-                      fontSize: '13px',
-                      color: '#666',
-                      lineHeight: '1.5'
-                    }}>
-                      {koreanEmotions.han.definition_ko}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* 정(情) 대륙 */}
-              <motion.div
-                style={{
-                  background: selectedEmotion === 'jeong'
-                    ? 'linear-gradient(135deg, rgba(193, 122, 74, 0.12) 0%, rgba(139, 90, 58, 0.18) 100%)'
-                    : 'rgba(193, 122, 74, 0.04)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  cursor: 'pointer',
-                  border: selectedEmotion === 'jeong'
-                    ? '2px solid rgba(193, 122, 74, 0.4)'
-                    : '2px solid transparent',
-                  transition: 'all 0.3s ease'
-                }}
-                onClick={() => {
-                  setSelectedEmotion('jeong');
-                  setSelectedLevel(null);
-                }}
-                onMouseEnter={() => setHoveredEmotion('jeong')}
-                onMouseLeave={() => setHoveredEmotion(null)}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <JeongShape
-                    size={120}
-                    isActive={selectedEmotion === 'jeong'}
-                    isHovered={hoveredEmotion === 'jeong'}
-                  />
-                  <div>
-                    <h3 style={{
-                      margin: '0 0 4px 0',
-                      fontSize: '22px',
-                      fontWeight: '700',
-                      color: '#E88B9D'
-                    }}>
-                      정(情)
-                    </h3>
-                    <p style={{
-                      margin: '0 0 8px 0',
-                      fontSize: '14px',
-                      color: '#888'
-                    }}>
-                      Jeong - Affectionate bond
-                    </p>
-                    <p style={{
-                      margin: '0',
-                      fontSize: '13px',
-                      color: '#666',
-                      lineHeight: '1.5'
-                    }}>
-                      {koreanEmotions.jeong.definition_ko}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* 선택된 감정 상세 설명 */}
-            <motion.div
-              key={selectedEmotion}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+        {/* 모바일: 감정 선택 탭 */}
+        {isMobile && (
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '16px',
+            padding: '4px',
+            background: 'rgba(0,0,0,0.03)',
+            borderRadius: '14px'
+          }}>
+            <button
+              onClick={() => {
+                setSelectedEmotion('han');
+                setSelectedLevel(null);
+              }}
               style={{
-                background: 'rgba(255,255,255,0.8)',
-                borderRadius: '16px',
-                padding: '20px',
-                border: '1px solid rgba(0,0,0,0.06)'
+                flex: 1,
+                padding: '12px 16px',
+                borderRadius: '10px',
+                border: 'none',
+                background: selectedEmotion === 'han' ? '#5A6B7B' : 'transparent',
+                color: selectedEmotion === 'han' ? '#fff' : '#666',
+                fontWeight: '600',
+                fontSize: '15px',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease'
               }}
             >
-              <p style={{
-                margin: '0',
-                fontSize: '14px',
-                color: '#555',
-                lineHeight: '1.7'
-              }}>
-                {emotionData.description_ko}
-              </p>
-              <p style={{
-                margin: '12px 0 0 0',
-                fontSize: '13px',
-                color: '#888',
-                lineHeight: '1.6',
-                fontStyle: 'italic'
-              }}>
-                {emotionData.description_en}
-              </p>
-            </motion.div>
+              한(恨)
+            </button>
+            <button
+              onClick={() => {
+                setSelectedEmotion('jeong');
+                setSelectedLevel(null);
+              }}
+              style={{
+                flex: 1,
+                padding: '12px 16px',
+                borderRadius: '10px',
+                border: 'none',
+                background: selectedEmotion === 'jeong' ? '#E88B9D' : 'transparent',
+                color: selectedEmotion === 'jeong' ? '#fff' : '#666',
+                fontWeight: '600',
+                fontSize: '15px',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease'
+              }}
+            >
+              정(情)
+            </button>
+          </div>
+        )}
+
+        {/* 모바일: 선택된 감정 정보 */}
+        {isMobile && (
+          <motion.div
+            key={selectedEmotion}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              background: isHan
+                ? 'linear-gradient(135deg, rgba(90, 107, 123, 0.1) 0%, rgba(58, 75, 91, 0.15) 100%)'
+                : 'linear-gradient(135deg, rgba(232, 139, 157, 0.1) 0%, rgba(200, 106, 125, 0.15) 100%)',
+              borderRadius: '16px',
+              padding: '16px',
+              marginBottom: '16px',
+              border: `1px solid ${isHan ? 'rgba(90, 107, 123, 0.2)' : 'rgba(232, 139, 157, 0.2)'}`
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+              {isHan ? (
+                <HanShape size={60} isActive={true} />
+              ) : (
+                <JeongShape size={60} isActive={true} />
+              )}
+              <div>
+                <h3 style={{
+                  margin: '0 0 2px 0',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  color: isHan ? '#5A6B7B' : '#E88B9D'
+                }}>
+                  {isHan ? '한(恨)' : '정(情)'}
+                </h3>
+                <p style={{
+                  margin: '0',
+                  fontSize: '12px',
+                  color: '#888'
+                }}>
+                  {isHan ? 'Han - Deep accumulated sorrow' : 'Jeong - Affectionate bond'}
+                </p>
+              </div>
+            </div>
+            <p style={{
+              margin: '0',
+              fontSize: '13px',
+              color: '#555',
+              lineHeight: '1.6'
+            }}>
+              {emotionData.definition_ko}
+            </p>
           </motion.div>
+        )}
+
+        <div style={{
+          display: isMobile ? 'block' : 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr',
+          gap: isMobile ? '16px' : '40px',
+          alignItems: 'start'
+        }}>
+          {/* 왼쪽: 대륙 선택 영역 - 데스크탑만 */}
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              {/* 두 감정 대륙 */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '24px',
+                marginBottom: '24px'
+              }}>
+                {/* 한(恨) 대륙 */}
+                <motion.div
+                  style={{
+                    background: selectedEmotion === 'han'
+                      ? 'linear-gradient(135deg, rgba(74, 59, 107, 0.12) 0%, rgba(42, 27, 75, 0.18) 100%)'
+                      : 'rgba(74, 59, 107, 0.04)',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    cursor: 'pointer',
+                    border: selectedEmotion === 'han'
+                      ? '2px solid rgba(74, 59, 107, 0.4)'
+                      : '2px solid transparent',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => {
+                    setSelectedEmotion('han');
+                    setSelectedLevel(null);
+                  }}
+                  onMouseEnter={() => setHoveredEmotion('han')}
+                  onMouseLeave={() => setHoveredEmotion(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <HanShape
+                      size={120}
+                      isActive={selectedEmotion === 'han'}
+                      isHovered={hoveredEmotion === 'han'}
+                    />
+                    <div>
+                      <h3 style={{
+                        margin: '0 0 4px 0',
+                        fontSize: '22px',
+                        fontWeight: '700',
+                        color: '#5A6B7B'
+                      }}>
+                        한(恨)
+                      </h3>
+                      <p style={{
+                        margin: '0 0 8px 0',
+                        fontSize: '14px',
+                        color: '#888'
+                      }}>
+                        Han - Deep accumulated sorrow
+                      </p>
+                      <p style={{
+                        margin: '0',
+                        fontSize: '13px',
+                        color: '#666',
+                        lineHeight: '1.5'
+                      }}>
+                        {koreanEmotions.han.definition_ko}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* 정(情) 대륙 */}
+                <motion.div
+                  style={{
+                    background: selectedEmotion === 'jeong'
+                      ? 'linear-gradient(135deg, rgba(193, 122, 74, 0.12) 0%, rgba(139, 90, 58, 0.18) 100%)'
+                      : 'rgba(193, 122, 74, 0.04)',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    cursor: 'pointer',
+                    border: selectedEmotion === 'jeong'
+                      ? '2px solid rgba(193, 122, 74, 0.4)'
+                      : '2px solid transparent',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => {
+                    setSelectedEmotion('jeong');
+                    setSelectedLevel(null);
+                  }}
+                  onMouseEnter={() => setHoveredEmotion('jeong')}
+                  onMouseLeave={() => setHoveredEmotion(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <JeongShape
+                      size={120}
+                      isActive={selectedEmotion === 'jeong'}
+                      isHovered={hoveredEmotion === 'jeong'}
+                    />
+                    <div>
+                      <h3 style={{
+                        margin: '0 0 4px 0',
+                        fontSize: '22px',
+                        fontWeight: '700',
+                        color: '#E88B9D'
+                      }}>
+                        정(情)
+                      </h3>
+                      <p style={{
+                        margin: '0 0 8px 0',
+                        fontSize: '14px',
+                        color: '#888'
+                      }}>
+                        Jeong - Affectionate bond
+                      </p>
+                      <p style={{
+                        margin: '0',
+                        fontSize: '13px',
+                        color: '#666',
+                        lineHeight: '1.5'
+                      }}>
+                        {koreanEmotions.jeong.definition_ko}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* 선택된 감정 상세 설명 */}
+              <motion.div
+                key={selectedEmotion}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                style={{
+                  background: 'rgba(255,255,255,0.8)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(0,0,0,0.06)'
+                }}
+              >
+                <p style={{
+                  margin: '0',
+                  fontSize: '14px',
+                  color: '#555',
+                  lineHeight: '1.7'
+                }}>
+                  {emotionData.description_ko}
+                </p>
+                <p style={{
+                  margin: '12px 0 0 0',
+                  fontSize: '13px',
+                  color: '#888',
+                  lineHeight: '1.6',
+                  fontStyle: 'italic'
+                }}>
+                  {emotionData.description_en}
+                </p>
+              </motion.div>
+            </motion.div>
+          )}
 
           {/* 오른쪽: 상세 콘텐츠 영역 */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: isMobile ? 0 : 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
             style={{
               background: 'rgba(255,255,255,0.9)',
-              borderRadius: '24px',
-              padding: '28px',
+              borderRadius: isMobile ? '16px' : '24px',
+              padding: isMobile ? '16px' : '28px',
               boxShadow: '0 8px 40px rgba(0,0,0,0.06)',
               border: '1px solid rgba(0,0,0,0.05)'
             }}
@@ -1155,24 +1261,26 @@ const KoreanEmotions = () => {
             {/* 정의 경우 특징 표시 */}
             {selectedEmotion === 'jeong' && <JeongCharacteristics />}
 
-            {/* 탭 네비게이션 */}
+            {/* 탭 네비게이션 - 모바일에서 스크롤 가능 */}
             <div style={{
               display: 'flex',
-              gap: '8px',
-              marginBottom: '20px',
+              gap: '6px',
+              marginBottom: '16px',
               borderBottom: '1px solid rgba(0,0,0,0.08)',
-              paddingBottom: '16px'
+              paddingBottom: '12px',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch'
             }}>
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   style={{
-                    padding: '10px 18px',
+                    padding: isMobile ? '8px 12px' : '10px 18px',
                     borderRadius: '10px',
                     border: 'none',
                     background: activeTab === tab.id
-                      ? `rgba(${isHan ? '74, 59, 107' : '193, 122, 74'}, 0.15)`
+                      ? `rgba(${isHan ? '90, 107, 123' : '232, 139, 157'}, 0.15)`
                       : 'transparent',
                     color: activeTab === tab.id
                       ? (isHan ? '#5A6B7B' : '#E88B9D')
@@ -1180,17 +1288,22 @@ const KoreanEmotions = () => {
                     fontWeight: activeTab === tab.id ? '600' : '400',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    fontSize: '14px'
+                    fontSize: isMobile ? '13px' : '14px',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
+                    minHeight: '44px'
                   }}
                 >
                   {tab.label_ko}
-                  <span style={{
-                    marginLeft: '6px',
-                    fontSize: '12px',
-                    opacity: 0.7
-                  }}>
-                    {tab.label_en}
-                  </span>
+                  {!isMobile && (
+                    <span style={{
+                      marginLeft: '6px',
+                      fontSize: '12px',
+                      opacity: 0.7
+                    }}>
+                      {tab.label_en}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>

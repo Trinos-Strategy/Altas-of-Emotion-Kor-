@@ -15,9 +15,16 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
     const updateDimensions = () => {
       if (containerRef.current) {
         const { width } = containerRef.current.getBoundingClientRect();
+        const isMobile = window.innerWidth < 640;
+        const isTablet = window.innerWidth < 1024;
+
+        // Responsive sizing based on viewport
+        const maxWidth = isMobile ? width - 16 : isTablet ? Math.min(width, 700) : Math.min(width, 900);
+        const heightRatio = isMobile ? 0.75 : isTablet ? 0.65 : 0.6;
+
         setDimensions({
-          width: Math.min(width, 900),
-          height: Math.min(width * 0.6, 500)
+          width: maxWidth,
+          height: Math.min(maxWidth * heightRatio, isMobile ? 350 : 500)
         });
       }
     };
@@ -70,7 +77,7 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
       mountainPoints.push({ x, y, state });
     });
 
-    // Create gradient
+    // Create gradient - enhanced for smoother appearance
     const gradient = svg.append('defs')
       .append('linearGradient')
       .attr('id', `mountain-gradient-${emotion.id}`)
@@ -82,24 +89,29 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
     gradient.append('stop')
       .attr('offset', '0%')
       .attr('stop-color', emotion.colorLight)
-      .attr('stop-opacity', 0.4);
+      .attr('stop-opacity', 0.2);
 
     gradient.append('stop')
-      .attr('offset', '50%')
+      .attr('offset', '30%')
+      .attr('stop-color', emotion.colorLight)
+      .attr('stop-opacity', 0.5);
+
+    gradient.append('stop')
+      .attr('offset', '60%')
       .attr('stop-color', emotion.color)
       .attr('stop-opacity', 0.7);
 
     gradient.append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', emotion.color)
-      .attr('stop-opacity', 0.9);
+      .attr('stop-color', emotion.colorDark || emotion.color)
+      .attr('stop-opacity', 0.95);
 
-    // Create area generator for mountain shape
+    // Create area generator for mountain shape - smoother quadratic curves
     const areaGenerator = d3.area()
       .x(d => d.x)
       .y0(baseY)
       .y1(d => d.y)
-      .curve(d3.curveCatmullRom.alpha(0.5));
+      .curve(d3.curveBasis); // Smoother Bezier curves
 
     // Draw mountain
     const allPoints = [
@@ -159,14 +171,16 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .attr('fill', 'transparent')
         .attr('stroke', 'transparent');
 
-      // Visible dot
+      // Visible dot - larger touch target for mobile
+      const isMobileDot = dimensions.width < 500;
+      const dotRadius = isMobileDot ? 10 : 6;
       group.append('circle')
         .attr('cx', state._x)
         .attr('cy', state._y - 10)
-        .attr('r', 6)
+        .attr('r', dotRadius)
         .attr('fill', emotion.color)
         .attr('stroke', 'white')
-        .attr('stroke-width', 2)
+        .attr('stroke-width', isMobileDot ? 3 : 2)
         .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0)
         .transition()
@@ -184,15 +198,17 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))')
         .style('opacity', 0);
 
-      // Label text
-      const labelY = i % 2 === 0 ? state._y - 35 : state._y + 15;
+      // Label text - responsive font size
+      const isMobile = dimensions.width < 500;
+      const fontSize = isMobile ? '10px' : '12px';
+      const labelY = i % 2 === 0 ? state._y - (isMobile ? 28 : 35) : state._y + (isMobile ? 12 : 15);
 
       const text = group.append('text')
         .attr('x', state._x)
         .attr('y', labelY)
         .attr('text-anchor', 'middle')
         .attr('fill', '#374151')
-        .attr('font-size', '12px')
+        .attr('font-size', fontSize)
         .attr('font-weight', '600')
         .text(state.name_ko)
         .style('opacity', 0)
@@ -218,27 +234,47 @@ const StatesGraph = ({ emotion, activeState, setActiveState }) => {
         }
       }, 100);
 
-      // Interaction handlers
+      // Interaction handlers - smoother ease-out transitions
       group
         .on('mouseenter', function() {
           d3.select(this).select('circle:nth-child(2)')
             .transition()
-            .duration(200)
-            .attr('r', 10);
+            .duration(300)
+            .ease(d3.easeQuadOut)
+            .attr('r', 12)
+            .attr('stroke-width', 3)
+            .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))');
           d3.select(this).select('rect')
             .transition()
-            .duration(200)
-            .attr('stroke-width', 2);
+            .duration(300)
+            .ease(d3.easeQuadOut)
+            .attr('stroke-width', 2)
+            .style('transform', 'scale(1.05)');
+          d3.select(this).select('text')
+            .transition()
+            .duration(300)
+            .ease(d3.easeQuadOut)
+            .attr('font-weight', '700');
         })
         .on('mouseleave', function() {
           d3.select(this).select('circle:nth-child(2)')
             .transition()
-            .duration(200)
-            .attr('r', 6);
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('r', 6)
+            .attr('stroke-width', 2)
+            .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))');
           d3.select(this).select('rect')
             .transition()
-            .duration(200)
-            .attr('stroke-width', 1);
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('stroke-width', 1)
+            .style('transform', 'scale(1)');
+          d3.select(this).select('text')
+            .transition()
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('font-weight', '600');
         })
         .on('click', () => {
           setActiveState(state);

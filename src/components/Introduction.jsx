@@ -1,385 +1,1245 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
-// 원본 사이트와 동일한 대형 3D 그라디언트 구체 컴포넌트
-const GradientSphere = () => {
-  const canvasRef = useRef(null);
+gsap.registerPlugin(ScrollTrigger);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+// 감정 데이터 - 한국어 중심, 영문은 병기용으로만 사용
+const emotions = [
+  {
+    id: 'anger',
+    name: '분노',
+    nameEn: 'Anger',
+    color: '#E63946',
+    description: '목표가 방해받거나 부당한 대우를 받을 때 느끼는 감정'
+  },
+  {
+    id: 'fear',
+    name: '두려움',
+    nameEn: 'Fear',
+    color: '#8338EC',
+    description: '위험을 감지했을 때 스스로를 보호하기 위해 느끼는 감정'
+  },
+  {
+    id: 'disgust',
+    name: '혐오',
+    nameEn: 'Disgust',
+    color: '#2D5A3D',
+    description: '해롭거나 불쾌한 것으로부터 멀어지려는 본능적 반응'
+  },
+  {
+    id: 'sadness',
+    name: '슬픔',
+    nameEn: 'Sadness',
+    color: '#4361EE',
+    description: '상실을 경험했을 때 느끼는 감정으로, 회복의 시간이 필요함을 알림'
+  },
+  {
+    id: 'enjoyment',
+    name: '즐거움',
+    nameEn: 'Enjoyment',
+    color: '#FFB703',
+    description: '긍정적인 경험에서 느끼는 만족과 행복의 감정'
+  },
+];
 
-    const ctx = canvas.getContext('2d');
-    let animationId;
-    let time = 0;
+const stats = [
+  { number: 5, label: '보편적 감정', suffix: '' },
+  { number: 88, label: '과학자 합의', suffix: '%' },
+  { number: 248, label: '참여 연구자', suffix: '' },
+  { number: 50, label: '감정 상태', suffix: '+' },
+];
 
-    const resize = () => {
-      const size = Math.min(500, window.innerWidth * 0.8);
-      canvas.width = size;
-      canvas.height = size;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // 2025 Emotion Colors - User defined palette
-    const emotionColors = [
-      { color: '#E63946', angle: 0 },     // 분노 - 붉은 계열
-      { color: '#6B4C9A', angle: 72 },    // 두려움 - 보라 계열
-      { color: '#4A7C59', angle: 144 },   // 혐오 - 녹색 계열
-      { color: '#4A6FA5', angle: 216 },   // 슬픔 - 파란 계열
-      { color: '#F4A261', angle: 288 },   // 즐거움 - 노란 계열
-    ];
-
-    const draw = () => {
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = canvas.width * 0.42;
-
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Create main gradient sphere
-      const gradient = ctx.createRadialGradient(
-        centerX - radius * 0.3,
-        centerY - radius * 0.3,
-        0,
-        centerX,
-        centerY,
-        radius * 1.2
-      );
-
-      // Dynamic color mixing based on time
-      const t = time * 0.0005;
-      emotionColors.forEach((ec, i) => {
-        const offset = (i / emotionColors.length + Math.sin(t + i) * 0.05) % 1;
-        gradient.addColorStop(Math.max(0, Math.min(1, offset)), ec.color + 'CC');
-      });
-      gradient.addColorStop(1, 'rgba(0,0,0,0.1)');
-
-      // Draw main sphere with gradient
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-
-      // Add glossy overlay
-      const glossGradient = ctx.createRadialGradient(
-        centerX - radius * 0.4,
-        centerY - radius * 0.4,
-        0,
-        centerX,
-        centerY,
-        radius
-      );
-      glossGradient.addColorStop(0, 'rgba(255,255,255,0.4)');
-      glossGradient.addColorStop(0.5, 'rgba(255,255,255,0.1)');
-      glossGradient.addColorStop(1, 'rgba(255,255,255,0)');
-
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.fillStyle = glossGradient;
-      ctx.fill();
-
-      // Outer glow - softer
-      ctx.shadowColor = 'rgba(155, 139, 198, 0.2)';
-      ctx.shadowBlur = 50;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      time++;
-      animationId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
+// 햄버거 메뉴 컴포넌트 (언어 스위치 제외)
+const HamburgerMenu = ({ isOpen, onClose, onNavigate }) => {
+  const menuItems = [
+    { label: '홈', labelEn: 'Home', action: () => { onClose(); } },
+    { label: '5가지 감정', labelEn: 'Five Emotions', action: () => { onClose(); onNavigate('continents'); } },
+    { label: '탐험의 여정', labelEn: 'The Journey', action: () => { onClose(); onNavigate('triggers'); } },
+    { label: '프로젝트 소개', labelEn: 'About', action: () => { onClose(); } },
+  ];
 
   return (
-    <motion.div
-      className="relative"
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full max-w-[500px] max-h-[500px]"
-        style={{ filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.2))' }}
-      />
-      {/* Center text overlay */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center px-8">
-          <motion.p
-            className="text-white/90 text-sm md:text-base font-medium mb-2 tracking-wider"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 z-[100]"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.97)',
+              backdropFilter: 'blur(20px)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            onClick={onClose}
+          />
+
+          {/* Menu Content */}
+          <motion.nav
+            className="fixed inset-0 z-[101] flex flex-col justify-center items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            WELCOME TO THE
-          </motion.p>
-          <motion.h2
-            className="text-white text-2xl md:text-4xl font-bold tracking-tight"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-            style={{ textShadow: '0 4px 20px rgba(0,0,0,0.3)' }}
-          >
-            Atlas of Emotions
-          </motion.h2>
-          <motion.p
-            className="text-white/80 text-lg md:text-xl font-medium mt-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-          >
-            감정의 지도
-          </motion.p>
-        </div>
-      </div>
-    </motion.div>
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-8 right-8 md:top-12 md:right-12 text-white/60 hover:text-white transition-colors"
+              style={{ minWidth: '48px', minHeight: '48px' }}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Menu Items */}
+            <ul className="flex flex-col items-center gap-8 md:gap-12">
+              {menuItems.map((item, index) => (
+                <motion.li
+                  key={item.label}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                >
+                  <button
+                    onClick={item.action}
+                    className="group text-center"
+                    style={{ minWidth: '48px', minHeight: '48px' }}
+                  >
+                    <span
+                      className="block text-white font-light tracking-[0.08em]"
+                      style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className="block text-white/30 mt-2 tracking-[0.15em]"
+                      style={{ fontSize: '0.625rem' }}
+                    >
+                      ({item.labelEn})
+                    </span>
+                  </button>
+                </motion.li>
+              ))}
+            </ul>
+
+            {/* Footer Link */}
+            <motion.a
+              href="https://atlasofemotions.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-12 text-white/30 hover:text-white/60 transition-colors tracking-[0.1em]"
+              style={{ fontSize: '0.75rem' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              원본 프로젝트 →
+            </motion.a>
+          </motion.nav>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 
 const Introduction = ({ onNavigate }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const containerRef = useRef(null);
+  const lenisRef = useRef(null);
+  const [hoveredEmotion, setHoveredEmotion] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // 2025 Emotion Colors - User defined palette
-  const emotionColors = [
-    { name: '분노', name_en: 'ANGER', color: '#E63946', desc: '목표가 방해받을 때' },
-    { name: '두려움', name_en: 'FEAR', color: '#6B4C9A', desc: '위협을 느낄 때' },
-    { name: '혐오', name_en: 'DISGUST', color: '#4A7C59', desc: '불쾌한 것에 대한 반응' },
-    { name: '슬픔', name_en: 'SADNESS', color: '#4A6FA5', desc: '상실에 대한 반응' },
-    { name: '즐거움', name_en: 'ENJOYMENT', color: '#F4A261', desc: '긍정적 경험에 대한 반응' },
-  ];
+  useEffect(() => {
+    // Lenis Smooth Scroll 초기화
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+    lenisRef.current = lenis;
+
+    // GSAP와 Lenis 동기화
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // Hero 애니메이션 - 라인별 reveal
+    const heroTl = gsap.timeline({ delay: 0.3 });
+    heroTl
+      .from('.hero-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        ease: 'power3.out',
+      })
+      .from('.hero-title-line', {
+        yPercent: 120,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out',
+        stagger: 0.15,
+      }, '-=0.6')
+      .from('.hero-cta', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out',
+      }, '-=0.4')
+      .from('.scroll-indicator', {
+        opacity: 0,
+        duration: 1,
+      }, '-=0.3');
+
+    // Stats 카운트업 애니메이션
+    gsap.utils.toArray('.stat-number').forEach((el) => {
+      const target = parseInt(el.dataset.value, 10);
+      const suffix = el.dataset.suffix || '';
+
+      gsap.fromTo(el,
+        { innerHTML: '0' + suffix },
+        {
+          innerHTML: target + suffix,
+          duration: 2.5,
+          ease: 'power1.inOut',
+          snap: { innerHTML: 1 },
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            once: true,
+          },
+          onUpdate: function() {
+            const currentVal = Math.round(gsap.getProperty(el, 'innerHTML').toString().replace(/[^0-9]/g, ''));
+            el.innerHTML = currentVal + suffix;
+          }
+        }
+      );
+    });
+
+    // Stats 아이템 페이드인
+    gsap.from('.stat-item', {
+      opacity: 0,
+      y: 60,
+      duration: 1,
+      stagger: 0.12,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.stats-section',
+        start: 'top 75%',
+      },
+    });
+
+    // Quote 섹션 애니메이션
+    gsap.from('.quote-text', {
+      opacity: 0,
+      y: 80,
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.quote-section',
+        start: 'top 70%',
+      },
+    });
+
+    gsap.from('.quote-author', {
+      opacity: 0,
+      duration: 1,
+      delay: 0.4,
+      scrollTrigger: {
+        trigger: '.quote-section',
+        start: 'top 70%',
+      },
+    });
+
+    // Emotion 카드 stagger 애니메이션
+    gsap.from('.emotion-card', {
+      y: 100,
+      opacity: 0,
+      scale: 0.95,
+      duration: 0.8,
+      stagger: {
+        each: 0.15,
+        from: 'start'
+      },
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.emotions-section',
+        start: 'top 70%',
+      },
+    });
+
+    // Journey 섹션 애니메이션
+    gsap.from('.journey-title', {
+      opacity: 0,
+      y: 60,
+      duration: 1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.journey-section',
+        start: 'top 75%',
+      },
+    });
+
+    gsap.from('.journey-step', {
+      opacity: 0,
+      x: -40,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.journey-steps',
+        start: 'top 75%',
+      },
+    });
+
+    // CTA 섹션 애니메이션
+    gsap.from('.cta-content', {
+      opacity: 0,
+      y: 60,
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.cta-section',
+        start: 'top 75%',
+      },
+    });
+
+    return () => {
+      lenis.destroy();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      gsap.ticker.remove(lenis.raf);
+    };
+  }, []);
+
+  // 메뉴 오픈 시 스크롤 잠금
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100" role="main">
-      {/* Skip link for accessibility */}
-      <a href="#main-content" className="skip-link">
-        메인 콘텐츠로 건너뛰기
-      </a>
+    <div
+      ref={containerRef}
+      className="bg-white text-black"
+      style={{
+        '--color-bg-primary': '#FFFFFF',
+        '--color-bg-secondary': '#FAFAFA',
+        '--color-bg-dark': '#0A0A0A',
+        '--color-text-primary': '#000000',
+        '--color-text-secondary': 'rgba(0, 0, 0, 0.6)',
+        '--color-text-tertiary': 'rgba(0, 0, 0, 0.4)',
+        '--color-accent': '#FF6B35',
+        fontFamily: "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif",
+        wordBreak: 'keep-all',
+        letterSpacing: '-0.02em',
+        lineHeight: 1.8,
+      }}
+    >
+      {/* ============ 글로벌 모바일 최적화 스타일 ============ */}
+      <style>{`
+        /* 모바일 최적화 (768px 이하) */
+        @media (max-width: 768px) {
+          /* 히어로 섹션 */
+          .hero-section {
+            padding: 70px 20px 50px !important;
+            min-height: auto !important;
+          }
+          .hero-title-line {
+            font-size: clamp(1.875rem, 8vw, 2.75rem) !important;
+            line-height: 1.4 !important;
+          }
+          .hero-subtitle {
+            margin-bottom: 20px !important;
+            font-size: 0.8125rem !important;
+          }
+          .cta-button-luxury {
+            padding: 18px 36px !important;
+            font-size: 1.0625rem !important;
+            gap: 12px !important;
+          }
+          .scroll-indicator {
+            display: none !important;
+          }
 
-      {/* Background subtle pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-amber-200/30 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
-      </div>
+          /* 통계 섹션 - 간격 축소 */
+          .stats-section {
+            padding: 40px 20px !important;
+          }
+          .stat-item {
+            text-align: center !important;
+          }
+          .stat-number {
+            font-size: clamp(2.75rem, 14vw, 4.5rem) !important;
+            margin-bottom: 0.5rem !important;
+          }
+          .stat-item p {
+            font-size: 1.0625rem !important;
+          }
 
-      <div id="main-content" className="relative z-10 w-full max-w-6xl mx-auto px-6 py-12">
-        {/* Logo Header */}
-        <motion.div
-          className="flex items-center justify-center gap-4 mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-xl">
-            <span className="text-white text-[10px] font-bold leading-tight text-center">
-              감정<br />지도
+          /* 달라이 라마 인용문 - 좌우 padding 최소화 & 텍스트 증가 */
+          .quote-section {
+            padding: 56px 16px !important;
+          }
+          .quote-text {
+            font-size: 1.625rem !important;
+            line-height: 1.85 !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .quote-author {
+            font-size: 1.125rem !important;
+          }
+
+          /* 감정 섹션 - 간격 축소 & 겹침 방지 */
+          .emotions-section {
+            padding: 40px 16px !important;
+          }
+          .emotion-icons-preview {
+            gap: 12px !important;
+            margin-bottom: 24px !important;
+          }
+          .emotion-icon-item {
+            gap: 6px !important;
+          }
+          .emotion-icon-item p {
+            font-size: 0.9375rem !important;
+          }
+          .emotion-icon-item span {
+            font-size: 0.5625rem !important;
+          }
+          .icon-circle {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 28px !important;
+          }
+          .emotion-card {
+            padding: 20px 16px !important;
+            min-height: 160px !important;
+          }
+          .emotion-card h3 {
+            font-size: 1.5rem !important;
+          }
+          .emotion-card p {
+            font-size: 0.9375rem !important;
+            line-height: 1.7 !important;
+          }
+
+          /* 여정 섹션 - 간격 축소 */
+          .journey-section {
+            padding: 40px 20px !important;
+          }
+          .journey-title h2 {
+            font-size: 2rem !important;
+            margin-bottom: 14px !important;
+          }
+          .journey-title > p {
+            font-size: 1.125rem !important;
+            line-height: 1.8 !important;
+          }
+          .journey-step {
+            padding: 14px 0 !important;
+            gap: 14px !important;
+          }
+          .journey-step h4 {
+            font-size: 1.5rem !important;
+          }
+          .journey-step p {
+            font-size: 1.0625rem !important;
+            line-height: 1.75 !important;
+          }
+
+          /* CTA 섹션 - 간격 축소 */
+          .cta-section {
+            padding: 50px 20px !important;
+          }
+          .cta-content h2 {
+            font-size: 1.875rem !important;
+            margin-bottom: 14px !important;
+          }
+          .cta-content > p {
+            font-size: 1.0625rem !important;
+            margin-bottom: 20px !important;
+          }
+          .cta-button-luxury-bottom {
+            padding: 18px 36px !important;
+            font-size: 1.0625rem !important;
+          }
+
+          /* 푸터 - 간격 축소 */
+          footer {
+            padding: 36px 20px !important;
+          }
+          footer p {
+            font-size: 1rem !important;
+            line-height: 1.85 !important;
+          }
+        }
+
+        /* 작은 모바일 (480px 이하) - 375px, 390px, 414px 최적화 */
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 56px 16px 40px !important;
+          }
+          .hero-title-line {
+            font-size: 1.625rem !important;
+            line-height: 1.45 !important;
+          }
+          .hero-subtitle {
+            font-size: 0.75rem !important;
+          }
+
+          .quote-section {
+            padding: 48px 16px !important;
+          }
+          .quote-text {
+            font-size: 1.5rem !important;
+            line-height: 1.8 !important;
+          }
+          .quote-author {
+            font-size: 1rem !important;
+          }
+
+          .emotion-icons-preview {
+            gap: 8px !important;
+            margin-bottom: 20px !important;
+          }
+          .icon-circle {
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 24px !important;
+          }
+          .emotion-icon-item {
+            gap: 4px !important;
+          }
+          .emotion-icon-item p {
+            font-size: 0.875rem !important;
+          }
+          .emotion-icon-item span {
+            font-size: 0.5rem !important;
+          }
+
+          .stats-section {
+            padding: 28px 16px !important;
+          }
+          .stat-number {
+            font-size: clamp(2.25rem, 12vw, 3.5rem) !important;
+          }
+          .stat-item p {
+            font-size: 0.9375rem !important;
+          }
+
+          .emotions-section {
+            padding: 28px 16px !important;
+          }
+          .emotion-card {
+            padding: 18px 14px !important;
+            min-height: 140px !important;
+          }
+          .emotion-card h3 {
+            font-size: 1.375rem !important;
+          }
+          .emotion-card p {
+            font-size: 0.875rem !important;
+            line-height: 1.65 !important;
+          }
+
+          .journey-section {
+            padding: 32px 16px !important;
+          }
+          .journey-title h2 {
+            font-size: 1.75rem !important;
+          }
+          .journey-title > p {
+            font-size: 1.0625rem !important;
+          }
+          .journey-step h4 {
+            font-size: 1.375rem !important;
+          }
+          .journey-step p {
+            font-size: 1rem !important;
+          }
+
+          .cta-section {
+            padding: 40px 16px !important;
+          }
+          .cta-content h2 {
+            font-size: 1.625rem !important;
+          }
+          .cta-content > p {
+            font-size: 1rem !important;
+          }
+
+          footer {
+            padding: 28px 16px !important;
+          }
+          footer p {
+            font-size: 0.9375rem !important;
+          }
+        }
+      `}</style>
+      {/* 햄버거 메뉴 버튼 */}
+      <button
+        onClick={() => setMenuOpen(true)}
+        className="fixed top-8 right-8 md:top-12 md:right-12 z-50 flex flex-col gap-[6px] group"
+        style={{ minWidth: '48px', minHeight: '48px', padding: '12px' }}
+        aria-label="메뉴 열기"
+      >
+        <span className="block w-6 h-[1.5px] bg-black/60 group-hover:bg-black transition-colors" />
+        <span className="block w-6 h-[1.5px] bg-black/60 group-hover:bg-black transition-colors" />
+      </button>
+
+      {/* 햄버거 메뉴 */}
+      <HamburgerMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onNavigate={onNavigate}
+      />
+
+      {/* ============ HERO SECTION ============ */}
+      <section
+        className="hero-section min-h-screen flex flex-col justify-center items-center relative"
+        style={{ padding: 'clamp(120px, 20vh, 300px) clamp(24px, 5vw, 120px)' }}
+      >
+        <div className="max-w-[1200px] w-full mx-auto text-center">
+          {/* Subtitle */}
+          <p
+            className="hero-subtitle text-black/40 tracking-[0.2em] mb-12"
+            style={{ fontSize: 'clamp(0.625rem, 1vw, 0.75rem)' }}
+          >
+            감정 지도 한국어판
+          </p>
+
+          {/* Main Title - 라인별 오버플로우 히든, 줄간격 개선 */}
+          <h1 className="mb-20">
+            <span className="block overflow-hidden mb-2">
+              <span
+                className="hero-title-line block"
+                style={{
+                  fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
+                  fontWeight: 300,
+                  lineHeight: 1.5,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                감정의 세계를 아는 것이
+              </span>
             </span>
-          </div>
-          <div className="text-gray-900 text-xs font-bold uppercase tracking-wider leading-tight">
-            ATLAS<br />OF<br />EMOTIONS
-          </div>
-        </motion.div>
+            <span className="block overflow-hidden">
+              <span
+                className="hero-title-line block"
+                style={{
+                  fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
+                  fontWeight: 300,
+                  lineHeight: 1.5,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                <span style={{ color: 'var(--color-accent)' }}>마음의 평화</span>로 가는 길입니다
+              </span>
+            </span>
+          </h1>
 
-        {/* Main 3D Sphere - 원본 사이트처럼 중앙에 배치 */}
-        <div className="flex justify-center mb-12">
-          <GradientSphere />
+          {/* CTA Button - Luxury Design */}
+          <button
+            onClick={() => onNavigate('triggers')}
+            className="hero-cta cta-button-luxury group"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '14px',
+              padding: '20px 44px',
+              background: 'linear-gradient(135deg, #00BCD4 0%, #0097A7 100%)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 24px rgba(0,188,212,0.35)',
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: '56px',
+              letterSpacing: '0.05em',
+            }}
+          >
+            {/* Shine effect overlay */}
+            <span
+              className="shine-effect"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                transform: 'translateX(-100%)',
+                transition: 'transform 600ms ease',
+              }}
+            />
+            {/* Star Icon */}
+            <span className="button-icon" style={{ display: 'inline-flex' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  fill="none"
+                />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+              </svg>
+            </span>
+            <span className="button-text" style={{ position: 'relative', zIndex: 1 }}>탐험 시작</span>
+            <span
+              className="button-arrow"
+              style={{
+                position: 'relative',
+                zIndex: 1,
+                transition: 'transform 400ms ease',
+                fontSize: '1.25rem',
+              }}
+            >
+              →
+            </span>
+            <style>{`
+              .cta-button-luxury:hover {
+                transform: translateY(-3px) scale(1.03) !important;
+                box-shadow: 0 10px 36px rgba(0,188,212,0.45) !important;
+              }
+              .cta-button-luxury:hover .shine-effect {
+                transform: translateX(100%) !important;
+              }
+              .cta-button-luxury:hover .button-arrow {
+                transform: translateX(5px) !important;
+              }
+              .cta-button-luxury .button-icon {
+                animation: rotate-pulse 3s ease-in-out infinite;
+              }
+              @keyframes rotate-pulse {
+                0%, 100% { transform: rotate(0deg) scale(1); }
+                50% { transform: rotate(8deg) scale(1.12); }
+              }
+            `}</style>
+          </button>
         </div>
 
-        {/* Description */}
-        <motion.div
-          className="text-center max-w-2xl mx-auto mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.6 }}
-        >
-          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium">
-            감정을 촉발하는 요인과 반응 방식에 대한
-            <span className="text-gray-900 font-bold"> 더 큰 통제력</span>을 얻는 것이 목표입니다.
-          </p>
-        </motion.div>
-
-        {/* Action Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.5 }}
-        >
-          <motion.button
-            onClick={() => onNavigate('triggers')}
-            className="group flex items-center gap-3 px-10 py-4 bg-gray-900 text-white text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
+        {/* Scroll Indicator */}
+        <div className="scroll-indicator absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+          <span
+            className="text-black/25 tracking-[0.15em]"
+            style={{ fontSize: '0.625rem' }}
           >
-            <span>탐험 시작하기</span>
-            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </motion.button>
-
-          <motion.button
-            onClick={() => setSidebarOpen(true)}
-            className="group flex items-center gap-2 px-8 py-4 border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-full hover:border-gray-900 hover:text-gray-900 transition-all duration-300"
-            whileHover={{ scale: 1.02 }}
-          >
-            <span>더 알아보기</span>
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </motion.button>
-        </motion.div>
-
-        {/* 5 Emotions Preview */}
-        <motion.div
-          className="flex justify-center gap-4 flex-wrap"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.6 }}
-        >
-          {emotionColors.map((emotion, i) => (
+            스크롤
+          </span>
+          <div className="w-px h-16 bg-black/15 relative overflow-hidden">
             <motion.div
-              key={emotion.name}
-              className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-white/50 transition-colors cursor-pointer"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 2 + i * 0.1, type: 'spring', stiffness: 300 }}
-              whileHover={{ y: -5 }}
-            >
-              <div
-                className="w-14 h-14 rounded-full shadow-lg"
-                style={{ backgroundColor: emotion.color }}
-              />
-              <span className="text-gray-800 font-bold text-sm">{emotion.name}</span>
-              <span className="text-gray-400 text-xs">{emotion.name_en}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center text-gray-400"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
-      >
-        <span className="text-xs tracking-widest mb-3 uppercase font-medium">Scroll</span>
-        <motion.div
-          className="w-px h-10 bg-gradient-to-b from-gray-300 to-transparent"
-          animate={{ scaleY: [1, 0.5, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </motion.div>
-
-      {/* Learn More Sidebar */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <>
-            <motion.div
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSidebarOpen(false)}
+              className="absolute top-0 left-0 w-full bg-black/40"
+              style={{ height: '50%' }}
+              animate={{ y: ['0%', '100%', '200%'] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
+          </div>
+        </div>
+      </section>
 
-            <motion.aside
-              className="fixed left-0 top-0 bottom-0 w-full sm:w-[480px] bg-white z-[9999] overflow-y-auto shadow-2xl"
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+      {/* ============ STATS SECTION ============ */}
+      <section
+        className="stats-section"
+        style={{
+          padding: 'clamp(120px, 20vh, 280px) clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
+            {stats.map((stat, index) => (
+              <div key={index} className="stat-item text-center md:text-left">
+                <div
+                  className="stat-number"
+                  data-value={stat.number}
+                  data-suffix={stat.suffix}
+                  style={{
+                    fontSize: 'clamp(3.5rem, 10vw, 6rem)',
+                    fontWeight: 200,
+                    lineHeight: 1,
+                    marginBottom: '1.25rem',
+                    letterSpacing: '-0.03em',
+                  }}
+                >
+                  0{stat.suffix}
+                </div>
+                <p
+                  className="text-black/60 tracking-[0.06em] font-medium"
+                  style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ QUOTE SECTION ============ */}
+      {/* Noto Serif KR 폰트 로드 */}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
+      <section
+        className="quote-section"
+        style={{
+          padding: 'clamp(100px, 18vh, 280px) clamp(20px, 3vw, 32px)',
+          backgroundColor: 'var(--color-bg-dark)',
+          color: 'white',
+        }}
+      >
+        <div className="max-w-[1000px] mx-auto text-center">
+          <blockquote
+            className="quote-text"
+            style={{
+              fontFamily: "'Noto Serif KR', '궁서', 'Gungsuh', serif",
+              fontSize: 'clamp(1.75rem, 5vw, 3.5rem)',
+              fontWeight: 400,
+              lineHeight: 1.9,
+              marginBottom: '4rem',
+              letterSpacing: '0.03em',
+              wordBreak: 'keep-all',
+            }}
+          >
+            감정을 촉발하는 요인과
+            <br />
+            반응 방식에 대해
+            <br />
+            <span style={{ opacity: 0.9 }}>더 깊은 이해와 통제력을 얻으세요</span>
+          </blockquote>
+          <cite
+            className="quote-author not-italic"
+            style={{
+              fontFamily: "'Noto Serif KR', '궁서', 'Gungsuh', serif",
+              fontSize: 'clamp(1rem, 2vw, 1.375rem)',
+              color: 'rgba(255,255,255,0.5)',
+              letterSpacing: '0.08em',
+            }}
+          >
+            — 달라이 라마 & 폴 에크만 박사
+          </cite>
+        </div>
+      </section>
+
+      {/* ============ EMOTIONS SECTION ============ */}
+      <section
+        className="emotions-section"
+        style={{ padding: 'clamp(120px, 20vh, 280px) clamp(24px, 5vw, 120px)' }}
+      >
+        <div className="max-w-[1400px] mx-auto">
+          {/* Section Header */}
+          <div className="mb-12 md:mb-16 max-w-[600px]">
+            <p
+              className="text-black/35 tracking-[0.2em] mb-6"
+              style={{ fontSize: '0.625rem' }}
             >
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="absolute top-5 right-5 w-12 h-12 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all text-2xl"
+              다섯 가지 보편적 감정
+            </p>
+            <h2
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                fontWeight: 300,
+                letterSpacing: '0.01em',
+                lineHeight: 1.4,
+              }}
+            >
+              인류가 공유하는 감정의 언어
+            </h2>
+          </div>
+
+          {/* 감정 아이콘 프리뷰 그리드 - 반응형 겹침 방지 */}
+          <div
+            className="emotion-icons-preview grid grid-cols-3 sm:grid-cols-5 gap-4 sm:gap-6 md:gap-10 mb-12 md:mb-24"
+            style={{ maxWidth: '700px', margin: '0 auto 3rem' }}
+          >
+            {[
+              { emoji: '😠', name: '분노', nameEn: 'Anger', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #C92A2A 100%)' },
+              { emoji: '😨', name: '두려움', nameEn: 'Fear', gradient: 'linear-gradient(135deg, #845EC2 0%, #5B3E96 100%)' },
+              { emoji: '🤢', name: '혐오', nameEn: 'Disgust', gradient: 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)' },
+              { emoji: '😢', name: '슬픔', nameEn: 'Sadness', gradient: 'linear-gradient(135deg, #42A5F5 0%, #1976D2 100%)' },
+              { emoji: '✨', name: '즐거움', nameEn: 'Enjoyment', gradient: 'linear-gradient(135deg, #FFA726 0%, #F57C00 100%)' },
+            ].map((item, index) => (
+              <motion.div
+                key={item.name}
+                className="emotion-icon-item flex flex-col items-center gap-3"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                ✕
-              </button>
+                <motion.div
+                  className="icon-circle flex items-center justify-center rounded-full shadow-lg cursor-pointer"
+                  style={{
+                    width: 'clamp(56px, 12vw, 80px)',
+                    height: 'clamp(56px, 12vw, 80px)',
+                    background: item.gradient,
+                    fontSize: 'clamp(28px, 6vw, 40px)',
+                  }}
+                  whileHover={{ scale: 1.15, rotate: 8 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  onClick={() => onNavigate('continents')}
+                >
+                  {item.emoji}
+                </motion.div>
+                <p
+                  className="text-center font-semibold text-gray-800"
+                  style={{ fontSize: 'clamp(0.875rem, 2vw, 1.125rem)' }}
+                >
+                  {item.name}
+                </p>
+                <span
+                  className="text-gray-400 uppercase"
+                  style={{ fontSize: '0.625rem', letterSpacing: '0.08em' }}
+                >
+                  ({item.nameEn})
+                </span>
+              </motion.div>
+            ))}
+          </div>
 
-              <div className="p-10 pt-20">
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                  감정 지도에 대하여
-                </h2>
+          {/* Emotions Grid - 상세 카드 (반응형 겹침 방지) */}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"
+            style={{ marginTop: 'clamp(32px, 6vh, 80px)' }}
+          >
+            {emotions.map((emotion, index) => (
+              <motion.div
+                key={emotion.id}
+                className="emotion-card cursor-pointer p-8 md:p-10 border transition-all duration-500"
+                data-emotion={emotion.id}
+                style={{
+                  backgroundColor: hoveredEmotion === emotion.id ? emotion.color : 'white',
+                  color: hoveredEmotion === emotion.id ? 'white' : 'black',
+                  borderColor: hoveredEmotion === emotion.id ? emotion.color : 'rgba(0,0,0,0.08)',
+                  minHeight: '280px',
+                }}
+                onMouseEnter={() => setHoveredEmotion(emotion.id)}
+                onMouseLeave={() => setHoveredEmotion(null)}
+                onClick={() => onNavigate('continents')}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <span
+                  className="block mb-8 transition-colors duration-500"
+                  style={{
+                    fontSize: '0.625rem',
+                    opacity: hoveredEmotion === emotion.id ? 0.7 : 0.35,
+                    letterSpacing: '0.2em',
+                  }}
+                >
+                  0{index + 1}
+                </span>
 
-                <div className="space-y-8">
-                  <div className="p-6 bg-gradient-to-br from-purple-50 to-amber-50 rounded-2xl">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                      🎯 프로젝트 배경
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      감정 지도는 <strong>Paul Ekman 박사</strong>와 <strong>달라이 라마</strong>의
-                      오랜 우정에서 탄생했습니다. Paul Ekman은 평생 감정 과학 연구에 헌신한
-                      세계적으로 유명한 심리학자입니다.
-                    </p>
-                  </div>
+                <h3
+                  className="mb-2"
+                  style={{
+                    fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                    fontWeight: 300,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  {emotion.name}
+                </h3>
 
-                  <div className="p-6 bg-gray-50 rounded-2xl">
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                      🎓 목표
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      감정을 촉발하는 요인과 우리의 반응 방식에 대해
-                      <strong> 더 큰 통제력</strong>을 얻는 것입니다.
-                      이 도구는 자신의 감정을 더 잘 이해하고,
-                      건설적인 방식으로 대응하는 데 도움을 줍니다.
-                    </p>
-                  </div>
+                <p
+                  className="mb-8 transition-colors duration-500"
+                  style={{
+                    fontSize: '0.6rem',
+                    opacity: hoveredEmotion === emotion.id ? 0.6 : 0.3,
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  ({emotion.nameEn})
+                </p>
 
+                <p
+                  className="transition-colors duration-500"
+                  style={{
+                    fontSize: '0.875rem',
+                    opacity: hoveredEmotion === emotion.id ? 0.9 : 0.55,
+                    lineHeight: 1.9,
+                  }}
+                >
+                  {emotion.description}
+                </p>
+
+                <motion.div
+                  className="mt-10"
+                  animate={{
+                    opacity: hoveredEmotion === emotion.id ? 1 : 0,
+                    x: hoveredEmotion === emotion.id ? 0 : -12,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ JOURNEY SECTION ============ */}
+      <section
+        className="journey-section"
+        style={{
+          padding: 'clamp(140px, 22vh, 320px) clamp(24px, 5vw, 120px)',
+          backgroundColor: 'var(--color-bg-secondary)',
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto">
+          <div className="grid md:grid-cols-2 gap-20 md:gap-32 items-start">
+            {/* Left: Text */}
+            <div className="journey-title">
+              <p
+                className="text-black/35 tracking-[0.2em] mb-8"
+                style={{ fontSize: '0.75rem' }}
+              >
+                탐험의 여정
+              </p>
+              <h2
+                className="mb-12"
+                style={{
+                  fontSize: 'clamp(2.25rem, 6vw, 3.5rem)',
+                  fontWeight: 300,
+                  lineHeight: 1.5,
+                  letterSpacing: '0.01em',
+                }}
+              >
+                감정을 이해하는
+                <br />
+                네 단계 여정
+              </h2>
+              <p
+                className="text-black/60"
+                style={{
+                  fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                  lineHeight: 2.2,
+                  wordBreak: 'keep-all',
+                }}
+              >
+                각 감정의 트리거, 경험, 반응, 그리고 해독제를 탐험하며
+                자신만의 감정 지도를 완성해 나가세요.
+              </p>
+            </div>
+
+            {/* Right: Steps */}
+            <div className="journey-steps space-y-0">
+              {[
+                { num: '01', title: '트리거', titleEn: 'Trigger', desc: '감정이 시작되는 순간과 원인을 이해합니다' },
+                { num: '02', title: '경험', titleEn: 'Experience', desc: '감정의 강도와 미묘한 차이를 탐색합니다' },
+                { num: '03', title: '반응', titleEn: 'Response', desc: '감정에 대한 행동 선택지를 배웁니다' },
+                { num: '04', title: '해독제', titleEn: 'Antidote', desc: '균형과 조절을 위한 전략을 습득합니다' },
+              ].map((step, index) => (
+                <div
+                  key={step.num}
+                  className="journey-step flex items-center gap-8 md:gap-10 py-10"
+                  style={{ borderBottom: index < 3 ? '1px solid rgba(0,0,0,0.08)' : 'none' }}
+                >
+                  <span
+                    className="text-black/20 font-light"
+                    style={{ fontSize: '1rem', letterSpacing: '0.1em', width: '2.5rem' }}
+                  >
+                    {step.num}
+                  </span>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
-                      🌈 5가지 보편적 감정
-                    </h3>
-                    <div className="space-y-3">
-                      {emotionColors.map((emotion) => (
-                        <div key={emotion.name} className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                          <div
-                            className="w-12 h-12 rounded-full shadow-md flex-shrink-0"
-                            style={{ backgroundColor: emotion.color }}
-                          />
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-gray-900 font-bold">{emotion.name}</span>
-                              <span className="text-gray-400 text-sm">({emotion.name_en})</span>
-                            </div>
-                            <p className="text-gray-500 text-sm">{emotion.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-6 border-t border-gray-200">
-                    <p className="text-gray-500 text-sm">
-                      원본 사이트:{' '}
-                      <a
-                        href="https://atlasofemotions.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-600 hover:text-purple-800 font-medium underline underline-offset-2"
+                    <h4
+                      className="mb-3 flex items-baseline gap-3"
+                      style={{
+                        fontSize: 'clamp(1.5rem, 3vw, 1.75rem)',
+                        fontWeight: 500,
+                        letterSpacing: '0.02em',
+                      }}
+                    >
+                      {step.title}
+                      <span
+                        className="text-black/30"
+                        style={{ fontSize: '0.75rem', fontWeight: 400 }}
                       >
-                        atlasofemotions.org
-                      </a>
+                        ({step.titleEn})
+                      </span>
+                    </h4>
+                    <p
+                      className="text-black/55"
+                      style={{
+                        fontSize: 'clamp(1rem, 2vw, 1.125rem)',
+                        lineHeight: 1.8,
+                      }}
+                    >
+                      {step.desc}
                     </p>
                   </div>
                 </div>
-              </div>
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
-    </section>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CTA SECTION ============ */}
+      <section
+        className="cta-section"
+        style={{ padding: 'clamp(140px, 25vh, 350px) clamp(24px, 5vw, 120px)' }}
+      >
+        <div className="cta-content max-w-[800px] mx-auto text-center">
+          <h2
+            className="mb-10"
+            style={{
+              fontSize: 'clamp(2.25rem, 6vw, 4rem)',
+              fontWeight: 300,
+              lineHeight: 1.15,
+              letterSpacing: '0.01em',
+            }}
+          >
+            당신의 감정을
+            <br />
+            이해하는 여정
+          </h2>
+
+          <p
+            className="text-black/45 mb-14"
+            style={{ fontSize: '1rem' }}
+          >
+            지금 시작하세요
+          </p>
+
+          <button
+            onClick={() => onNavigate('triggers')}
+            className="cta-button-luxury-bottom group"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '14px',
+              padding: '22px 48px',
+              background: 'linear-gradient(135deg, #00BCD4 0%, #0097A7 100%)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '1.125rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 24px rgba(0,188,212,0.35)',
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: '60px',
+              letterSpacing: '0.05em',
+            }}
+          >
+            <span
+              className="shine-effect-bottom"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                transform: 'translateX(-100%)',
+                transition: 'transform 600ms ease',
+              }}
+            />
+            <span style={{ display: 'inline-flex' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  fill="none"
+                />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+              </svg>
+            </span>
+            <span style={{ position: 'relative', zIndex: 1 }}>탐험 시작</span>
+            <span style={{ position: 'relative', zIndex: 1, fontSize: '1.25rem' }}>→</span>
+            <style>{`
+              .cta-button-luxury-bottom:hover {
+                transform: translateY(-3px) scale(1.03) !important;
+                box-shadow: 0 10px 36px rgba(0,188,212,0.45) !important;
+              }
+              .cta-button-luxury-bottom:hover .shine-effect-bottom {
+                transform: translateX(100%) !important;
+              }
+            `}</style>
+          </button>
+        </div>
+      </section>
+
+      {/* ============ FOOTER ============ */}
+      <footer
+        style={{
+          padding: 'clamp(80px, 12vh, 120px) clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+          backgroundColor: 'var(--color-bg-secondary)',
+          paddingBottom: 'calc(clamp(80px, 12vh, 120px) + env(safe-area-inset-bottom, 0px))',
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-12">
+            <div className="text-center md:text-left">
+              <p
+                className="text-black/65 mb-3 font-medium"
+                style={{ fontSize: '1.125rem' }}
+              >
+                감정 지도 한국어판
+              </p>
+              <p
+                className="text-black/45"
+                style={{ fontSize: '0.875rem' }}
+              >
+                © 트리노스 전략연구소
+              </p>
+            </div>
+            <a
+              href="https://atlasofemotions.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black/45 hover:text-black/70 transition-colors"
+              style={{ fontSize: '0.9375rem' }}
+            >
+              원본 프로젝트: The Ekmans' Atlas of Emotions →
+            </a>
+          </div>
+
+          <div
+            className="pt-10 text-center"
+            style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}
+          >
+            <p
+              className="text-black/40 max-w-3xl mx-auto"
+              style={{
+                fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
+                lineHeight: 2.2,
+                wordBreak: 'keep-all',
+              }}
+            >
+              본 사이트는 Paul Ekman 박사와 Eve Ekman의 "Atlas of Emotions" 연구를
+              한국어로 번역하여 제공하는 비영리 교육 프로젝트입니다.
+              <br />
+              원본 영문 컨텐츠의 모든 저작권은 원저작자에게 있습니다.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };
 

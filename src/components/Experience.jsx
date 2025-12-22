@@ -2,53 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { emotions } from '../data/emotions';
 
-// 감정별 강도 단계 데이터 (원본 사이트 기반)
-const EMOTION_STAGES = {
-  fear: [
-    { name_ko: '긴장', name_en: 'TENSE', intensity: 1 },
-    { name_ko: '초조', name_en: 'NERVOUS', intensity: 2 },
-    { name_ko: '불안', name_en: 'ANXIOUS', intensity: 3 },
-    { name_ko: '걱정', name_en: 'WORRIED', intensity: 4 },
-    { name_ko: '무서움', name_en: 'FRIGHTENED', intensity: 5 },
-    { name_ko: '공황', name_en: 'PANICKED', intensity: 6 },
-    { name_ko: '공포', name_en: 'TERRIFIED', intensity: 7 }
-  ],
-  anger: [
-    { name_ko: '짜증', name_en: 'ANNOYED', intensity: 1 },
-    { name_ko: '좌절', name_en: 'FRUSTRATED', intensity: 2 },
-    { name_ko: '격분', name_en: 'EXASPERATED', intensity: 3 },
-    { name_ko: '논쟁적', name_en: 'ARGUMENTATIVE', intensity: 4 },
-    { name_ko: '분노', name_en: 'ANGRY', intensity: 5 },
-    { name_ko: '격노', name_en: 'FURIOUS', intensity: 6 },
-    { name_ko: '광분', name_en: 'ENRAGED', intensity: 7 }
-  ],
-  sadness: [
-    { name_ko: '실망', name_en: 'DISAPPOINTED', intensity: 1 },
-    { name_ko: '낙담', name_en: 'DISCOURAGED', intensity: 2 },
-    { name_ko: '우울', name_en: 'GLOOMY', intensity: 3 },
-    { name_ko: '슬픔', name_en: 'SAD', intensity: 4 },
-    { name_ko: '비탄', name_en: 'SORROWFUL', intensity: 5 },
-    { name_ko: '비참', name_en: 'MISERABLE', intensity: 6 },
-    { name_ko: '절망', name_en: 'DESPAIRING', intensity: 7 }
-  ],
-  disgust: [
-    { name_ko: '싫음', name_en: 'DISLIKE', intensity: 1 },
-    { name_ko: '기피', name_en: 'AVERSION', intensity: 2 },
-    { name_ko: '불쾌', name_en: 'DISTASTE', intensity: 3 },
-    { name_ko: '역겨움', name_en: 'REPUGNANCE', intensity: 4 },
-    { name_ko: '구역질', name_en: 'REVULSION', intensity: 5 },
-    { name_ko: '증오', name_en: 'ABHORRENCE', intensity: 6 },
-    { name_ko: '혐오', name_en: 'LOATHING', intensity: 7 }
-  ],
-  enjoyment: [
-    { name_ko: '만족', name_en: 'PLEASED', intensity: 1 },
-    { name_ko: '기쁨', name_en: 'HAPPY', intensity: 2 },
-    { name_ko: '즐거움', name_en: 'AMUSED', intensity: 3 },
-    { name_ko: '환희', name_en: 'DELIGHTED', intensity: 4 },
-    { name_ko: '행복', name_en: 'JOYFUL', intensity: 5 },
-    { name_ko: '희열', name_en: 'ELATED', intensity: 6 },
-    { name_ko: '황홀', name_en: 'ECSTATIC', intensity: 7 }
-  ]
+// emotions.js에서 states를 가져와 EMOTION_STAGES 형식으로 변환
+const getEmotionStages = (emotionKey) => {
+  const emotion = emotions[emotionKey];
+  if (!emotion || !emotion.states) return [];
+  return emotion.states.map((state, index) => ({
+    name_ko: state.name_ko,
+    name_en: state.name_en.toUpperCase(),
+    intensity: state.intensity || index + 1
+  }));
 };
 
 // 감정별 색상, 도형 및 설명 - 2025 Palette
@@ -317,106 +279,149 @@ const getShapeDescription = (shape) => {
   return descriptions[shape] || shape;
 };
 
-// 강도 단계 시각화 (도형 기반)
+// 강도 단계 시각화 (도형 기반) - 컴팩트 버전
 const IntensityStages = ({ emotion, stages, data, isVisible }) => {
   const [hoveredStage, setHoveredStage] = useState(null);
+  const stageCount = stages.length;
+
+  // 단계 수에 따라 크기 조절
+  const getSize = (index) => {
+    if (stageCount <= 7) {
+      return 30 + (index * 18); // 기존 방식
+    } else if (stageCount <= 10) {
+      return 24 + (index * 12); // 중간 크기
+    } else {
+      return 20 + (index * 8); // 작은 크기 (13개용)
+    }
+  };
+
+  const getGap = () => {
+    if (stageCount <= 7) return '12px';
+    if (stageCount <= 10) return '8px';
+    return '6px';
+  };
 
   return (
     <div style={{
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-      gap: '14px',
-      padding: '40px 20px',
-      minHeight: '280px'
+      overflowX: 'auto',
+      overflowY: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      padding: '20px 10px 30px',
+      margin: '0 -10px'
     }}>
-      {stages.map((stage, index) => {
-        const baseSize = 35 + (index * 22);
-        const isHovered = hoveredStage === index;
+      <div style={{
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: stageCount <= 8 ? 'center' : 'flex-start',
+        gap: getGap(),
+        minWidth: stageCount > 8 ? 'max-content' : 'auto',
+        padding: '10px 20px'
+      }}>
+        {stages.map((stage, index) => {
+          const baseSize = getSize(index);
+          const isHovered = hoveredStage === index;
 
-        return (
-          <motion.div
-            key={stage.name_en}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              cursor: 'pointer'
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: index * 0.08, duration: 0.5 }}
-            onMouseEnter={() => setHoveredStage(index)}
-            onMouseLeave={() => setHoveredStage(null)}
-          >
-            {/* 단계 레이블 */}
+          return (
             <motion.div
+              key={stage.name_en}
               style={{
-                marginBottom: '12px',
-                textAlign: 'center',
-                opacity: isHovered ? 1 : 0.7
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                cursor: 'pointer',
+                flexShrink: 0,
+                minWidth: stageCount > 10 ? '60px' : stageCount > 7 ? '70px' : '80px'
               }}
-              animate={{ scale: isHovered ? 1.08 : 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: index * 0.04, duration: 0.4 }}
+              onMouseEnter={() => setHoveredStage(index)}
+              onMouseLeave={() => setHoveredStage(null)}
             >
+              {/* 단계 레이블 */}
+              <motion.div
+                style={{
+                  marginBottom: '8px',
+                  textAlign: 'center',
+                  opacity: isHovered ? 1 : 0.7
+                }}
+                animate={{ scale: isHovered ? 1.05 : 1 }}
+              >
+                <div style={{
+                  fontSize: stageCount > 10 ? '8px' : '9px',
+                  fontWeight: '700',
+                  color: data.primary,
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: stageCount > 10 ? '55px' : '70px'
+                }}>
+                  {stage.name_en}
+                </div>
+                <div style={{
+                  fontSize: stageCount > 10 ? '11px' : '12px',
+                  fontWeight: '600',
+                  color: '#333',
+                  marginTop: '2px'
+                }}>
+                  {stage.name_ko}
+                </div>
+              </motion.div>
+
+              {/* 도형 강도 표시 */}
+              <motion.div
+                style={{
+                  filter: isHovered ? `drop-shadow(0 6px 15px ${data.primary}60)` : `drop-shadow(0 3px 8px ${data.primary}30)`,
+                  transition: 'filter 0.3s ease'
+                }}
+                animate={{
+                  scale: isHovered ? 1.12 : 1,
+                  y: isHovered ? -5 : 0
+                }}
+              >
+                <EmotionShape
+                  shape={data.shape}
+                  size={baseSize}
+                  color={data.primary}
+                  lightColor={data.light}
+                  opacity={0.4 + (index * (0.6 / Math.max(stageCount - 1, 1)))}
+                />
+              </motion.div>
+
+              {/* 숫자 표시 */}
               <div style={{
-                fontSize: '10px',
+                marginTop: '6px',
+                width: stageCount > 10 ? '18px' : '20px',
+                height: stageCount > 10 ? '18px' : '20px',
+                borderRadius: '50%',
+                backgroundColor: data.primary,
+                color: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: stageCount > 10 ? '9px' : '10px',
                 fontWeight: '700',
-                color: data.primary,
-                letterSpacing: '1px',
-                textTransform: 'uppercase'
+                opacity: isHovered ? 1 : 0.7
               }}>
-                {stage.name_en}
-              </div>
-              <div style={{
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#333',
-                marginTop: '4px'
-              }}>
-                {stage.name_ko}
+                {index + 1}
               </div>
             </motion.div>
-
-            {/* 도형 강도 표시 */}
-            <motion.div
-              style={{
-                filter: isHovered ? `drop-shadow(0 8px 20px ${data.primary}60)` : `drop-shadow(0 4px 10px ${data.primary}30)`,
-                transition: 'filter 0.3s ease'
-              }}
-              animate={{
-                scale: isHovered ? 1.15 : 1,
-                y: isHovered ? -8 : 0
-              }}
-            >
-              <EmotionShape
-                shape={data.shape}
-                size={baseSize}
-                color={data.primary}
-                lightColor={data.light}
-                opacity={0.4 + (index * 0.09)}
-              />
-            </motion.div>
-
-            {/* 숫자 표시 */}
-            <div style={{
-              marginTop: '8px',
-              width: '24px',
-              height: '24px',
-              borderRadius: '50%',
-              backgroundColor: data.primary,
-              color: '#fff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '12px',
-              fontWeight: '700',
-              opacity: isHovered ? 1 : 0.7
-            }}>
-              {index + 1}
-            </div>
-          </motion.div>
-        );
-      })}
+          );
+        })}
+      </div>
+      {/* 스크롤 힌트 (8개 이상일 때) */}
+      {stageCount > 8 && (
+        <div style={{
+          textAlign: 'center',
+          marginTop: '8px',
+          fontSize: '11px',
+          color: '#999'
+        }}>
+          ← 스크롤하여 모든 단계 보기 →
+        </div>
+      )}
     </div>
   );
 };
@@ -756,7 +761,7 @@ const EmotionPopupCard = ({ emotion, data, onClose }) => (
       borderLeft: `4px solid ${data.primary}`
     }}>
       <p style={{ fontSize: '14px', color: '#555', margin: 0, lineHeight: '1.6' }}>
-        💡 이 감정의 7단계 강도를 인식해보세요. 낮은 강도에서 조절이 더 쉽습니다.
+        💡 이 감정의 강도 단계를 인식해보세요. 낮은 강도에서 조절이 더 쉽습니다.
       </p>
     </div>
   </motion.div>
@@ -767,8 +772,17 @@ const Experience = ({ selectedEmotion }) => {
   const [hoveredEmotion, setHoveredEmotion] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showLearnMore, setShowLearnMore] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-50px" });
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (selectedEmotion) {
@@ -782,9 +796,216 @@ const Experience = ({ selectedEmotion }) => {
   };
 
   const currentData = EMOTION_DATA[localSelectedEmotion];
-  const currentStages = EMOTION_STAGES[localSelectedEmotion];
+  const currentStages = getEmotionStages(localSelectedEmotion);
   const currentEmotion = emotions[localSelectedEmotion];
 
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <section
+        ref={sectionRef}
+        style={{ minHeight: '100vh', backgroundColor: '#fafafa', padding: '80px 16px 120px' }}
+      >
+        {/* 헤더 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          style={{ marginBottom: '24px' }}
+        >
+          <h2 style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            color: '#1a1a1a',
+            marginBottom: '12px'
+          }}>
+            감정의 경험
+          </h2>
+          <p style={{
+            fontSize: '15px',
+            color: '#666',
+            lineHeight: '1.7'
+          }}>
+            각 감정은 고유한 도형과 다양한 강도 단계를 가집니다.
+          </p>
+        </motion.div>
+
+        {/* 모바일용 감정 선택 버튼들 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          style={{
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '10px',
+            padding: '4px',
+            marginBottom: '20px',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          {Object.keys(EMOTION_DATA).map((emotionKey) => {
+            const data = EMOTION_DATA[emotionKey];
+            const isSelected = localSelectedEmotion === emotionKey;
+            return (
+              <button
+                key={emotionKey}
+                onClick={() => setLocalSelectedEmotion(emotionKey)}
+                style={{
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 16px',
+                  borderRadius: '24px',
+                  border: 'none',
+                  background: isSelected ? data.primary : '#fff',
+                  color: isSelected ? '#fff' : '#333',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  boxShadow: isSelected ? `0 4px 12px ${data.primary}50` : '0 2px 8px rgba(0,0,0,0.08)',
+                  transition: 'all 0.25s ease'
+                }}
+              >
+                <EmotionShape shape={data.shape} size={20} color={isSelected ? '#fff' : data.primary} lightColor={data.light} />
+                {data.name_ko}
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* 선택된 감정 정보 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '20px',
+            padding: '20px',
+            marginBottom: '20px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <EmotionShape shape={currentData.shape} size={56} color={currentData.primary} lightColor={currentData.light} />
+            <div>
+              <h3 style={{ fontSize: '22px', fontWeight: '700', color: '#1a1a1a', margin: 0 }}>
+                {currentData.name_ko}
+              </h3>
+              <p style={{ fontSize: '11px', color: '#888', margin: '2px 0 0', letterSpacing: '1px' }}>
+                {currentData.name_en}
+              </p>
+              <p style={{ fontSize: '11px', color: currentData.primary, margin: '4px 0 0', fontWeight: '600' }}>
+                {getShapeDescription(currentData.shape)}
+              </p>
+            </div>
+          </div>
+          <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.7', margin: 0 }}>
+            {currentData.description}
+          </p>
+        </motion.div>
+
+        {/* 강도 단계 태그 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '16px',
+            padding: '16px',
+            marginBottom: '20px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
+          }}
+        >
+          <h4 style={{
+            fontSize: '12px',
+            fontWeight: '700',
+            color: '#888',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            marginBottom: '12px'
+          }}>
+            {currentStages.length}단계 강도
+          </h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {currentStages.map((stage, i) => (
+              <span
+                key={i}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: currentData.primary,
+                  opacity: 0.4 + (i * 0.08),
+                  color: '#fff',
+                  borderRadius: '16px',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}
+              >
+                {stage.name_ko}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Learn More 버튼 */}
+        <motion.button
+          onClick={() => setShowLearnMore(true)}
+          style={{
+            width: '100%',
+            padding: '16px 20px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '14px',
+            fontSize: '16px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 6px 24px rgba(102, 126, 234, 0.35)'
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <span>📊 연구 통계 더 알아보기</span>
+          <span style={{ fontSize: '18px' }}>→</span>
+        </motion.button>
+
+        {/* Learn More 모달 */}
+        <AnimatePresence>
+          {showLearnMore && (
+            <LearnMoreModal onClose={() => setShowLearnMore(false)} />
+          )}
+        </AnimatePresence>
+
+        {/* 감정 팝업 오버레이 */}
+        <AnimatePresence>
+          {showPopup && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  zIndex: 999
+                }}
+                onClick={() => setShowPopup(false)}
+              />
+              <EmotionPopupCard
+                emotion={localSelectedEmotion}
+                data={currentData}
+                onClose={() => setShowPopup(false)}
+              />
+            </>
+          )}
+        </AnimatePresence>
+      </section>
+    );
+  }
+
+  // Desktop Layout
   return (
     <section
       ref={sectionRef}
@@ -827,7 +1048,7 @@ const Experience = ({ selectedEmotion }) => {
               lineHeight: '1.8',
               marginBottom: '28px'
             }}>
-              각 감정은 고유한 도형과 7단계 강도를 가집니다.
+              각 감정은 고유한 도형과 다양한 강도 단계를 가집니다.
               도형의 심리학적 의미를 통해 감정을 더 깊이 이해하세요.
             </p>
 
