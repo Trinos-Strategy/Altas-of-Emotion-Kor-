@@ -54,6 +54,48 @@ const Strategies = ({ selectedEmotion }) => {
       role="region"
       aria-label="감정 전략"
     >
+      {/* 모바일 반응형 스타일 */}
+      <style>{`
+        @media (max-width: 768px) {
+          .quote-card-container {
+            padding: 40px 24px !important;
+            margin-bottom: 48px !important;
+            border-radius: 24px !important;
+          }
+          .quote-card-container .quote-mark {
+            font-size: 100px !important;
+            left: 16px !important;
+            top: 16px !important;
+          }
+          .quote-card-container .quote-text {
+            font-size: 20px !important;
+            line-height: 1.75 !important;
+            margin-bottom: 20px !important;
+          }
+          .quote-card-container .quote-author {
+            font-size: 15px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .quote-card-container {
+            padding: 32px 20px !important;
+            margin-bottom: 40px !important;
+            border-radius: 20px !important;
+          }
+          .quote-card-container .quote-mark {
+            font-size: 80px !important;
+            left: 12px !important;
+            top: 12px !important;
+          }
+          .quote-card-container .quote-text {
+            font-size: 18px !important;
+            line-height: 1.7 !important;
+          }
+          .quote-card-container .quote-author {
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Section Header */}
         <motion.header
@@ -85,6 +127,7 @@ const Strategies = ({ selectedEmotion }) => {
 
         {/* Quote Card */}
         <motion.div
+          className="quote-card-container"
           style={{
             position: 'relative',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
@@ -98,36 +141,45 @@ const Strategies = ({ selectedEmotion }) => {
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <div style={{
-            position: 'absolute',
-            left: '40px',
-            top: '30px',
-            fontSize: '180px',
-            fontFamily: 'Georgia, serif',
-            color: 'rgba(255,255,255,0.2)',
-            lineHeight: '1',
-            userSelect: 'none'
-          }}>
+          <div
+            className="quote-mark"
+            style={{
+              position: 'absolute',
+              left: '40px',
+              top: '30px',
+              fontSize: '180px',
+              fontFamily: 'Georgia, serif',
+              color: 'rgba(255,255,255,0.2)',
+              lineHeight: '1',
+              userSelect: 'none'
+            }}
+          >
             "
           </div>
 
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <p style={{
-              fontSize: '28px',
-              fontWeight: '500',
-              color: '#fff',
-              lineHeight: '1.8',
-              marginBottom: '24px',
-              fontStyle: 'italic',
-              textShadow: '0 2px 10px rgba(0,0,0,0.1)'
-            }}>
+            <p
+              className="quote-text"
+              style={{
+                fontSize: '28px',
+                fontWeight: '500',
+                color: '#fff',
+                lineHeight: '1.8',
+                marginBottom: '24px',
+                fontStyle: 'italic',
+                textShadow: '0 2px 10px rgba(0,0,0,0.1)'
+              }}
+            >
               "{dalaiLamaQuote.ko}"
             </p>
-            <footer style={{
-              fontSize: '18px',
-              color: 'rgba(255,255,255,0.9)',
-              fontWeight: '600'
-            }}>
+            <footer
+              className="quote-author"
+              style={{
+                fontSize: '18px',
+                color: 'rgba(255,255,255,0.9)',
+                fontWeight: '600'
+              }}
+            >
               — 달라이 라마
             </footer>
           </div>
