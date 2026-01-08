@@ -59,8 +59,7 @@ const EmotionSelector = ({ selectedEmotion, onEmotionSelect }) => {
             {/* Horizontal scroll with swipe support */}
             <motion.div
               ref={scrollContainerRef}
-              className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1"
-              drag="x"
+              className="flex items-center gap-2 flex-wrap justify-start scrollbar-hide pb-1"              drag="x"
               dragConstraints={{ left: -200, right: 0 }}
               onPanEnd={handleSwipe}
             >
