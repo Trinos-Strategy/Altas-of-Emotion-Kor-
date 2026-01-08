@@ -23,7 +23,7 @@ const EMOTION_DATA = {
     name_en: 'ANGER',
     description: '무언가가 우리를 막거나 부당하게 대우받는다고 느낄 때 분노합니다.',
     shape: 'triangle', // 정삼각형 (위로 향함) - 공격성, 날카로움
-    size: 280
+    size: 200
   },
   fear: {
     primary: '#6B4C9A',
@@ -33,7 +33,7 @@ const EMOTION_DATA = {
     name_en: 'FEAR',
     description: '위험을 감지하거나 불확실한 상황에 직면할 때 두려움을 느낍니다.',
     shape: 'inverted-triangle', // 역삼각형 (아래로 향함) - 불안정성
-    size: 300
+    size: 220
   },
   disgust: {
     primary: '#4A7C59',
@@ -43,7 +43,7 @@ const EMOTION_DATA = {
     name_en: 'DISGUST',
     description: '불쾌하거나 역겨운 것을 접했을 때 혐오감을 느낍니다.',
     shape: 'hexagon', // 육각형 - 방어, 차단
-    size: 240
+    size: 180
   },
   sadness: {
     primary: '#4A6FA5',
@@ -53,7 +53,7 @@ const EMOTION_DATA = {
     name_en: 'SADNESS',
     description: '소중한 것을 잃거나 실망했을 때 슬픔을 느낍니다.',
     shape: 'teardrop', // 물방울 - 눈물, 하강
-    size: 260
+    size: 190
   },
   enjoyment: {
     primary: '#F4A261',
@@ -63,17 +63,17 @@ const EMOTION_DATA = {
     name_en: 'ENJOYMENT',
     description: '좋은 일이 일어나거나 기대가 충족될 때 즐거움을 느낍니다.',
     shape: 'star', // 5각 별 - 확장, 빛남
-    size: 320
+    size: 230
   }
 };
 
-// 감정 도형 위치 (원본 atlasofemotions.org와 동일하게 배치)
+// 감정 도형 위치 (겹치지 않도록 재배치)
 const EMOTION_POSITIONS = {
-  fear: { top: '10%', right: '5%' },           // 오른쪽 상단
-  sadness: { top: '15%', left: '25%' },        // 왼쪽 상단
-  enjoyment: { top: '45%', right: '8%' },      // 오른쪽 중앙
-  anger: { bottom: '20%', left: '35%' },       // 중앙 하단
-  disgust: { bottom: '15%', right: '30%' }     // 오른쪽 하단
+  fear: { top: '5%', right: '8%' },            // 오른쪽 상단
+  sadness: { top: '5%', left: '5%' },          // 왼쪽 상단
+  enjoyment: { top: '40%', right: '3%' },      // 오른쪽 중앙
+  anger: { bottom: '5%', left: '5%' },         // 왼쪽 하단
+  disgust: { bottom: '5%', right: '5%' }       // 오른쪽 하단
 };
 
 // 감정별 동심원 레이어 개수 (원본 사이트 기준)
