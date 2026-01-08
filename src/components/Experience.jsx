@@ -252,7 +252,6 @@ const LayeredEmotionShape = ({ emotion, data, isSelected, isHovered, onClick, on
           padding: '8px 16px',
           borderRadius: '24px',
           boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
-          whiteSpace: 'nowrap'
         }}
       >
         <span style={{
@@ -353,9 +352,6 @@ const IntensityStages = ({ emotion, stages, data, isVisible }) => {
                   color: data.primary,
                   letterSpacing: '0.5px',
                   textTransform: 'uppercase',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
                         maxWidth: stageCount > 10 ? '80px' : '100px'                }}>
                   {stage.name_en}
                 </div>
