@@ -356,8 +356,7 @@ const IntensityStages = ({ emotion, stages, data, isVisible }) => {
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  maxWidth: stageCount > 10 ? '55px' : '70px'
-                }}>
+                        maxWidth: stageCount > 10 ? '80px' : '100px'                }}>
                   {stage.name_en}
                 </div>
                 <div style={{
